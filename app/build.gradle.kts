@@ -32,10 +32,17 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(libs.retrofit)
+    implementation(libs.moshi)
+    implementation(libs.room)
+    implementation(libs.lottie)
+    implementation(libs.constraintlayout)
+    implementation(libs.recyclerview)
+    implementation(libs.shimmer)
 }
