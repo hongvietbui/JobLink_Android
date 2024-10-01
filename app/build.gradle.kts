@@ -37,7 +37,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
     implementation(libs.retrofit)
     implementation(libs.moshi)
     implementation(libs.room)
@@ -45,4 +44,5 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
     implementation(libs.shimmer)
+    implementation(libs.picasso)
 }
