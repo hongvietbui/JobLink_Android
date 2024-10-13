@@ -45,4 +45,21 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.shimmer)
     implementation(libs.picasso)
+    implementation(libs.hilt)
+    implementation(libs.mapstruct)
+    implementation(libs.mapstruct.processor)
+
+    //lombok
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    // Hilt Dependency Injection
+    implementation(libs.hilt)
+
+    // MapStruct
+    implementation(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
+
+    //Three ten ABP
+    implementation(libs.threetenABP)
 }
