@@ -1,6 +1,7 @@
 package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IAuthRepository;
@@ -25,7 +26,9 @@ public class AuthRepositoryImpl implements IAuthRepository {
     public CompletableFuture<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {
         CompletableFuture<ApiResp<String>> future = new CompletableFuture<>();
 
-        authApi.registerUser(request).enqueue(new retrofit2.Callback<ApiResp<String>>() {
+        ApiReq<RegisterReqDTO> apiReq = new ApiReq<>(request);
+
+        authApi.registerUser(apiReq).enqueue(new retrofit2.Callback<ApiResp<String>>() {
             @Override
             public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
                 if (response.isSuccessful()) {
