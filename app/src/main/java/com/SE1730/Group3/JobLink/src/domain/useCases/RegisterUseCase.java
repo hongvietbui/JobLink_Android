@@ -4,13 +4,15 @@ import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IAuthRepository;
 
+import org.threeten.bp.LocalDate;
+
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.concurrent.CompletableFuture;
 
 import jakarta.inject.Inject;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Builder
 public class RegisterUseCase {
     private final IAuthRepository authRepository;
 
@@ -19,7 +21,8 @@ public class RegisterUseCase {
         this.authRepository = authRepository;
     }
 
-    public ApiResp<String> execute(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
+    public CompletableFuture<ApiResp<String>> execute(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
+
         RegisterReqDTO request = RegisterReqDTO.builder()
                 .username(username)
                 .password(password)
@@ -30,6 +33,7 @@ public class RegisterUseCase {
                 .address(address)
                 .dateOfBirth(dateOfBirth)
                 .build();
+
         return authRepository.registerUser(request);
     }
 }

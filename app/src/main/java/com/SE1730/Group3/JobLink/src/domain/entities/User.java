@@ -3,7 +3,8 @@ package com.SE1730.Group3.JobLink.src.domain.entities;
 import com.SE1730.Group3.JobLink.src.domain.entities.baseEntities.BaseEntity;
 import com.SE1730.Group3.JobLink.src.domain.enums.UserStatus;
 
-import java.time.LocalDate;
+import org.threeten.bp.LocalDate;
+
 import java.util.UUID;
 
 import lombok.Data;

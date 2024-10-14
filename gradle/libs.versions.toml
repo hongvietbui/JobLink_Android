@@ -20,13 +20,18 @@ mapstruct-processor = "1.6.2"
 threetenABP = "1.4.7"
 
 [libraries]
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
 retrofit = { group = "com.squareup.retrofit2", name="retrofit", version.ref = "retrofit" }
 moshi = {group = "com.squareup.moshi",name="moshi", version.ref = "moshi" }
+moshi-adapter = {group = "com.squareup.moshi",name="moshi-adapters", version.ref = "moshi" }
+converter-moshi = {group = "com.squareup.retrofit2",name="converter-moshi", version.ref = "retrofit" }
+
 room = { group = "androidx.room",name="room-runtime", version.ref = "room" }
 lottie = { group = "com.airbnb.android",name="lottie", version.ref = "lottie" }
 constraintlayout = { group = "androidx.constraintlayout",name="constraintlayout", version.ref = "constraintlayout" }

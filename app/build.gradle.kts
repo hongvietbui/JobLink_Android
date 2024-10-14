@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -25,9 +27,10 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -37,15 +40,21 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    //networking
     implementation(libs.retrofit)
     implementation(libs.moshi)
+    implementation(libs.moshi.adapter)
+    implementation(libs.converter.moshi)
+
     implementation(libs.room)
     implementation(libs.lottie)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
     implementation(libs.shimmer)
     implementation(libs.picasso)
+
     implementation(libs.hilt)
+
     implementation(libs.mapstruct)
     implementation(libs.mapstruct.processor)
 
@@ -55,6 +64,7 @@ dependencies {
 
     // Hilt Dependency Injection
     implementation(libs.hilt)
+    annotationProcessor(libs.hilt.android.compiler)
 
     // MapStruct
     implementation(libs.mapstruct)
@@ -62,4 +72,8 @@ dependencies {
 
     //Three ten ABP
     implementation(libs.threetenABP)
+
+
+    testCompileOnly(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 }

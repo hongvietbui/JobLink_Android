@@ -1,6 +1,6 @@
 package com.SE1730.Group3.JobLink.src.domain.entities.baseEntities;
 
-import java.time.LocalDateTime;
+import org.threeten.bp.LocalDateTime;
 
 import lombok.Data;
 

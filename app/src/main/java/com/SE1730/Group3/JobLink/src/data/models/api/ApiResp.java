@@ -8,4 +8,9 @@ public class ApiResp<T> {
     private String message;
     private T data;
     private final Long timeStamp = System.currentTimeMillis() / 1000;
+
+    public ApiResp(String message, T data) {
+        this.message = message;
+        this.data = data;
+    }
 }
