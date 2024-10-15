@@ -1,7 +1,7 @@
 package com.SE1730.Group3.JobLink.src.domain.useCases;
 
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
-import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import org.threeten.bp.LocalDate;

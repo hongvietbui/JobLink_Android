@@ -1,4 +1,4 @@
-package com.SE1730.Group3.JobLink.src.data.models.register;
+package com.SE1730.Group3.JobLink.src.data.models.request;
 
 import org.threeten.bp.LocalDate;
 
