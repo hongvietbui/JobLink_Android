@@ -4,7 +4,8 @@ import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
-import com.SE1730.Group3.JobLink.src.domain.repositories.IAuthRepository;
+import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
+import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -15,12 +16,14 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 
-public class AuthRepositoryImpl implements IAuthRepository {
+public class UserRepositoryImpl implements IUserRepository {
     private final IAuthApi authApi;
+    private final IUnitOfWork unitOfWork;
 
     @Inject
-    public AuthRepositoryImpl(IAuthApi authApi) {
+    public UserRepositoryImpl(IAuthApi authApi, IUnitOfWork unitOfWork) {
         this.authApi = authApi;
+        this.unitOfWork = unitOfWork;
     }
 
     public CompletableFuture<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {

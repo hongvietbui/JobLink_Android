@@ -16,7 +16,7 @@ public class UserDTO extends BaseEntity<UUID> {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private String address;
     private Integer lat;
     private Integer lon;
