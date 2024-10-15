@@ -12,11 +12,11 @@ import java.util.concurrent.CompletableFuture;
 import jakarta.inject.Inject;
 
 public class RegisterUseCase {
-    private final IUserRepository authRepository;
+    private final IUserRepository userRepository;
 
     @Inject
-    public RegisterUseCase(IUserRepository authRepository) {
-        this.authRepository = authRepository;
+    public RegisterUseCase(IUserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public CompletableFuture<ApiResp<String>> execute(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
@@ -32,6 +32,6 @@ public class RegisterUseCase {
                 .dateOfBirth(dateOfBirth)
                 .build();
 
-        return authRepository.registerUser(request);
+        return userRepository.registerUser(request);
     }
 }

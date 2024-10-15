@@ -2,8 +2,6 @@ package com.SE1730.Group3.JobLink.src.data.models.user;
 
 import com.SE1730.Group3.JobLink.src.domain.entities.baseEntities.BaseEntity;
 
-import org.threeten.bp.LocalDate;
-
 import java.util.UUID;
 
 import lombok.Data;

@@ -5,8 +5,6 @@ import androidx.room.Entity;
 import com.SE1730.Group3.JobLink.src.domain.entities.baseEntities.BaseEntity;
 import com.SE1730.Group3.JobLink.src.domain.enums.UserStatus;
 
-import org.threeten.bp.LocalDate;
-
 import java.util.UUID;
 
 import lombok.Data;
