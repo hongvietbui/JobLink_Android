@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Dao
-public interface UserDAO extends IDAO<User>{
+public interface IUserDAO extends IDAO<User>{
     @Query("SELECT * FROM Users")
     List<User> getAll();
 
