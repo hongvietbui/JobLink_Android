@@ -2,7 +2,7 @@ package com.SE1730.Group3.JobLink.src.domain.useCases;
 
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
-import com.SE1730.Group3.JobLink.src.domain.repositories.IAuthRepository;
+import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import org.threeten.bp.LocalDate;
 
@@ -10,14 +10,12 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import jakarta.inject.Inject;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 public class RegisterUseCase {
-    private final IAuthRepository authRepository;
+    private final IUserRepository authRepository;
 
     @Inject
-    public RegisterUseCase(IAuthRepository authRepository) {
+    public RegisterUseCase(IUserRepository authRepository) {
         this.authRepository = authRepository;
     }
 

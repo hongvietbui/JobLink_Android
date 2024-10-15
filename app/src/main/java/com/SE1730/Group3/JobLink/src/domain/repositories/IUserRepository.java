@@ -6,6 +6,6 @@ import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
-public interface IAuthRepository {
+public interface IUserRepository {
     CompletableFuture<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException;
 }

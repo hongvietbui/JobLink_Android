@@ -33,6 +33,8 @@ moshi-adapter = {group = "com.squareup.moshi",name="moshi-adapters", version.ref
 converter-moshi = {group = "com.squareup.retrofit2",name="converter-moshi", version.ref = "retrofit" }
 
 room = { group = "androidx.room",name="room-runtime", version.ref = "room" }
+room-compiler = {group = "androidx.room",name="room-compiler", version.ref = "room" }
+
 lottie = { group = "com.airbnb.android",name="lottie", version.ref = "lottie" }
 constraintlayout = { group = "androidx.constraintlayout",name="constraintlayout", version.ref = "constraintlayout" }
 recyclerview = { group = "androidx.recyclerview",name="recyclerview", version.ref = "recyclerview" }
@@ -43,6 +45,7 @@ lombok = { group = "org.projectlombok",name="lombok", version.ref = "lombok" }
 mapstruct = {group = "org.mapstruct",name="mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = {group = "org.mapstruct",name="mapstruct-processor", version.ref = "mapstruct-processor" }
 threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenABP" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
