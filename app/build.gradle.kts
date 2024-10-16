@@ -46,7 +46,6 @@ dependencies {
     implementation(libs.moshi.adapter)
     implementation(libs.converter.moshi)
 
-    implementation(libs.room)
     implementation(libs.lottie)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
@@ -61,6 +60,10 @@ dependencies {
     //lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+
+    //room
+    implementation(libs.room)
+    annotationProcessor(libs.room.compiler)
 
     // Hilt Dependency Injection
     implementation(libs.hilt)
