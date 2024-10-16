@@ -73,7 +73,11 @@ dependencies {
     //Three ten ABP
     implementation(libs.threetenABP)
 
+    //Layout
+    implementation("com.github.material-ui-ux:material-ui-ux:1.0.0")
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+
+
 }
