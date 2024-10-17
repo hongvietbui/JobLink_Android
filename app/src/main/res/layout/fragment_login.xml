@@ -10,17 +10,23 @@
         android:layout_height="match_parent"
         android:background="@drawable/splah_bg" />
 
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+        android:src="@drawable/logo"/>
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:paddingTop="160dp"
         android:text="JOBLINK"
-        android:textStyle="bold"
         android:textColor="@color/colorDarkBlue"
-        android:textSize="50sp" />
+        android:textSize="40sp" />
 
     <LinearLayout
         android:id="@+id/id_signIn_layout"
