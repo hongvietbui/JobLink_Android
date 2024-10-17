@@ -9,6 +9,7 @@ import org.threeten.bp.LocalDate;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
+import io.reactivex.rxjava3.core.Observable;
 import jakarta.inject.Inject;
 
 public class RegisterUseCase {
@@ -19,7 +20,7 @@ public class RegisterUseCase {
         this.userRepository = userRepository;
     }
 
-    public CompletableFuture<ApiResp<String>> execute(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
+    public Observable<ApiResp<String>> execute(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
 
         RegisterReqDTO request = RegisterReqDTO.builder()
                 .username(username)

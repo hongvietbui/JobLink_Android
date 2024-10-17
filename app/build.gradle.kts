@@ -76,8 +76,10 @@ dependencies {
     //Three ten ABP
     implementation(libs.threetenABP)
 
-    //Layout
-    implementation("com.github.material-ui-ux:material-ui-ux:1.0.0")
+    //rxjava
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)

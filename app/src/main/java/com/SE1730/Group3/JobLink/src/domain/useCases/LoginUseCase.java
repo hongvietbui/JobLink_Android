@@ -10,6 +10,8 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.core.Observable;
+
 public class LoginUseCase {
     private final IUserRepository userRepository;
 
@@ -18,7 +20,7 @@ public class LoginUseCase {
         this.userRepository = userRepository;
     }
 
-    public CompletableFuture<ApiResp<LoginRespDTO>> execute(String username, String password) throws IOException {
+    public Observable<ApiResp<LoginRespDTO>> execute(String username, String password) throws IOException {
         LoginReqDTO request = LoginReqDTO.builder()
                 .username(username)
                 .password(password)

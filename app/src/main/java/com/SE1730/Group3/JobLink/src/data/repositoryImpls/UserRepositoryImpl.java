@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,50 +30,54 @@ public class UserRepositoryImpl implements IUserRepository {
         this.unitOfWork = unitOfWork;
     }
 
-    public CompletableFuture<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {
-        CompletableFuture<ApiResp<String>> future = new CompletableFuture<>();
+    public Observable<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {
+        return Observable.create(emmiter -> {
+           ApiReq<RegisterReqDTO> apiReq = new ApiReq<>(request);
 
-        ApiReq<RegisterReqDTO> apiReq = new ApiReq<>(request);
-
-        authApi.registerUser(apiReq).enqueue(new retrofit2.Callback<ApiResp<String>>() {
-            @Override
-            public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
-                if (response.isSuccessful()) {
-                    future.complete(response.body());
-                } else {
-                    future.completeExceptionally(new IOException("Failed to register user"));
+            authApi.registerUser(apiReq).enqueue(new retrofit2.Callback<ApiResp<String>>() {
+                @Override
+                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
+                    if (response.isSuccessful()) {
+                        if(!emmiter.isDisposed()){
+                            emmiter.onNext(response.body());
+                            emmiter.onComplete();
+                        }
+                    } else {
+                        if(!emmiter.isDisposed())
+                            emmiter.onError(new IOException("Failed to register user"));
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ApiResp<String>> call, Throwable t) {
-                future.completeExceptionally(new IOException("Failed to register user"));
-            }
+
+                @Override
+                public void onFailure(Call<ApiResp<String>> call, Throwable t) {
+                    if(!emmiter.isDisposed())
+                        emmiter.onError(new IOException("Failed to register user"));
+                }
+            });
         });
-
-        return future;
     }
 
     @Override
-    public CompletableFuture<ApiResp<LoginRespDTO>> loginUser(LoginReqDTO request) throws IOException {
-        CompletableFuture<ApiResp<LoginRespDTO>> future = new CompletableFuture<>();
+    public Observable<ApiResp<LoginRespDTO>> loginUser(LoginReqDTO request) throws IOException {
+        return Observable.create(emmiter -> {
+            authApi.loginUser(new ApiReq<>(request)).enqueue(new Callback<ApiResp<LoginRespDTO>>() {
+                @Override
+                public void onResponse(Call<ApiResp<LoginRespDTO>> call, Response<ApiResp<LoginRespDTO>> response) {
+                    //check if data is null or not
+                    if(response.isSuccessful())
+                        if(!emmiter.isDisposed())
+                            emmiter.onNext(response.body());
+                        else
+                            emmiter.onError(new IOException("Failed to login user"));
+                }
 
-        authApi.loginUser(new ApiReq<>(request)).enqueue(new Callback<ApiResp<LoginRespDTO>>() {
-            @Override
-            public void onResponse(Call<ApiResp<LoginRespDTO>> call, Response<ApiResp<LoginRespDTO>> response) {
-                //check if data is null or not
-                if(response.isSuccessful())
-                    future.complete(response.body());
-                else
-                    future.completeExceptionally(new IOException("Failed to login user"));
-            }
-
-            @Override
-            public void onFailure(Call<ApiResp<LoginRespDTO>> call, Throwable throwable) {
-                future.completeExceptionally(new IOException("Failed to login user"));
-            }
+                @Override
+                public void onFailure(Call<ApiResp<LoginRespDTO>> call, Throwable throwable) {
+                    if(!emmiter.isDisposed())
+                        emmiter.onError(new IOException("Failed to login user"));
+                }
+            });
         });
-
-        return future;
     }
 }
