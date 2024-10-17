@@ -13,6 +13,8 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
@@ -25,11 +27,10 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void loginUser(String username, String password) throws IOException {
-        loginUseCase.execute(username, password).thenAccept(resp -> {
-            //do something
-        }).exceptionally(error -> {
-            //do something
-            return null;
-        });
+        loginUseCase.execute(username, password)
+                .subscribeOn(Schedulers.io())
+                .subscribe(resp -> {
+                    //Todo: do something with the response
+                });
     }
 }

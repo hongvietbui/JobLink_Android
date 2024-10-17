@@ -76,6 +76,10 @@ dependencies {
     //Three ten ABP
     implementation(libs.threetenABP)
 
+    //rxjava
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
