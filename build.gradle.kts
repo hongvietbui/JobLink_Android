@@ -7,7 +7,6 @@ plugins {
 
 buildscript {
     dependencies {
-        // Sử dụng hàm "classpath" bên trong buildscript block
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.51.1")
     }
 }

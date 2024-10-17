@@ -18,6 +18,8 @@ lombok = "1.18.34"
 mapstruct = "1.6.2"
 mapstruct-processor = "1.6.2"
 threetenABP = "1.4.7"
+rxjava = "3.1.9"
+rxandroid = "3.0.2"
 
 [libraries]
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -45,6 +47,9 @@ lombok = { group = "org.projectlombok",name="lombok", version.ref = "lombok" }
 mapstruct = {group = "org.mapstruct",name="mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = {group = "org.mapstruct",name="mapstruct-processor", version.ref = "mapstruct-processor" }
 threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenABP" }
+
+rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
 
 
 [plugins]
