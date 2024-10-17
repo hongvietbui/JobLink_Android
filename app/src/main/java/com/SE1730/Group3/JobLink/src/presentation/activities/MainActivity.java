@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -8,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.presentation.fragments.RegisterFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -29,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setEvents(){
-        btnRegister.setOnClickListener(v -> {
-            openFragment(new RegisterFragment());
-        });
+        btnRegister.setOnClickListener(v -> openRegisterActivity());
     }
 
     private void openFragment(Fragment fragment){
@@ -39,5 +37,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void openRegisterActivity(){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 }
