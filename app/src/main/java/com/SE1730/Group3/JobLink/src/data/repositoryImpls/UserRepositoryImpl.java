@@ -3,6 +3,7 @@ package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.LoginReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
@@ -80,4 +81,33 @@ public class UserRepositoryImpl implements IUserRepository {
             });
         });
     }
+
+    @Override
+    public Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException {
+        return Observable.create(emitter -> {
+            authApi.changePassUser(new ApiReq<>(request)).enqueue(new Callback<ApiResp<String>>() {
+                @Override
+                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
+                    // Check if the response is successful and not null
+                    if (response.isSuccessful() && response.body() != null) {
+                        if (!emitter.isDisposed()) {
+                            emitter.onNext(response.body()); // Emit the response body
+                        }
+                    } else {
+                        if (!emitter.isDisposed()) {
+                            emitter.onError(new IOException("Failed to change password"));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResp<String>> call, Throwable throwable) {
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(new IOException("Failed to change password", throwable));
+                    }
+                }
+            });
+        });
+    }
+
 }

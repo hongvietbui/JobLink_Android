@@ -20,6 +20,7 @@ mapstruct-processor = "1.6.2"
 threetenABP = "1.4.7"
 rxjava = "3.1.9"
 rxandroid = "3.0.2"
+activity = "1.9.3"
 
 [libraries]
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -50,6 +51,7 @@ threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", ver
 
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 
 [plugins]
