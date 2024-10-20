@@ -36,6 +36,7 @@ public class RegisterViewModel extends ViewModel {
     public void RegisterUser(String username, String email, String password, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
         Disposable disposable = registerUseCase.execute(username, password, email, firstName, lastName, phoneNumber, address, dateOfBirth)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
                     registerResult.postValue(resp);
                 }, error -> {

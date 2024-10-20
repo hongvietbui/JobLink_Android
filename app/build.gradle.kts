@@ -80,7 +80,14 @@ dependencies {
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
 
+    //play services
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+
+    implementation(libs.viewPager2)
+
+    implementation(libs.richEditor)
 }

@@ -9,7 +9,6 @@ import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
 import com.SE1730.Group3.JobLink.src.domain.dao.impl.UnitOfWorkImpl;
 import com.SE1730.Group3.JobLink.src.domain.entities.JobLinkDatabase;
 
-import javax.inject.Scope;
 import javax.inject.Singleton;
 
 import dagger.Module;
