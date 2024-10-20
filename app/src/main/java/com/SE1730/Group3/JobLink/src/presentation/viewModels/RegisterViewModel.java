@@ -15,7 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 import javax.inject.Inject;
 
 @HiltViewModel
-public class RegisterViewModel extends ViewModel {
+public class  RegisterViewModel extends ViewModel {
     private final RegisterUseCase registerUseCase;
     public MutableLiveData<ApiResp<String>> registerResult = new MutableLiveData<>();
 
