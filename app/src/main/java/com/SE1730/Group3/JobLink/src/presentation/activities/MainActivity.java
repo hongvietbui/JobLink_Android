@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-    private Button btnRegister;
+    private Button btnRegister, btnJobDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindingViews(){
         btnRegister = findViewById(R.id.btnRegister);
+        btnJobDetails = findViewById(R.id.btnJobDetails);
     }
 
     private void setEvents(){
         btnRegister.setOnClickListener(v -> openRegisterActivity());
+        btnJobDetails.setOnClickListener(v -> openJobDetailsActivity());
     }
 
     private void openFragment(Fragment fragment){
@@ -41,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void openRegisterActivity(){
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void openJobDetailsActivity(){
+        Intent intent = new Intent(this, JobDetailsActivity.class);
         startActivity(intent);
     }
 }
