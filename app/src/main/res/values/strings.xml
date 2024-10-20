@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">JobLink</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="shop">SHOP</string>
+    <string name="collection">COLLECTIONS</string>
+    <string name="blog">BLOG</string>
+    <string name="stockists">STOCKISTS</string>
+    <string name="about">ABOUT</string>
+    <string name="help">HELP</string>
+    <string name="settings">SETTINGS</string>
+    <string name="new_arrivals">NEW ARRIVALS</string>
+    <string name="address">Address</string>
+    <string name="payment">Payment</string>
+    <string name="cart">Cart</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="discount">Discount</string>
+    <string name="shipping">Shipping</string>
+    <string name="total">Total</string>
+    <string name="Loading">loading</string>
+    <string name="register">Register</string>
+    <string name="profile">Profile</string>
+    <string name="signout">Sign Out</string>
+    <string name="Wallet">Wallet</string>
+    <string name="description">Fit Type: Regular Fit
+BREATHABLE, SWEAT-WICKING COMFORT
+Elevate your everyday training with the Nike Dri-FIT Academy Top
+The fabric has a subtle texture and sweat-wicking technology to keep you dry and comfortable.
+Mesh panels on the sides and back create airflow and combat cling.</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

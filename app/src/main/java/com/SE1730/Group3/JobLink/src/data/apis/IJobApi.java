@@ -4,7 +4,7 @@ import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.register.RegisterReqDTO;
-
+import java.util.UUID;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -21,4 +21,9 @@ public interface IJobApi {
             @Query("filter") String filter
     );
 
+    @GET("job/id")
+    Call<ApiResp<JobDTO>> getJobById(@Query("jobId") UUID jobId);
+
+    @GET("job/role")
+    Call<ApiResp<RoleDTO>> getUserRoleById(@Query("role") UUID jobId);
 }

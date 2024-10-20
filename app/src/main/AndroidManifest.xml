@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name=".src.JobLinkApplication"
         android:allowBackup="true"
@@ -23,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        <activity android:name=".src.presentation.activities.RegisterActivity"/>
+        <activity android:name=".src.presentation.activities.JobDetailsActivity"/>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDv7k0i13euDi8VBhsBSXy2TT-A7g0xBRg" />
+    </application>
 </manifest>

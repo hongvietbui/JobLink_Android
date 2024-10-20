@@ -1,6 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.DI;
 
-import com.SE1730.Group3.JobLink.src.domain.repositories.IAuthRepository;
+import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
 
 import javax.inject.Singleton;
@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent;
 public class UseCaseModule {
     @Provides
     @Singleton
-    public static RegisterUseCase providesRegisterUseCase(IAuthRepository authRepository) {
+    public static RegisterUseCase providesRegisterUseCase(IUserRepository authRepository) {
         return new RegisterUseCase(authRepository);
     }
 }

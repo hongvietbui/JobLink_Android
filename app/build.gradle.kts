@@ -46,7 +46,6 @@ dependencies {
     implementation(libs.moshi.adapter)
     implementation(libs.converter.moshi)
 
-    implementation(libs.room)
     implementation(libs.lottie)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
@@ -62,6 +61,10 @@ dependencies {
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
+    //room
+    implementation(libs.room)
+    annotationProcessor(libs.room.compiler)
+
     // Hilt Dependency Injection
     implementation(libs.hilt)
     annotationProcessor(libs.hilt.android.compiler)
@@ -73,7 +76,18 @@ dependencies {
     //Three ten ABP
     implementation(libs.threetenABP)
 
+    //rxjava
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+
+    //play services
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+
+    implementation(libs.viewPager2)
+
+    implementation(libs.richEditor)
 }

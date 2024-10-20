@@ -12,12 +12,21 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 import javax.inject.Inject;
 
 @HiltViewModel
 public class  RegisterViewModel extends ViewModel {
     private final RegisterUseCase registerUseCase;
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
     public MutableLiveData<ApiResp<String>> registerResult = new MutableLiveData<>();
+
 
     @Inject
     public RegisterViewModel(RegisterUseCase registerUseCase) {
@@ -25,13 +34,21 @@ public class  RegisterViewModel extends ViewModel {
     }
 
     public void RegisterUser(String username, String email, String password, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
-        CompletableFuture<ApiResp<String>> response = registerUseCase.execute(username, password, email, firstName, lastName, phoneNumber, address, dateOfBirth);
+        Disposable disposable = registerUseCase.execute(username, password, email, firstName, lastName, phoneNumber, address, dateOfBirth)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resp -> {
+                    registerResult.postValue(resp);
+                }, error -> {
+                    registerResult.postValue(new ApiResp<String>(error.getMessage(), null));
+                });
 
-        response.thenAccept(result -> {
-            registerResult.postValue(result);
-        }).exceptionally(e -> {
-            registerResult.postValue(new ApiResp<String>(e.getMessage(), null));
-            return null;
-        });
+        disposables.add(disposable);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        disposables.clear();
     }
 }
