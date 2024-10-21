@@ -1,5 +1,7 @@
 package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
+import android.util.Log;
+
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
@@ -38,6 +40,7 @@ public class JobRepositoryImpl implements IJobRepository {
 
             @Override
             public void onFailure(Call<ApiResp<String>> call, Throwable t) {
+                Log.e("JobRepositoryImpl", "API call failed", t);
                 future.completeExceptionally(new IOException("Failed to fetch jobs", t));
             }
         });

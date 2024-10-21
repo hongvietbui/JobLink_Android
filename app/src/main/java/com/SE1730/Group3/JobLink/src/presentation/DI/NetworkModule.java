@@ -3,6 +3,7 @@ package com.SE1730.Group3.JobLink.src.presentation.DI;
 import android.content.SharedPreferences;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
+import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -47,5 +48,11 @@ public class NetworkModule {
     @Singleton
     public IAuthApi provideAuthApi(Retrofit retrofit) {
         return retrofit.create(IAuthApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public IJobApi provideJobApi(Retrofit retrofit) {
+        return retrofit.create(IJobApi.class);
     }
 }
