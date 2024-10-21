@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 
 import java.util.List;
 
 public class ViewJobAdapter extends RecyclerView.Adapter<ViewJobAdapter.JobViewHolder> {
 
-    private List<ListJobReqDTO> jobList;
+    private List<JobDTO> jobList;
 
-    public ViewJobAdapter(List<ListJobReqDTO> jobList) {
+    public ViewJobAdapter(List<JobDTO> jobList) {
         this.jobList = jobList;
     }
 
@@ -31,7 +31,7 @@ public class ViewJobAdapter extends RecyclerView.Adapter<ViewJobAdapter.JobViewH
 
     @Override
     public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
-        ListJobReqDTO job = jobList.get(position);
+        JobDTO job = jobList.get(position);
 
         holder.jobName.setText(job.getName());
         holder.jobDescription.setText(job.getDescription());

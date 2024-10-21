@@ -6,14 +6,15 @@ import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.UUIDJsonAdapter;
 import com.squareup.moshi.Moshi;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
-import javax.inject.Singleton;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -35,6 +36,7 @@ public class NetworkModule {
 
         Moshi moshi = new Moshi.Builder()
                 .add(new LocalDateJsonAdapter())
+                .add(new UUIDJsonAdapter())
                 .build();
 
         return new Retrofit.Builder()

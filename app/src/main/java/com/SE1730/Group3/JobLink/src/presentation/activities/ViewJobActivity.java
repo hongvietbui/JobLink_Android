@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
 import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
@@ -51,14 +53,14 @@ public class ViewJobActivity extends AppCompatActivity {
 
     private void fetchJobsFromApi() {
         try {
-            CompletableFuture<ApiResp<String>> future = getJobUseCase.execute(1, 10, "name", false, "");
+            CompletableFuture<ApiResp<Pagination<JobDTO>>> future = getJobUseCase.execute(1, 10, "name", false, "");
 
             future.thenAccept(apiResp -> {
                 // Log the entire API response for debugging
                 Log.d("ViewJobActivity", "API Response: " + apiResp);
 
                 if (apiResp.getStatus() == 200) {
-                    List<ListJobReqDTO> jobList = parseJobListFromApiResponse(apiResp.getData());
+                    List<JobDTO> jobList = apiResp.getData().getItems();
 
                     if (jobList != null) {
                         runOnUiThread(() -> {
