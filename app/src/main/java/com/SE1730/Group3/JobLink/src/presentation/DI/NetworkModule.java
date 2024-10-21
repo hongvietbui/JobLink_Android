@@ -1,6 +1,9 @@
 package com.SE1730.Group3.JobLink.src.presentation.DI;
 
+import android.content.SharedPreferences;
+
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
+import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -19,11 +22,14 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class NetworkModule {
     @Provides
     @Singleton
-    public Retrofit provideRetrofit() {
+    public Retrofit provideRetrofit(SharedPreferences sharedPreferences) {
+        String token = sharedPreferences.getString("accessToken", "");
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .addInterceptor(new AuthInterceptor(token))
                 .build();
 
         Moshi moshi = new Moshi.Builder()

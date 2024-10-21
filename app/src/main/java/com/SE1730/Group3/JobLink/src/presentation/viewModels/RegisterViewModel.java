@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import javax.inject.Inject;
 
 @HiltViewModel
-public class RegisterViewModel extends ViewModel {
+public class  RegisterViewModel extends ViewModel {
     private final RegisterUseCase registerUseCase;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
@@ -36,6 +36,7 @@ public class RegisterViewModel extends ViewModel {
     public void RegisterUser(String username, String email, String password, String firstName, String lastName, String phoneNumber, String address, LocalDate dateOfBirth) throws IOException {
         Disposable disposable = registerUseCase.execute(username, password, email, firstName, lastName, phoneNumber, address, dateOfBirth)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
                     registerResult.postValue(resp);
                 }, error -> {
