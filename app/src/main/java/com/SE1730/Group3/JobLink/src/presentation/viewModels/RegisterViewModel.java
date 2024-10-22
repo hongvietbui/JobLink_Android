@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import javax.inject.Inject;
 
 @HiltViewModel
-public class RegisterViewModel extends ViewModel {
+public class  RegisterViewModel extends ViewModel {
     private final RegisterUseCase registerUseCase;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
