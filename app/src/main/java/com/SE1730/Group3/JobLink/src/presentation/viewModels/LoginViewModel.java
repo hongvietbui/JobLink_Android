@@ -14,11 +14,15 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
     private final LoginUseCase loginUseCase;
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
     public MutableLiveData<ApiResp<LoginRespDTO>> loginResult = new MutableLiveData<>();
 
     @Inject
@@ -27,10 +31,20 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void loginUser(String username, String password) throws IOException {
-        loginUseCase.execute(username, password)
+        Disposable disposable = loginUseCase.execute(username, password)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
-                    //Todo: do something with the response
+                    loginResult.postValue(resp);
+                }, error -> {
+                    loginResult.postValue(new ApiResp<LoginRespDTO>(error.getMessage(), null));
                 });
+
+        disposables.add(disposable);
+    }
+
+    public void onCleared() {
+        super.onCleared();
+        disposables.clear();
     }
 }
