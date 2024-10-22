@@ -75,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loginObservable.dispose();
+        if(loginObservable != null && !loginObservable.isDisposed())
+            loginObservable.dispose();
     }
 }
 
