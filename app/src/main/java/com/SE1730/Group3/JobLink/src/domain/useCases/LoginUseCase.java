@@ -6,16 +6,13 @@ import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
-
-import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Observable;
 
 public class LoginUseCase {
     private final IUserRepository userRepository;
 
-    @Inject
+
     public LoginUseCase(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }

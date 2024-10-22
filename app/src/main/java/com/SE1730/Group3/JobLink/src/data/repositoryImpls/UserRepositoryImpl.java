@@ -3,14 +3,16 @@ package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.data.models.request.ForgetPassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.LoginReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.OtpReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.ResetPassDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -76,6 +78,96 @@ public class UserRepositoryImpl implements IUserRepository {
                 public void onFailure(Call<ApiResp<LoginRespDTO>> call, Throwable throwable) {
                     if(!emmiter.isDisposed())
                         emmiter.onError(new IOException("Failed to login user"));
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<ApiResp<String>> sendOTP(ForgetPassReqDTO request) throws IOException {
+        return Observable.create(emitter -> {
+            ApiReq<ForgetPassReqDTO> apiReq = new ApiReq<>(request);
+
+            authApi.sendOTP(apiReq).enqueue(new Callback<ApiResp<String>>() {
+                @Override
+                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
+                    if (response.isSuccessful()) {
+                        if (!emitter.isDisposed()) {
+                            emitter.onNext(response.body());
+                            emitter.onComplete();
+                        }
+                    } else {
+                        if (!emitter.isDisposed()) {
+                            emitter.onError(new IOException("Failed to send OTP"));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResp<String>> call, Throwable t) {
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(new IOException("Failed to send OTP"));
+                    }
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<ApiResp<String>> VerifyOtp(OtpReqDTO request) throws IOException {
+        return Observable.create(emitter -> {
+            ApiReq<OtpReqDTO> apiReq = new ApiReq<>(request);
+
+            authApi.VerifyOtp(apiReq).enqueue(new Callback<ApiResp<String>>() {
+                @Override
+                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
+                    if (response.isSuccessful()) {
+                        if (!emitter.isDisposed()) {
+                            emitter.onNext(response.body());
+                            emitter.onComplete();
+                        }
+                    } else {
+                        if (!emitter.isDisposed()) {
+                            emitter.onError(new IOException("Failed to verify OTP"));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResp<String>> call, Throwable t) {
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(new IOException("Failed to verify OTP"));
+                    }
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<ApiResp<String>> ResetPassword(ResetPassDTO request) throws IOException {
+        return Observable.create(emitter -> {
+            ApiReq<ResetPassDTO> apiReq = new ApiReq<>(request);
+
+            authApi.ResetPassword(apiReq).enqueue(new Callback<ApiResp<String>>() {
+                @Override
+                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
+                    if (response.isSuccessful()) {
+                        if (!emitter.isDisposed()) {
+                            emitter.onNext(response.body());
+                            emitter.onComplete();
+                        }
+                    } else {
+                        if (!emitter.isDisposed()) {
+                            emitter.onError(new IOException("Failed to reset password"));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResp<String>> call, Throwable t) {
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(new IOException("Failed to reset password"));
+                    }
                 }
             });
         });

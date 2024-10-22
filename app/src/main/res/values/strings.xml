@@ -34,4 +34,6 @@ Elevate your everyday training with the Nike Dri-FIT Academy Top
 The fabric has a subtle texture and sweat-wicking technology to keep you dry and comfortable.
 Mesh panels on the sides and back create airflow and combat cling.</string>
     <string name="title_activity_maps">Map</string>
+    <string name="please_enter_the_otp_sent_to_your_phone">Please enter the OTP sent to your phone.</string>
+    <string name="verify_otp">Verify OTP</string>
 </resources>
