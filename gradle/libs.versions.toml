@@ -48,12 +48,15 @@ shimmer = { group = "com.facebook.shimmer",name="shimmer", version.ref = "shimme
 picasso = { group = "com.squareup.picasso",name="picasso", version.ref = "picasso" }
 hilt = { group = "com.google.dagger",name="hilt-android", version.ref = "hilt" }
 lombok = { group = "org.projectlombok",name="lombok", version.ref = "lombok" }
+
 mapstruct = {group = "org.mapstruct",name="mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = {group = "org.mapstruct",name="mapstruct-processor", version.ref = "mapstruct-processor" }
+
 threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenABP" }
 
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+adapter-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
 
 viewPager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
 

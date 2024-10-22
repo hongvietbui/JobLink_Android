@@ -1,13 +1,13 @@
 package com.SE1730.Group3.JobLink.src.domain.enums;
 
 public enum JobStatus {
-    PENDING_APPROVAL("pending-approval"),
-    APPROVED("approved"),
-    REJECTED("rejected"),
-    EXPIRED("expired"),
-    DELETED("deleted"),
-    COMPLETED("completed"),
-    IN_PROGRESS("in-progress");
+    PENDING_APPROVAL("PendingApproval"),
+    APPROVED("Approved"),
+    REJECTED("Rejected"),
+    EXPIRED("Expired"),
+    DELETED("Deleted"),
+    COMPLETED("Completed"),
+    IN_PROGRESS("InProgress");
 
     public final String value;
 
