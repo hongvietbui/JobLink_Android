@@ -96,7 +96,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/id_forgot_password"
+            android:id="@+id/tvForgetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"

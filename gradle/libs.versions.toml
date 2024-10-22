@@ -24,6 +24,7 @@ viewPager2 = "1.1.0"
 play-services-maps = "19.0.0"
 play-services-location = "21.3.0"
 richEditor="2.0.0"
+activity = "1.9.3"
 
 [libraries]
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -61,6 +62,7 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "play-services-location" }
 
 richEditor = { group = "jp.wasabeef", name = "richeditor-android", version.ref = "richEditor" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 
