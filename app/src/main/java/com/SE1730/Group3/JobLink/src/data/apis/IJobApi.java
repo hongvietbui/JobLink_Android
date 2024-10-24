@@ -2,7 +2,10 @@ package com.SE1730.Group3.JobLink.src.data.apis;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.RoleDTO;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
+import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
 import java.util.UUID;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -10,7 +13,7 @@ import retrofit2.http.Query;
 
 public interface IJobApi {
     @GET("Job/get-jobs")
-    Call<ApiResp<String>> getJobs(
+    Call<ApiResp<Pagination<JobDTO>>> getJobs(
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
             @Query("sortBy") String sortBy,

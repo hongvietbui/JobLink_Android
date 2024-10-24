@@ -13,12 +13,10 @@ import com.SE1730.Group3.JobLink.src.domain.entities.User;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
-
-import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
+import jakarta.inject.Inject;
 
 public class LoginUseCase {
     private final IUserRepository userRepository;
