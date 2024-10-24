@@ -43,6 +43,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     //networking
     implementation(libs.retrofit)
+
     implementation(libs.moshi)
     implementation(libs.moshi.adapter)
     implementation(libs.converter.moshi)
@@ -80,6 +81,7 @@ dependencies {
     //rxjava
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
+    implementation(libs.adapter.rxjava)
 
     //play services
     implementation(libs.play.services.maps)

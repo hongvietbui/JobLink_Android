@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import com.SE1730.Group3.JobLink.src.domain.entities.baseEntities.BaseEntity;
 import com.SE1730.Group3.JobLink.src.domain.enums.UserStatus;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.UUID;
 
 import lombok.Data;
@@ -27,5 +29,6 @@ public class User extends BaseEntity<UUID> {
     private String avatar;
     private UUID roleId;
     private String refreshToken;
+    private LocalDateTime refreshTokenExpiryTime;
     private UserStatus status;
 }

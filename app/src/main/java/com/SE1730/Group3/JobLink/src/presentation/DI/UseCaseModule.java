@@ -1,6 +1,10 @@
 package com.SE1730.Group3.JobLink.src.presentation.DI;
 
+import android.content.SharedPreferences;
+
+import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
+import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
 
 import javax.inject.Singleton;
@@ -17,5 +21,11 @@ public class UseCaseModule {
     @Singleton
     public static RegisterUseCase providesRegisterUseCase(IUserRepository authRepository) {
         return new RegisterUseCase(authRepository);
+    }
+
+    @Provides
+    @Singleton
+    public static LoginUseCase providesLoginUseCase(IUserRepository authRepository, IUserDAO userDAO, SharedPreferences sharedPreferences) {
+        return new LoginUseCase(authRepository, userDAO, sharedPreferences);
     }
 }
