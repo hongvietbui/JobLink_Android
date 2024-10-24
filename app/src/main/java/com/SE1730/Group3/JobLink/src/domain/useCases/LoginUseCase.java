@@ -8,11 +8,12 @@ import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 import java.io.IOException;
 
 import io.reactivex.rxjava3.core.Observable;
+import jakarta.inject.Inject;
 
 public class LoginUseCase {
     private final IUserRepository userRepository;
 
-
+@Inject
     public LoginUseCase(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }

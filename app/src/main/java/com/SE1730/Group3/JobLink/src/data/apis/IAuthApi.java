@@ -19,10 +19,10 @@ public interface IAuthApi {
 
     @POST("auth/login")
     Call<ApiResp<LoginRespDTO>> loginUser(@Body ApiReq<LoginReqDTO> request);
-    @POST("sent-otp")
+    @POST("auth/sent-otp")
     Call<ApiResp<String>> sendOTP(@Body ApiReq<ForgetPassReqDTO> request);
-    @POST("verify-otp")
+    @POST("auth/verify-otp")
     Call<ApiResp<String>> VerifyOtp(@Body ApiReq<OtpReqDTO> request);
-    @POST("reset-password")
+    @POST("auth/reset-password")
     Call<ApiResp<String>> ResetPassword(@Body ApiReq<ResetPassDTO> request);
 }

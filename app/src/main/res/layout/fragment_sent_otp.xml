@@ -30,7 +30,7 @@
         android:hint="Email address"
         android:inputType="textEmailAddress"
         android:textColorHint="@color/grey10"
-        android:textColor="@color/primaryTextColor"
+        android:textColor="@color/colorBlack"
         android:padding="12dp"
         android:background="@drawable/background_linear"
         android:layout_marginTop="20dp"

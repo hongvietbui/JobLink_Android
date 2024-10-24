@@ -3,6 +3,7 @@ package com.SE1730.Group3.JobLink.src.presentation.DI;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.ResetPassUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.SendOtpUseCase;
@@ -42,5 +43,10 @@ public class UseCaseModule {
     @Singleton
     public static SendOtpUseCase providesSendOtpUseCase(IUserRepository authRepository) {
         return new SendOtpUseCase(authRepository);
+    }
+    @Provides
+    @Singleton
+    public static LoginUseCase providesLoginUseCase(IUserRepository authRepository) {
+        return new LoginUseCase(authRepository);
     }
 }
