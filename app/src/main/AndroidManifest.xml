@@ -31,8 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".src.presentation.activities.RegisterActivity" />
-        <activity android:name=".src.presentation.activities.JobDetailsActivity" />
+        <activity android:name=".src.presentation.activities.RegisterActivity"/>
+        <activity android:name=".src.presentation.activities.JobDetailsActivity"/>
+        <activity android:name=".src.presentation.activities.LoginActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

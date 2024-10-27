@@ -3,7 +3,6 @@ package com.SE1730.Group3.JobLink.src.data.apis;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.RoleDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
-
 import java.util.UUID;
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -7,27 +7,33 @@
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_centerInParent="true" />
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/btnRegister"
-        android:layout_marginTop="16dp" />
+        android:text="Register" />
 
     <Button
         android:id="@+id/btnJobDetails"
-        android:layout_width="136dp"
+        android:layout_width="132dp"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="275dp"
+        android:layout_marginEnd="208dp"
+        android:layout_marginBottom="384dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="109dp"
         android:layout_height="63dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="218dp"
-        android:layout_marginBottom="603dp"
-        android:text="Button" />
+        android:layout_marginStart="214dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="540dp"
+        android:text="Login" />
 </RelativeLayout>

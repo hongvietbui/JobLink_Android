@@ -38,8 +38,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
-//        noSwipeViewPager2 = new NoSwipeViewPager2(this);
-
         btnLeft = findViewById(R.id.btnLeft);
         btnRight = findViewById(R.id.btnRight);
 
