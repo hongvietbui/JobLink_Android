@@ -81,8 +81,7 @@
                 android:layout_toRightOf="@+id/id_password_image"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColorHint="@color/thirdTextColor"
-                android:transformationMethod="password" />
+                android:textColorHint="@color/thirdTextColor"/>
 
             <ImageView
                 android:layout_width="wrap_content"
