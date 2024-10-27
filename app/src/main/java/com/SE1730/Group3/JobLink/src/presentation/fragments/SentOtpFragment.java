@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,15 +79,18 @@ public class SentOtpFragment extends Fragment {
         sentOtpViewModel.otpconfirmResult.observe(getViewLifecycleOwner(), new Observer<ApiResp<String>>() {
             @Override
             public void onChanged(ApiResp<String> apiResp) {
-                if (apiResp.getStatus() == 200) {
+                if (apiResp != null && apiResp.getStatus() != null && apiResp.getStatus() == 200) {
                     resetPasswordActivity.setEmail(editTextEmail.getText().toString().trim());
-
                     Toast.makeText(getContext(), "OTP sent successfully!", Toast.LENGTH_SHORT).show();
                     resetPasswordActivity.loadVerifyOtpFragment();
-                } else {
+                } else if (apiResp != null) {
                     Toast.makeText(getContext(), "Failed to send OTP. Please try again.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("SentOtpFragment", "ApiResp is null.");
+                    Toast.makeText(getContext(), "An unexpected error occurred. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 }

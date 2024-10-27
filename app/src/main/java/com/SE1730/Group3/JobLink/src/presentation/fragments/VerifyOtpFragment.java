@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.presentation.activities.ResetPasswordActivity;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.VerifyOtpViewModel;
-import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 
 import java.io.IOException;
 
@@ -80,15 +81,18 @@ public class VerifyOtpFragment extends Fragment {
             verifyOtpViewModel.otpconfirmverifyResult.observe(getViewLifecycleOwner(), new Observer<ApiResp<String>>() {
                 @Override
                 public void onChanged(ApiResp<String> apiResp) {
-                    if (apiResp != null  ) {
+                    if (apiResp != null && apiResp.getStatus() != null && apiResp.getStatus() == 200) {
                         Toast.makeText(getContext(), "OTP verified successfully!", Toast.LENGTH_SHORT).show();
-
                         resetPasswordActivity.showResetPasswordLayout();
-                    } else {
+                    } else if (apiResp != null) {
                         Toast.makeText(getContext(), "Invalid OTP. Please try again.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("VerifyOtpFragment", "ApiResp is null.");
+                        Toast.makeText(getContext(), "An unexpected error occurred. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+
         });
     }
 }

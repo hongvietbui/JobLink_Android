@@ -29,6 +29,12 @@ public class ViewJobAdapter extends RecyclerView.Adapter<ViewJobAdapter.JobViewH
         return new JobViewHolder(view);
     }
 
+    public void addJobs(List<JobDTO> newJobs) {
+        int initialSize = jobList.size();
+        jobList.addAll(newJobs);
+        notifyItemRangeInserted(initialSize, newJobs.size());
+    }
+
     @Override
     public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
         JobDTO job = jobList.get(position);
@@ -36,6 +42,11 @@ public class ViewJobAdapter extends RecyclerView.Adapter<ViewJobAdapter.JobViewH
         holder.jobName.setText(job.getName());
         holder.jobDescription.setText(job.getDescription());
         holder.jobAddress.setText(job.getAddress());
+
+        // Set new fields
+        holder.jobStatus.setText("Status: " + job.getStatus());
+        holder.jobDuration.setText("Duration: " + job.getDuration() + " hours");
+        holder.jobPrice.setText("Price: " + job.getPrice()+"$");
     }
 
     @Override
@@ -45,12 +56,16 @@ public class ViewJobAdapter extends RecyclerView.Adapter<ViewJobAdapter.JobViewH
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
         TextView jobName, jobDescription, jobAddress;
+        TextView jobStatus, jobDuration, jobPrice;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
             jobName = itemView.findViewById(R.id.jobName);
             jobDescription = itemView.findViewById(R.id.jobDescription);
             jobAddress = itemView.findViewById(R.id.jobAddress);
+            jobStatus = itemView.findViewById(R.id.jobStatus);
+            jobDuration = itemView.findViewById(R.id.DurationJob);
+            jobPrice = itemView.findViewById(R.id.PriceJob);
         }
     }
 }

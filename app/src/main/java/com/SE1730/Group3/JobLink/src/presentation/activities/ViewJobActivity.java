@@ -2,6 +2,10 @@ package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,26 +16,29 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
-import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewJobAdapter;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
-import jakarta.inject.Inject;
+
 @AndroidEntryPoint
 public class ViewJobActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewJobs;
     private ViewJobAdapter viewJobAdapter;
+    private Spinner spinnerSortBy;
+    private Spinner spinnerSortOrder;  // Add this spinner for sorting order
+    private EditText editTextFilter;
+    private Button buttonApplyFilter;
+    private View progressBar;
+
+    private int pageIndex = 1;
+    private final int pageSize = 10;  // Default page size, can be adjusted if needed
 
     @Inject
     GetJobUseCase getJobUseCase;  // Use-case to fetch jobs
@@ -42,6 +49,7 @@ public class ViewJobActivity extends AppCompatActivity {
         setContentView(R.layout.activity_viewjob);
 
         bindingViews();
+        setupFilterButton();
 
         fetchJobsFromApi();
     }
@@ -49,14 +57,35 @@ public class ViewJobActivity extends AppCompatActivity {
     private void bindingViews() {
         recyclerViewJobs = findViewById(R.id.recyclerViewJobs);
         recyclerViewJobs.setLayoutManager(new LinearLayoutManager(this));
+
+        spinnerSortBy = findViewById(R.id.spinnerSortBy);
+        spinnerSortOrder = findViewById(R.id.spinnerSortOrder);  // Initialize the sorting order spinner
+        editTextFilter = findViewById(R.id.editTextFilter);
+        buttonApplyFilter = findViewById(R.id.buttonApplyFilter);
+        progressBar = findViewById(R.id.progressBar);
+    }
+
+    private void setupFilterButton() {
+        buttonApplyFilter.setOnClickListener(v -> {
+            String keyword = editTextFilter.getText().toString().trim();
+            String sortBy = spinnerSortBy.getSelectedItem().toString();
+            boolean isDescending = spinnerSortOrder.getSelectedItem().toString().equals("Descending");  // Get sorting order
+            pageIndex = 1;
+            fetchJobsFromApi(keyword, sortBy, isDescending);  // Pass the sorting order to the API call
+        });
     }
 
     private void fetchJobsFromApi() {
+        fetchJobsFromApi("", "", false);  // Default sorting order is false
+    }
+
+    private void fetchJobsFromApi(String filter, String sortBy, boolean isDescending) {
+        progressBar.setVisibility(View.VISIBLE);
         try {
-            CompletableFuture<ApiResp<Pagination<JobDTO>>> future = getJobUseCase.execute(1, 10, "name", false, "");
+            CompletableFuture<ApiResp<Pagination<JobDTO>>> future = getJobUseCase.execute(pageIndex, pageSize, sortBy, isDescending, filter);
 
             future.thenAccept(apiResp -> {
-                // Log the entire API response for debugging
+                progressBar.setVisibility(View.GONE);
                 Log.d("ViewJobActivity", "API Response: " + apiResp);
 
                 if (apiResp.getStatus() == 200) {
@@ -64,48 +93,34 @@ public class ViewJobActivity extends AppCompatActivity {
 
                     if (jobList != null) {
                         runOnUiThread(() -> {
-                            viewJobAdapter = new ViewJobAdapter(jobList);
-                            recyclerViewJobs.setAdapter(viewJobAdapter);
+                            if (pageIndex == 1) {
+                                viewJobAdapter = new ViewJobAdapter(jobList);
+                                recyclerViewJobs.setAdapter(viewJobAdapter);
+                            } else {
+                                viewJobAdapter.addJobs(jobList);
+                            }
                         });
                     } else {
-                        runOnUiThread(() ->
-                                Toast.makeText(ViewJobActivity.this, "Error parsing job data", Toast.LENGTH_SHORT).show()
-                        );
+                        runOnUiThread(() -> showToast("Error parsing job data"));
                     }
                 } else {
-                    runOnUiThread(() ->
-                            Toast.makeText(ViewJobActivity.this, "Failed to fetch jobs: " + apiResp.getMessage(), Toast.LENGTH_SHORT).show()
-                    );
+                    runOnUiThread(() -> showToast("Failed to fetch jobs: " + apiResp.getMessage()));
                 }
             }).exceptionally(throwable -> {
+                progressBar.setVisibility(View.GONE);
                 Log.e("ViewJobActivity", "Error fetching jobs: ", throwable);
-                runOnUiThread(() ->
-                        Toast.makeText(ViewJobActivity.this, "Failed to fetch jobs", Toast.LENGTH_LONG).show()
-                );
+                runOnUiThread(() -> showToast("Failed to fetch jobs"));
                 return null;
             });
 
-        } catch (IOException e) {
-            Log.e("ViewJobActivity", "IOException occurred while fetching jobs", e);
+        } catch (Exception e) {
+            progressBar.setVisibility(View.GONE);
+            Log.e("ViewJobActivity", "Exception occurred while fetching jobs", e);
+            showToast("Error fetching jobs");
         }
     }
 
-    private List<ListJobReqDTO> parseJobListFromApiResponse(String apiResponseData) {
-        Log.d("ViewJobActivity", "Raw API Response Data: " + apiResponseData);  // Log the raw data
-
-        Moshi moshi = new Moshi.Builder()
-                .add(new LocalDateJsonAdapter())  // Registering the LocalDate adapter
-                .build();
-
-        Type type = Types.newParameterizedType(List.class, ListJobReqDTO.class);
-        JsonAdapter<List<ListJobReqDTO>> adapter = moshi.adapter(type);
-
-        try {
-            return adapter.fromJson(apiResponseData);
-        } catch (IOException e) {
-            Log.e("ViewJobActivity", "Error parsing job list from JSON", e);
-            return null;
-        }
+    private void showToast(String message) {
+        Toast.makeText(ViewJobActivity.this, message, Toast.LENGTH_SHORT).show();
     }
-
 }

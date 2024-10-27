@@ -20,8 +20,64 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        />
+        android:gravity="center"/>
+
+    <!-- Sorting Options -->
+
+    <!-- Filter Input Field -->
+
+    <Spinner
+        android:id="@+id/spinnerSortBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_background"
+        android:entries="@array/sort_options"
+        android:padding="8dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.388"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jobsTitle" />
+
+    <Spinner
+        android:id="@+id/spinnerSortOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_background"
+        android:entries="@array/sort_order_options"
+        android:padding="8dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.74"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jobsTitle" />
+
+    <EditText
+        android:id="@+id/editTextFilter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Filter by keyword"
+        android:padding="8dp"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/spinnerSortBy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"/>
+
+    <!-- Apply Filters Button -->
+    <Button
+        android:id="@+id/buttonApplyFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply Filter"
+        app:layout_constraintTop_toBottomOf="@id/editTextFilter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"/>
 
     <!-- ProgressBar while loading data -->
     <ProgressBar
@@ -29,10 +85,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/jobsTitle"
+        app:layout_constraintTop_toBottomOf="@id/buttonApplyFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recyclerViewJobs"
         android:indeterminate="true"
         android:padding="16dp"/>
 
