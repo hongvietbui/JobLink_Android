@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.domain.utilities.Validator;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.RegisterViewModel;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -28,7 +31,11 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel registerViewModel;
-    private EditText edtUsername, edtPassword, edtRepassword, edtEmail, edtPhoneNumber, edtFirstName, edtLastName, edtAddress;
+    private EditText edtUsername, edtEmail, edtPhoneNumber, edtFirstName, edtLastName, edtAddress;
+
+    private TextInputLayout tilPassword, tilRepassword;
+//    private ImageView ivIsPasswordShow, ivIsRepasswordShow;
+
     private EditText edtDateOfBirth;
     private Button btnRegister;
     private TextView tvLogin;
@@ -44,8 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void bindingViews(){
         edtUsername = findViewById(R.id.edtUsername);
-        edtPassword = findViewById(R.id.edtPassword);
-        edtRepassword = findViewById(R.id.edtRepassword);
+
+        tilPassword = findViewById(R.id.tilPassword);
+        tilRepassword = findViewById(R.id.tilRepassword);
+//        ivIsPasswordShow = findViewById(R.id.ivIsPasswordShow);
+//        ivIsRepasswordShow = findViewById(R.id.ivIsRepasswordShow);
 
         edtEmail = findViewById(R.id.edtEmail);
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber);
@@ -64,6 +74,8 @@ public class RegisterActivity extends AppCompatActivity {
         edtDateOfBirth.setOnClickListener(v -> openDatePickerDialog());
         btnRegister.setOnClickListener(v -> register());
         tvLogin.setOnClickListener(v -> openLoginActivity());
+//        ivIsPasswordShow.setOnClickListener(v -> Validator.togglePasswordVisibility(tilPassword.getEditText(), ivIsPasswordShow));
+//        ivIsRepasswordShow.setOnClickListener(v -> Validator.togglePasswordVisibility(tilRepassword.getEditText(), ivIsRepasswordShow));
     }
 
     private void register(){
@@ -71,9 +83,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    if(!checkFormValidation()){
+                        return;
+                    }
+
                     registerViewModel.RegisterUser(edtUsername.getText().toString(),
                             edtEmail.getText().toString(),
-                            edtPassword.getText().toString(),
+                            tilRepassword.getEditText().getText().toString(),
                             edtFirstName.getText().toString(),
                             edtLastName.getText().toString(),
                             edtPhoneNumber.getText().toString(),
@@ -118,5 +134,18 @@ public class RegisterActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(android.R.id.content), "Failed to register user", Snackbar.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private Boolean checkFormValidation(){
+        boolean result = true;
+
+        if(Validator.areFieldsNullOrEmpty(edtUsername, edtEmail,
+                edtPhoneNumber, edtFirstName, edtLastName, edtAddress, edtDateOfBirth))
+            result = false;
+
+        if(Validator.areFieldsNullOrEmpty(tilPassword, tilRepassword))
+            result = false;
+
+        return result;
     }
 }
