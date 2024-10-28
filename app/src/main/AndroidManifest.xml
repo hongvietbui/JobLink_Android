@@ -29,6 +29,7 @@
         <activity android:name=".src.presentation.activities.RegisterActivity"/>
         <activity android:name=".src.presentation.activities.JobDetailsActivity"/>
         <activity android:name=".src.presentation.activities.LoginActivity"/>
+        <activity android:name=".src.presentation.activities.TransferActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

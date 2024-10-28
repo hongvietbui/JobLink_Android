@@ -36,4 +36,18 @@
         android:layout_marginEnd="72dp"
         android:layout_marginBottom="540dp"
         android:text="Login" />
+
+    <Button
+        android:id="@+id/btnTransfer"
+        android:layout_width="175dp"
+        android:layout_height="61dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="424dp"
+        android:text="Transfer" />
 </RelativeLayout>
