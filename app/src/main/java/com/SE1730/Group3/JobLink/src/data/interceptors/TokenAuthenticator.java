@@ -10,11 +10,14 @@ import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.RefreshTokenReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.AccessTokenRespDTO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
+import com.SE1730.Group3.JobLink.src.domain.entities.User;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -39,9 +42,15 @@ public class TokenAuthenticator implements Authenticator {
             return null;
         }
 
-        String refreshToken = userDAO.getCurrentUser().getRefreshToken();
+        User user;
+        try {
+            user = userDAO.getCurrentUser().subscribeOn(Schedulers.io()).blockingGet();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
-        ApiReq<RefreshTokenReqDTO> request = new ApiReq<>(RefreshTokenReqDTO.builder().refreshToken(refreshToken).build());
+        ApiReq<RefreshTokenReqDTO> request = new ApiReq<>(RefreshTokenReqDTO.builder().refreshToken(user.getRefreshToken()).build());
 
         retrofit2.Call<ApiResp<AccessTokenRespDTO>> refreshCall = authApi.refreshAccessToken(request);
         try {
@@ -70,4 +79,5 @@ public class TokenAuthenticator implements Authenticator {
         }
         return count;
     }
+
 }

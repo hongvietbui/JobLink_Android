@@ -4,8 +4,10 @@ import android.content.SharedPreferences;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
+import com.SE1730.Group3.JobLink.src.data.apis.ITransactionApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.BigDecimalAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateTimeJsonAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.UUIDJsonAdapter;
@@ -41,6 +43,7 @@ public class NetworkModule {
                 .add(new LocalDateJsonAdapter())
                 .add(new LocalDateTimeJsonAdapter())
                 .add(new UUIDJsonAdapter())
+                .add(new BigDecimalAdapter())
                 .build();
 
         return new Retrofit.Builder()
@@ -67,5 +70,11 @@ public class NetworkModule {
     @Singleton
     public IUserApi provideUserApi(Retrofit retrofit) {
         return retrofit.create(IUserApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public ITransactionApi provideTransactionApi(Retrofit retrofit) {
+        return retrofit.create(ITransactionApi.class);
     }
 }
