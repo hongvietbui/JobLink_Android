@@ -3,12 +3,14 @@ package com.SE1730.Group3.JobLink.src.presentation.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.NotificationAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +18,13 @@ import com.SE1730.Group3.JobLink.R;
  * create an instance of this fragment.
  */
 public class NotificationFragment extends Fragment {
+    private RecyclerView recyclerViewNotifications;
+    private NotificationAdapter notificationAdapter;
 
+
+    private void bindingView() {
+        recyclerViewNotifications = getView().findViewById(R.id.recyclerViewNotifications);
+    }
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

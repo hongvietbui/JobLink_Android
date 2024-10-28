@@ -11,4 +11,7 @@ import retrofit2.http.GET;
 public interface IUserApi {
     @GET("user/me")
     Observable<ApiResp<UserDTO>> getCurrentUser();
+
+    @GET("user/notifications")
+    Observable<ApiResp<UUID>> getUserNotification();
 }

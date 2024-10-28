@@ -1,8 +1,12 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,6 +30,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class LoginActivity extends AppCompatActivity {
     private EditText edtUsername, edtPassword;
     private Button btnLogin;
+    private TextView tvRegister, tvForgotPass;
+    private ImageView ivEye;
 
     private Disposable loginObservable;
 
@@ -43,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     private void bindingViews(){
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+        tvRegister = findViewById(R.id.tvRegister);
+        tvForgotPass = findViewById(R.id.tvForgetPassword);
         btnLogin = findViewById(R.id.btnLogin);
     }
 
@@ -54,6 +62,12 @@ public class LoginActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
         });
+        tvForgotPass.setOnClickListener(this::onTvForgotPassClick);
+    }
+
+    private void onTvForgotPassClick(View view) {
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void login() throws IOException {

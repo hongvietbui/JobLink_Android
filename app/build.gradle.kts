@@ -93,4 +93,6 @@ dependencies {
     implementation(libs.viewPager2)
 
     implementation(libs.richEditor)
+
+    implementation(libs.signalR)
 }
