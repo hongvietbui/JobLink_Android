@@ -6,10 +6,10 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
+import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.impl.UnitOfWorkImpl;
 import com.SE1730.Group3.JobLink.src.domain.entities.JobLinkDatabase;
 
-import javax.inject.Scope;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -40,5 +40,10 @@ public class DatabaseModule {
     @Singleton
     public Context provideContext(Application application){
         return application.getApplicationContext();
+    }
+
+    @Provides
+    public IUserDAO provideUserDAO(JobLinkDatabase database) {
+        return database.userDAO();
     }
 }

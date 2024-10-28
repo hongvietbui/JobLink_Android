@@ -12,4 +12,6 @@ public class ApiReq<T> {
     public ApiReq(T data) {
         this.data = data;
     }
+
+
 }

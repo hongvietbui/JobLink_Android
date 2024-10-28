@@ -1,0 +1,9 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/richTextView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="Đây là một đoạn văn bản rich text"
+    android:textStyle="bold|italic"
+    android:textSize="18sp"
+    android:padding="16dp" />

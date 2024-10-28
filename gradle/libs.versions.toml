@@ -20,7 +20,10 @@ mapstruct-processor = "1.6.2"
 threetenABP = "1.4.7"
 rxjava = "3.1.9"
 rxandroid = "3.0.2"
-activity = "1.9.3"
+viewPager2 = "1.1.0"
+play-services-maps = "19.0.0"
+play-services-location = "21.3.0"
+richEditor="2.0.0"
 
 [libraries]
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -45,15 +48,22 @@ shimmer = { group = "com.facebook.shimmer",name="shimmer", version.ref = "shimme
 picasso = { group = "com.squareup.picasso",name="picasso", version.ref = "picasso" }
 hilt = { group = "com.google.dagger",name="hilt-android", version.ref = "hilt" }
 lombok = { group = "org.projectlombok",name="lombok", version.ref = "lombok" }
+
 mapstruct = {group = "org.mapstruct",name="mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = {group = "org.mapstruct",name="mapstruct-processor", version.ref = "mapstruct-processor" }
+
 threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenABP" }
 
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+adapter-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
 
+viewPager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
 
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "play-services-maps" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "play-services-location" }
+
+richEditor = { group = "jp.wasabeef", name = "richeditor-android", version.ref = "richEditor" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 

@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -8,13 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.presentation.fragments.RegisterFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-    private Button btnRegister;
+    private Button btnRegister, btnJobDetails, btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +26,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindingViews(){
         btnRegister = findViewById(R.id.btnRegister);
+        btnJobDetails = findViewById(R.id.btnJobDetails);
+        btnLogin = findViewById(R.id.btnLogin);
     }
 
     private void setEvents(){
-        btnRegister.setOnClickListener(v -> {
-            openFragment(new RegisterFragment());
-        });
+        btnRegister.setOnClickListener(v -> openRegisterActivity());
+        btnJobDetails.setOnClickListener(v -> openJobDetailsActivity());
+        btnLogin.setOnClickListener(v -> openLoginActivity());
     }
 
-    private void openFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    private void openRegisterActivity(){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void openJobDetailsActivity(){
+        Intent intent = new Intent(this, JobDetailsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
