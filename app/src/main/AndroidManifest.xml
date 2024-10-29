@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -21,10 +20,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".src.presentation.activities.ChangePassActivity"
+            android:name=".src.presentation.activities.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".src.presentation.activities.MainActivity"
+            android:name=".src.presentation.activities.WithdrawActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +34,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".src.presentation.activities.RegisterActivity"/>
-        <activity android:name=".src.presentation.activities.JobDetailsActivity"/>
-        <activity android:name=".src.presentation.activities.LoginActivity"/>
+        <activity
+            android:name=".src.presentation.activities.ChangePassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.presentation.activities.MainActivity"
+            android:exported="true">
+
+        </activity>
+        <activity android:name=".src.presentation.activities.RegisterActivity" />
+        <activity android:name=".src.presentation.activities.JobDetailsActivity" />
+        <activity android:name=".src.presentation.activities.LoginActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDv7k0i13euDi8VBhsBSXy2TT-A7g0xBRg" />
     </application>
+
 </manifest>
