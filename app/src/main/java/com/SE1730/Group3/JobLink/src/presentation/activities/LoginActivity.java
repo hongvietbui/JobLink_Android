@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.TransferHubService;
 
 import java.io.IOException;
 
@@ -31,6 +33,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     LoginUseCase loginUseCase;
+
+    @Inject
+    TransferHubService transferHubService;
+
+    @Inject
+    IUserDAO userDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +74,14 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribe(result -> {
             if(result) {
                 Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
+                userDAO.getCurrentUser()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(resp -> {
+                transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                }, error -> {
+                    error.printStackTrace();
+                });
             } else {
                 Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
             }
