@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Job Description -->
+        <TextView
+            android:id="@+id/jobDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Datetime"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="8dp"
+            android:textColor="#555555"/>
+
+        <!-- Address -->
+        <TextView
+            android:id="@+id/jobAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Amount"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/jobDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="8dp"
+            android:textColor="#777777"/>
+
+        <!-- Duration -->
+        <TextView
+            android:id="@+id/DurationJob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/jobAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="8dp"/> <!-- Orange for duration -->
+
+        <!-- Price -->
+        <TextView
+            android:id="@+id/PriceJob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Payment Type"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/DurationJob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="8dp"/> <!-- Red for price -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

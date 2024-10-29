@@ -1,74 +1,89 @@
 package com.SE1730.Group3.JobLink.src.presentation.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.NotificationAdapter;
+import com.SE1730.Group3.JobLink.src.presentation.viewModels.GetNotificationViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NotificationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class NotificationFragment extends Fragment {
+
     private RecyclerView recyclerViewNotifications;
     private NotificationAdapter notificationAdapter;
+    private GetNotificationViewModel getNotificationViewModel;
+    private List<NotificationDTO> notificationsList = new ArrayList<>();
 
-
-    private void bindingView() {
-        recyclerViewNotifications = getView().findViewById(R.id.recyclerViewNotifications);
-    }
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public NotificationFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NotificationFragment newInstance(String param1, String param2) {
-        NotificationFragment fragment = new NotificationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_notification, container, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getNotificationViewModel = new ViewModelProvider(this).get(GetNotificationViewModel.class);
+
+        bindView(view);
+        setupRecyclerView();
+        observeNotifications();
+
+        try {
+            getNotificationViewModel.getNotification();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+    private void bindView(View view) {
+        recyclerViewNotifications = view.findViewById(R.id.recyclerViewNotification);
+    }
+
+    private void setupRecyclerView() {
+        notificationAdapter = new NotificationAdapter(notificationsList);
+        recyclerViewNotifications.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewNotifications.setAdapter(notificationAdapter);
+    }
+
+    private void observeNotifications() {
+        getNotificationViewModel.getNotificationResult.observe(getViewLifecycleOwner(), new Observer<ApiResp<List<NotificationDTO>>>() {
+            @Override
+            public void onChanged(ApiResp<List<NotificationDTO>> apiResp) {
+                if (apiResp != null && apiResp.getStatus() == 200 && apiResp.getData() != null) {
+                    notificationsList.clear();
+                    notificationsList.addAll(apiResp.getData());
+                    notificationAdapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "Notifications loaded successfully!", Toast.LENGTH_SHORT).show();
+                } else if (apiResp != null) {
+                    Toast.makeText(getContext(), "Failed to load notifications. Please try again.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("NotificationFragment", "ApiResp is null.");
+                    Toast.makeText(getContext(), "An unexpected error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

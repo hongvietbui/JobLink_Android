@@ -19,4 +19,6 @@ public interface IUserDAO extends IDAO<User>{
     @Query("SELECT EXISTS(SELECT 1 FROM Users WHERE id = :userId)")
     Boolean isUserExisted(UUID userId);
 
+
+
 }

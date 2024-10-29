@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
+import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
@@ -15,6 +16,7 @@ import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,6 +29,8 @@ import retrofit2.Response;
 
 
 public class UserRepositoryImpl implements IUserRepository {
+
+
     private final IAuthApi authApi;
     private final IUserApi userApi;
     private final IUnitOfWork unitOfWork;
@@ -40,18 +44,18 @@ public class UserRepositoryImpl implements IUserRepository {
 
     public Observable<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {
         return Observable.create(emmiter -> {
-           ApiReq<RegisterReqDTO> apiReq = new ApiReq<>(request);
+            ApiReq<RegisterReqDTO> apiReq = new ApiReq<>(request);
 
             authApi.registerUser(apiReq).enqueue(new retrofit2.Callback<ApiResp<String>>() {
                 @Override
                 public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
                     if (response.isSuccessful()) {
-                        if(!emmiter.isDisposed()){
+                        if (!emmiter.isDisposed()) {
                             emmiter.onNext(response.body());
                             emmiter.onComplete();
                         }
                     } else {
-                        if(!emmiter.isDisposed())
+                        if (!emmiter.isDisposed())
                             emmiter.onError(new IOException("Failed to register user"));
                     }
                 }
@@ -59,7 +63,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
                 @Override
                 public void onFailure(Call<ApiResp<String>> call, Throwable t) {
-                    if(!emmiter.isDisposed())
+                    if (!emmiter.isDisposed())
                         emmiter.onError(new IOException("Failed to register user"));
                 }
             });
@@ -177,5 +181,11 @@ public class UserRepositoryImpl implements IUserRepository {
             });
         });
     }
+
+    @Override
+    public Observable<ApiResp<List<NotificationDTO>>> getNotificationsForCurrentUser() throws IOException {
+        return userApi.getUserNotification();
+    }
+
 
 }

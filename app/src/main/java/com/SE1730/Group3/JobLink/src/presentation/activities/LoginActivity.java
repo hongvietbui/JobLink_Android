@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.tvRegister);
         tvForgotPass = findViewById(R.id.tvForgetPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        ivEye = findViewById(R.id.ivEye);
     }
 
     private void setEvents(){
@@ -63,6 +64,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         tvForgotPass.setOnClickListener(this::onTvForgotPassClick);
+        tvRegister.setOnClickListener(this::onTvRegisterClick);
+        ivEye.setOnClickListener(this::onIvEyeClick);
+    }
+
+    private void onIvEyeClick(View view) {
+        //hide and show password
+
+    }
+
+    private void onTvRegisterClick(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void onTvForgotPassClick(View view) {

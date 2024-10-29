@@ -8,14 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    private List<String> notifications;
+    private List<NotificationDTO> notifications;
 
-    public NotificationAdapter(List<String> notifications) {
+    public NotificationAdapter(List<NotificationDTO> notifications) {
         this.notifications = notifications;
     }
 
@@ -28,8 +29,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        String notification = notifications.get(position);
-        holder.tvNotification.setText(notification);
+        NotificationDTO notification = notifications.get(position);
+        holder.messageTextView.setText(notification.getMessage());
+        holder.timestampTextView.setText(notification.getTimestamp());
     }
 
     @Override
@@ -38,11 +40,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     static class NotificationViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNotification;
+        TextView messageTextView, timestampTextView;
 
-        public NotificationViewHolder(@NonNull View itemView) {
+        NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNotification = itemView.findViewById(R.id.tvNotification);
+            messageTextView = itemView.findViewById(R.id.contentTextView);
+            timestampTextView = itemView.findViewById(R.id.timestampTextView);
         }
     }
 }
