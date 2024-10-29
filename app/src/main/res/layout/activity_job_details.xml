@@ -114,25 +114,20 @@
                 android:textStyle="bold"/>
 
             <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
-                android:id="@+id/tvRating"
+                android:id="@+id/tvemail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rating: ★★★★☆"
+                android:text="Email"
+                android:layout_marginTop="4dp"/>
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                android:id="@+id/tvphonenum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone number"
                 android:layout_marginTop="4dp"/>
 
-            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location: ...."
-                android:layout_marginTop="4dp"/>
 
-            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
-                android:id="@+id/tvNote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Note: ...."
-                android:layout_marginTop="4dp"/>
+
         </LinearLayout>
     </LinearLayout>
 

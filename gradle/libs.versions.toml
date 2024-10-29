@@ -24,7 +24,7 @@ viewPager2 = "1.1.0"
 play-services-maps = "19.0.0"
 play-services-location = "21.3.0"
 richEditor="2.0.0"
-activity = "1.9.3"
+
 signalR = "8.0.8"
 
 [libraries]
@@ -68,7 +68,7 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 
 signalR = {group = "com.microsoft.signalr", name = "signalr", version.ref = "signalR" }
 richEditor = { group = "jp.wasabeef", name = "richeditor-android", version.ref = "richEditor" }
-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+#activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 

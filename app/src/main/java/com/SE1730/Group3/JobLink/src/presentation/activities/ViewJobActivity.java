@@ -2,7 +2,6 @@ package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +41,7 @@ public class ViewJobActivity extends AppCompatActivity {
     private int pageIndex = 1;
     private final int pageSize = 10;
     private boolean isLoading = false;
-    private boolean hasMorePages = true;  // Tracks if more pages are available
+    private boolean hasMorePages = true;
 
     @Inject
     GetJobUseCase getJobUseCase;
@@ -127,20 +126,19 @@ public class ViewJobActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
                     if (pageIndex == 1) {
-                        viewJobAdapter = new ViewJobAdapter(jobList);
+                        viewJobAdapter = new ViewJobAdapter(ViewJobActivity.this, jobList); // Pass context
                         recyclerViewJobs.setAdapter(viewJobAdapter);
                     } else {
                         viewJobAdapter.addJobs(jobList);
                     }
                 });
             } else {
-                runOnUiThread(() -> showToast("Failed to fetch jobs: " + apiResp.getMessage()));
+                runOnUiThread(() -> showToast("Failed to fetch jobs."));
             }
-        }).exceptionally(throwable -> {
+        }).exceptionally(ex -> {
             isLoading = false;
             progressBar.setVisibility(View.GONE);
-            Log.e("ViewJobActivity", "Error fetching jobs: ", throwable);
-            runOnUiThread(() -> showToast("Failed to fetch jobs"));
+            runOnUiThread(() -> showToast("An error occurred: " + ex.getMessage()));
             return null;
         });
     }

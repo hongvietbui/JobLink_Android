@@ -4,6 +4,7 @@ import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface IJobRepository {
     Observable<ApiResp<Pagination<JobDTO>>> getJobsAppliedByUser(int pageIndex, int pageSize, String sortBy, boolean isDescending) throws IOException;
 
     Observable<ApiResp<List<UserDTO>>> listUserApplyJob(UUID jobId) throws IOException;
+
+    Observable<ApiResp<JobAndOwnerDetailsResponse>> JobDetail(UUID jobId) throws IOException;
 }

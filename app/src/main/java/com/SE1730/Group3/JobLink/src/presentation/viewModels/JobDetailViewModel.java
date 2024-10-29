@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
-import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
+import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -17,34 +19,33 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
-public class LoginViewModel extends ViewModel {
-    private final LoginUseCase loginUseCase;
-
+public class JobDetailViewModel extends ViewModel {
+    private final JobDetailUsecase jobDetailUsecase;
     private final CompositeDisposable disposables = new CompositeDisposable();
-    public MutableLiveData<ApiResp<Boolean>> loginResult = new MutableLiveData<>();
+    public static MutableLiveData<ApiResp<JobAndOwnerDetailsResponse>> jobsDetailResult = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(LoginUseCase loginUseCase) {
-        this.loginUseCase = loginUseCase;
+    public JobDetailViewModel(JobDetailUsecase jobDetailUsecase) {
+        this.jobDetailUsecase = jobDetailUsecase;
     }
 
-    public void loginUser(String username, String password) throws IOException {
-        Disposable disposable = loginUseCase.execute(username, password)
+    public void JobDetail(UUID jobId) throws IOException {
+        Disposable disposable = jobDetailUsecase.execute(jobId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
-                    if(resp){
-                        loginResult.postValue(new ApiResp<Boolean>("Login sucessfully", true));
-                    }else
-                        loginResult.postValue(new ApiResp<Boolean>("Login failed", false));
+                    if (resp != null && resp.getData() != null && resp.getStatus() == 200) {
+                        jobsDetailResult.postValue(resp);
+                    }
                 }, error -> {
-                    loginResult.postValue(new ApiResp<Boolean>(error.getMessage(), false));
+                    jobsDetailResult.postValue(new ApiResp<>(error.getMessage(), null));
                 });
 
         disposables.add(disposable);
     }
 
-    public void onCleared() {
+    @Override
+    protected void onCleared() {
         super.onCleared();
         disposables.clear();
     }

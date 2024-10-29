@@ -26,18 +26,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="#000000"/>
 
-        <!-- Job Description -->
-        <TextView
-            android:id="@+id/jobDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Job Description"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"
-            android:textColor="#555555"/>
+
+
 
         <!-- Address -->
         <TextView
@@ -46,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Job Address"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobDescription"
+            app:layout_constraintTop_toBottomOf="@id/jobName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
@@ -63,7 +53,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
-            android:textColor="#4CAF50"/> <!-- Green for approved status -->
+            android:textColor="#4CAF50"/>
 
         <!-- Duration -->
         <TextView
@@ -76,7 +66,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
-            android:textColor="#FF9800"/> <!-- Orange for duration -->
+            android:textColor="#FF9800"/>
 
         <!-- Price -->
         <TextView
@@ -89,7 +79,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
-            android:textColor="#F44336"/> <!-- Red for price -->
+            android:textColor="#F44336"/>
+
+        <!-- Detail Button -->
+        <Button
+            android:id="@+id/detailButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#6200EE"
+            android:text="Detail"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/PriceJob"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

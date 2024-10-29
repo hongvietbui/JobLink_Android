@@ -5,6 +5,7 @@ import com.SE1730.Group3.JobLink.src.data.models.all.RoleDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,5 +47,6 @@ public interface IJobApi {
             @Query("isDescending") boolean isDescending);
     @GET("Job/apply-job/{jobId}")
     Call<ApiResp<List<UserDTO>>> ListUserApplyJob(@Path("jobId") UUID jobId);
-
+    @GET("Job/job-owner-details/{jobId}")
+    Call<ApiResp<JobAndOwnerDetailsResponse>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
 }

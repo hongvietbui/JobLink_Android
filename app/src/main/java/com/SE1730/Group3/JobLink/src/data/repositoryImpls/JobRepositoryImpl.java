@@ -7,6 +7,7 @@ import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
@@ -159,4 +160,36 @@ public class JobRepositoryImpl implements IJobRepository {
             });
         });
     }
+    @Override
+    public Observable<ApiResp<JobAndOwnerDetailsResponse>> JobDetail(UUID jobId) throws IOException{
+        return Observable.create(emitter -> {
+            jobApi.GetJobOwnerDetails(jobId).enqueue(new Callback<ApiResp<JobAndOwnerDetailsResponse>>() {
+                @Override
+                public void onResponse(Call<ApiResp<JobAndOwnerDetailsResponse>> call, Response<ApiResp<JobAndOwnerDetailsResponse>> response) {
+                    if(response.isSuccessful()){
+                        if(!emitter.isDisposed()){
+                            emitter.onNext(response.body());
+                            emitter.onComplete();
+                        }
+                    }else{
+                        String errorMessage = "Failed to fetch job and user detail. Status Code: " + response.code() + ", Message: " + response.message();
+                        if (!emitter.isDisposed()) {
+                            emitter.onError(new IOException(errorMessage));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResp<JobAndOwnerDetailsResponse>> call, Throwable throwable) {
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(new IOException("Network request failed", throwable));
+                    }
+                }
+            });
+        });
+    }
+
+
+
+
 }
