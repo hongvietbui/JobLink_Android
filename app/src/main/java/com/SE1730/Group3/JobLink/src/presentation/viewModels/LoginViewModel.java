@@ -35,7 +35,7 @@ public class LoginViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
-                    loginResult.postValue(resp);
+                    loginResult.postValue(null);
                 }, error -> {
                     loginResult.postValue(new ApiResp<LoginRespDTO>(error.getMessage(), null));
                 });

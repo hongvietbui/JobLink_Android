@@ -32,6 +32,8 @@ public class UseCaseModule {
     @Singleton
     public static LoginUseCase providesLoginUseCase(IUserRepository authRepository, IUserDAO userDAO, SharedPreferences sharedPreferences) {
         return new LoginUseCase(authRepository, userDAO, sharedPreferences);
+    }
+
     @Provides
     @Singleton
     public static GetJobUseCase providesGetJobUseCase(IJobRepository jobRepository) {
@@ -53,5 +55,5 @@ public class UseCaseModule {
         return new SendOtpUseCase(authRepository);
     }
   
-    }
+
 }

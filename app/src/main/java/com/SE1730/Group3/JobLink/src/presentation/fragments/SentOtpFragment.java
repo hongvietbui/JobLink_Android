@@ -68,17 +68,22 @@ public class SentOtpFragment extends Fragment {
     private void BindingAction() {
         buttonSendOtp.setOnClickListener(v -> {
             String email = editTextEmail.getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter an email", Toast.LENGTH_SHORT).show();
+                return;
+            }
             try {
                 sentOtpViewModel.sendOtp(email);
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(getContext(), "Failed to send OTP due to a network error. Please try again.", Toast.LENGTH_SHORT).show();
             }
         });
 
         sentOtpViewModel.otpconfirmResult.observe(getViewLifecycleOwner(), new Observer<ApiResp<String>>() {
             @Override
             public void onChanged(ApiResp<String> apiResp) {
-                if (apiResp.getStatus() == 200) {
+                if (apiResp != null ) {  // Assuming you have a status check
                     resetPasswordActivity.setEmail(editTextEmail.getText().toString().trim());
 
                     Toast.makeText(getContext(), "OTP sent successfully!", Toast.LENGTH_SHORT).show();
@@ -89,4 +94,5 @@ public class SentOtpFragment extends Fragment {
             }
         });
     }
+
 }

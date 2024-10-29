@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.presentation.DI;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
+import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.repositoryImpls.JobRepositoryImpl;
 import com.SE1730.Group3.JobLink.src.data.repositoryImpls.UserRepositoryImpl;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;

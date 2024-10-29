@@ -10,6 +10,7 @@
         android:name=".src.JobLinkApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JobLink"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="tiramisu">
 
 
 
@@ -28,7 +29,6 @@
         <activity android:name=".src.presentation.activities.ResetPasswordActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,11 +42,7 @@
         <activity
             android:name=".src.presentation.activities.MainActivity"
             android:exported="true">
-
     </activity>
-
-
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDv7k0i13euDi8VBhsBSXy2TT-A7g0xBRg" />
