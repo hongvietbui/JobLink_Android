@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.loginResult.observe(this, apiResp -> {
             if(apiResp != null) {
                 Snackbar.make(findViewById(android.R.id.content), apiResp.getMessage(), Snackbar.LENGTH_SHORT).show();
+                if (apiResp.getStatus() == 200) {
+
+                    Intent intent = new Intent(LoginActivity.this, UserManageJobActivity.class);
+                    startActivity(intent);
+                }
             }else {
                 Snackbar.make(findViewById(android.R.id.content), "Login Failed", Snackbar.LENGTH_SHORT).show();
             }
