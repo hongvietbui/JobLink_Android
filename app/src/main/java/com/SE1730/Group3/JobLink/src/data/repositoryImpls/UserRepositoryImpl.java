@@ -1,6 +1,8 @@
 package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
+import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
+import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.ForgetPassReqDTO;
@@ -16,7 +18,10 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,12 +29,14 @@ import retrofit2.Response;
 
 public class UserRepositoryImpl implements IUserRepository {
     private final IAuthApi authApi;
+    private final IUserApi userApi;
     private final IUnitOfWork unitOfWork;
 
     @Inject
-    public UserRepositoryImpl(IAuthApi authApi, IUnitOfWork unitOfWork) {
+    public UserRepositoryImpl(IAuthApi authApi, IUserApi userApi, IUnitOfWork unitOfWork) {
         this.authApi = authApi;
         this.unitOfWork = unitOfWork;
+        this.userApi = userApi;
     }
 
     public Observable<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {
@@ -62,25 +69,24 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public Observable<ApiResp<LoginRespDTO>> loginUser(LoginReqDTO request) throws IOException {
-        return Observable.create(emmiter -> {
-            authApi.loginUser(new ApiReq<>(request)).enqueue(new Callback<ApiResp<LoginRespDTO>>() {
-                @Override
-                public void onResponse(Call<ApiResp<LoginRespDTO>> call, Response<ApiResp<LoginRespDTO>> response) {
-                    //check if data is null or not
-                    if(response.isSuccessful())
-                        if(!emmiter.isDisposed())
-                            emmiter.onNext(response.body());
-                        else
-                            emmiter.onError(new IOException("Failed to login user"));
-                }
+        return authApi.loginUser(new ApiReq<>(request));
+    }
 
-                @Override
-                public void onFailure(Call<ApiResp<LoginRespDTO>> call, Throwable throwable) {
-                    if(!emmiter.isDisposed())
-                        emmiter.onError(new IOException("Failed to login user"));
-                }
-            });
-        });
+    @Override
+    public Observable<ApiResp<Boolean>> logoutUser() throws IOException {
+        throw new IOException("Not implemented");
+        //Todo: delete user info
+//        return new Observable.create(emmiter -> {
+//            //delete user info
+//            unitOfWork.getAuthDao().deleteToken();
+//            emmiter.onNext(new ApiResp<>(200, "Logout successful", true));
+//            emmiter.onComplete();
+//        });
+    }
+
+    @Override
+    public Observable<ApiResp<UserDTO>> getCurrentUser() throws IOException {
+        return userApi.getCurrentUser();
     }
 
     @Override

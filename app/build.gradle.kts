@@ -32,6 +32,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -43,6 +47,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     //networking
     implementation(libs.retrofit)
+
     implementation(libs.moshi)
     implementation(libs.moshi.adapter)
     implementation(libs.converter.moshi)
@@ -80,6 +85,8 @@ dependencies {
     //rxjava
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
+    implementation(libs.adapter.rxjava)
+    implementation(libs.room.rxjava)
 
     //play services
     implementation(libs.play.services.maps)
@@ -91,4 +98,6 @@ dependencies {
     implementation(libs.viewPager2)
 
     implementation(libs.richEditor)
+
+    implementation(libs.signalR)
 }

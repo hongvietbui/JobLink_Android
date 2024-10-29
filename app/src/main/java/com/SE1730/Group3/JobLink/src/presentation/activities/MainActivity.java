@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-    private Button btnRegister, btnJobDetails;
+    private Button btnRegister, btnJobDetails, btnLogin, btnTransfer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +27,15 @@ public class MainActivity extends AppCompatActivity {
     private void bindingViews(){
         btnRegister = findViewById(R.id.btnRegister);
         btnJobDetails = findViewById(R.id.btnJobDetails);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnTransfer = findViewById(R.id.btnTransfer);
     }
 
     private void setEvents(){
         btnRegister.setOnClickListener(v -> openRegisterActivity());
         btnJobDetails.setOnClickListener(v -> openJobDetailsActivity());
-    }
-
-    private void openFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        btnLogin.setOnClickListener(v -> openLoginActivity());
+        btnTransfer.setOnClickListener(v -> openTransferActivity());
     }
 
     private void openRegisterActivity(){
@@ -48,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void openJobDetailsActivity(){
         Intent intent = new Intent(this, JobDetailsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void openTransferActivity(){
+        Intent intent = new Intent(this, TransferActivity.class);
         startActivity(intent);
     }
 }

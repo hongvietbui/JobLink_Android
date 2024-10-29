@@ -4,8 +4,12 @@ import android.content.SharedPreferences;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
+import com.SE1730.Group3.JobLink.src.data.apis.ITransactionApi;
+import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.BigDecimalAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateTimeJsonAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.UUIDJsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -17,6 +21,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 @Module
@@ -31,18 +36,21 @@ public class NetworkModule {
                 .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                .addInterceptor(new AuthInterceptor(token))
+                .addInterceptor(new AuthInterceptor(sharedPreferences))
                 .build();
 
         Moshi moshi = new Moshi.Builder()
                 .add(new LocalDateJsonAdapter())
+                .add(new LocalDateTimeJsonAdapter())
                 .add(new UUIDJsonAdapter())
+                .add(new BigDecimalAdapter())
                 .build();
 
         return new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8080/api/")
                 .client(okHttpClient)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
     }
 
@@ -56,5 +64,17 @@ public class NetworkModule {
     @Singleton
     public IJobApi provideJobApi(Retrofit retrofit) {
         return retrofit.create(IJobApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public IUserApi provideUserApi(Retrofit retrofit) {
+        return retrofit.create(IUserApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public ITransactionApi provideTransactionApi(Retrofit retrofit) {
+        return retrofit.create(ITransactionApi.class);
     }
 }
