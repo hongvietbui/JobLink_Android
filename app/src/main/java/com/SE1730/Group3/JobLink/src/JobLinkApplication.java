@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src;
 
 import android.app.Application;
 
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.TransferHubService;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import dagger.hilt.android.HiltAndroidApp;
@@ -14,3 +15,4 @@ public class JobLinkApplication extends Application {
         AndroidThreeTen.init(this);
     }
 }
+

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     tools:context=".src.presentation.activities.RegisterActivity">
 
@@ -100,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="41dp">
 
+                <!-- Icon mật khẩu -->
                 <ImageView
                     android:id="@+id/id_password_image"
                     android:layout_width="wrap_content"
@@ -107,32 +109,29 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_password" />
 
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
-                    android:id="@+id/edtPassword"
+                <!-- TextInputLayout chứa trường mật khẩu -->
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout
+                    android:id="@+id/tilPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_toEndOf="@+id/id_password_image"
-                    android:layout_toRightOf="@+id/id_password_image"
+                    android:layout_toEndOf="@id/id_password_image"
                     android:backgroundTint="@color/thirdTextColor"
-                    android:hint="Password"
-                    android:inputType="textPassword"
                     android:paddingTop="1dp"
                     android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor" />
+                    app:passwordToggleTint="@color/colorPrimary"
+                    app:passwordToggleDrawable="@drawable/ic_eye"
+                    app:passwordToggleEnabled="true">
 
-                <ImageView
-                    android:id="@+id/btnIsPasswordShow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="20sp"
-                    android:layout_marginRight="20sp"
-                    android:src="@drawable/ic_eye" />
+                    <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password"/>
+                </com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -140,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="41dp">
 
+                <!-- Icon mật khẩu -->
                 <ImageView
                     android:id="@+id/id_repassword_image"
                     android:layout_width="wrap_content"
@@ -147,33 +147,31 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_password" />
 
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
-                    android:id="@+id/edtRepassword"
+                <!-- TextInputLayout chứa trường mật khẩu -->
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout
+                    android:id="@+id/tilRepassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_toEndOf="@+id/id_repassword_image"
-                    android:layout_toRightOf="@+id/id_repassword_image"
+                    android:layout_toEndOf="@id/id_repassword_image"
                     android:backgroundTint="@color/thirdTextColor"
-                    android:hint="Retype password"
-                    android:inputType="textPassword"
                     android:paddingTop="1dp"
                     android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor" />
+                    app:passwordToggleTint="@color/colorPrimary"
+                    app:passwordToggleDrawable="@drawable/ic_eye"
+                    app:passwordToggleEnabled="true">
 
-                <ImageView
-                    android:id="@+id/btnIsPasswordShow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="20sp"
-                    android:layout_marginRight="20sp"
-                    android:src="@drawable/ic_eye" />
+                    <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password"/>
+                </com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout>
+
             </RelativeLayout>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -285,7 +283,7 @@
                     android:inputType="phone"
                     android:paddingTop="1dp"
                     android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor" />
+                    android:textColorHint="@color/thirdTextColor"/>
             </RelativeLayout>
             <!--Date of birth-->
             <RelativeLayout

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IUserRepository {
     Observable<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException;

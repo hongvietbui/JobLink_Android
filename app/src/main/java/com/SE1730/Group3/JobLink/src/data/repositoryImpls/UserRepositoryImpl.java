@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
