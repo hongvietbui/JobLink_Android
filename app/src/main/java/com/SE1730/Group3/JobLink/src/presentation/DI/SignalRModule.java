@@ -13,9 +13,10 @@ import dagger.hilt.components.SingletonComponent;
 @Module
 @InstallIn(SingletonComponent.class)
 public class SignalRModule {
+
     @Provides
     @Singleton
-    HubConnection provideTransferHubConnection() {
+    HubConnection provideTransferHub() {
         return HubConnectionBuilder.create("http://10.0.2.2:8080/hub/transfer").build();
     }
 }
