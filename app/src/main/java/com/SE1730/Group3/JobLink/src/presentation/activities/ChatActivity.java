@@ -11,6 +11,7 @@ import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +24,7 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
     private EditText editTextMessage;
-    private ImageButton buttonSend;
+    private ImageView buttonSend, buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,10 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void bindingView(){
-        recyclerViewMessages = findViewById(R.id.recyclerViewMessages);
+        recyclerViewMessages = findViewById(R.id.recyclerViewChat);
         editTextMessage = findViewById(R.id.editTextMessage);
-        buttonSend = findViewById(R.id.buttonSend);
+        buttonSend = findViewById(R.id.imageViewSend);
+        buttonBack = findViewById(R.id.imageViewBack);
 
         messageAdapter = new MessageAdapter(messageList);
         recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
@@ -54,12 +56,18 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void sendMessage(String text) {
-        Message message = new Message(text, true); // true for sent message
-        messageList.add(message);
-        messageAdapter.notifyItemInserted(messageList.size() - 1);
-        recyclerViewMessages.scrollToPosition(messageList.size() - 1);
+//        Message message = new Message(text, true);
+//        messageList.add(message);
+//        messageAdapter.notifyItemInserted(messageList.size() - 1);
+//        recyclerViewMessages.scrollToPosition(messageList.size() - 1);
     }
 }

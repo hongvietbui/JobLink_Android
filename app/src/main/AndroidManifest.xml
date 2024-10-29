@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".src.presentation.activities.AppliedWorkersActivity"
+            android:exported="false" />
+        <activity
             android:name=".src.presentation.activities.ChatActivity"
             android:exported="false" />
         <activity
@@ -39,9 +42,7 @@
             android:exported="false" />
         <activity
             android:name=".src.presentation.activities.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity android:name=".src.presentation.activities.LoginActivity" />
