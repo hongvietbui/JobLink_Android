@@ -33,6 +33,7 @@ public class LoginViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
+                    //check if the resp status is true or not
                     if(resp){
                         loginResult.postValue(new ApiResp<Boolean>("Login sucessfully", true));
                     }else
@@ -43,6 +44,7 @@ public class LoginViewModel extends ViewModel {
 
         disposables.add(disposable);
     }
+
 
     public void onCleared() {
         super.onCleared();

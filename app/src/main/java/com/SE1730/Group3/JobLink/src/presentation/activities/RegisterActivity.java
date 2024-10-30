@@ -1,6 +1,7 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,7 @@ import java.util.Calendar;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     private RegisterViewModel registerViewModel;
     private EditText edtUsername, edtEmail, edtPhoneNumber, edtFirstName, edtLastName, edtAddress;
 

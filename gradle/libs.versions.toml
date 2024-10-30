@@ -24,8 +24,8 @@ viewPager2 = "1.1.0"
 play-services-maps = "19.0.0"
 play-services-location = "21.3.0"
 richEditor="2.0.0"
-
 signalR = "8.0.8"
+activity = "1.9.3"
 
 [libraries]
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }

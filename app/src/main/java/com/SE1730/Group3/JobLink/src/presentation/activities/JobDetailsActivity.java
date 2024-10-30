@@ -28,7 +28,7 @@ import java.util.UUID;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class JobDetailsActivity extends AppCompatActivity {
+public class JobDetailsActivity extends BaseActivity {
     private ViewPager2 viewPager;
     private ImageButton btnLeft, btnRight;
     private Button btnMap, btnImage, btnDetails;
