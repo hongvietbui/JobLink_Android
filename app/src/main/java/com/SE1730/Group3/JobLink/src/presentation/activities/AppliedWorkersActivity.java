@@ -28,7 +28,6 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Giả lập dữ liệu công nhân (thay thế bằng dữ liệu thực từ API hoặc database)
         appliedWorkers = new ArrayList<>();
         loadAppliedWorkers();
 
@@ -38,7 +37,7 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
     }
 
     private void loadAppliedWorkers() {
-
+        //Todo: load applied worker tu api
     }
 
     @Override

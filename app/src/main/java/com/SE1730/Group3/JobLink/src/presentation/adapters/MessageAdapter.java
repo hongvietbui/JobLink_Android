@@ -1,6 +1,5 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
-// MessageAdapter.java
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,26 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
 
 import java.util.List;
+import java.util.UUID;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Message> messages;
+    private UUID currentUserId; // ID của người dùng hiện tại để phân biệt sent/received
 
-    public MessageAdapter(List<Message> messages) {
+    public MessageAdapter(List<Message> messages, UUID currentUserId) {
         this.messages = messages;
+        this.currentUserId = currentUserId;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return messages.get(position).isSent() ? 1 : 0;
+        // So sánh senderId của tin nhắn với currentUserId để xác định kiểu tin nhắn
+        if (messages.get(position).getSenderId().equals(currentUserId)) {
+            return 1; // sent
+        } else {
+            return 2; // received
+        }
     }
 
     @NonNull
@@ -43,7 +50,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Message message = messages.get(position);
         if (holder instanceof SentMessageViewHolder) {
             ((SentMessageViewHolder) holder).textMessageSent.setText(message.getText());
-        } else {
+        } else if (holder instanceof ReceivedMessageViewHolder) {
             ((ReceivedMessageViewHolder) holder).textMessageReceived.setText(message.getText());
         }
     }
@@ -53,6 +60,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return messages.size();
     }
 
+    // ViewHolder cho tin nhắn gửi đi
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessageSent;
 
@@ -62,6 +70,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    // ViewHolder cho tin nhắn nhận về
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessageReceived;
 

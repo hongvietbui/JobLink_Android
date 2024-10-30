@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ChatActivity extends BaseActivity {
 
@@ -25,6 +27,7 @@ public class ChatActivity extends BaseActivity {
     private RecyclerView recyclerViewMessages;
     private EditText editTextMessage;
     private ImageView buttonSend, buttonBack;
+    private UUID userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +37,27 @@ public class ChatActivity extends BaseActivity {
         bindingAction();
     }
 
+    private UUID getUserIdFromSharedPreferences() {
+        //Todo: sua thanh get tu trang truoc
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String userIdString = sharedPreferences.getString("userId", null);
+
+        if (userIdString != null) {
+            return UUID.fromString(userIdString);  // Chuyển đổi chuỗi về UUID
+        } else {
+            return null;  // Xử lý trường hợp userId không tồn tại
+        }
+    }
+
+
     private void bindingView(){
+        userId = getUserIdFromSharedPreferences();
         recyclerViewMessages = findViewById(R.id.recyclerViewChat);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.imageViewSend);
         buttonBack = findViewById(R.id.imageViewBack);
 
-        messageAdapter = new MessageAdapter(messageList);
+        messageAdapter = new MessageAdapter(messageList, userId);
         recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewMessages.setAdapter(messageAdapter);
     }

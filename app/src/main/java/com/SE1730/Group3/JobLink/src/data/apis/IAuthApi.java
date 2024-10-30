@@ -26,5 +26,5 @@ public interface IAuthApi {
     Call<ApiResp<AccessTokenRespDTO>> refreshAccessToken(@Body ApiReq<RefreshTokenReqDTO> request);
 
     @POST("user/change-password")
-    Call<ApiResp<String>> changePassUser (@Body ApiReq<ChangePassReqDTO> request);
+    Observable<ApiResp<String>> changePassUser (@Body ApiReq<ChangePassReqDTO> request);
 }

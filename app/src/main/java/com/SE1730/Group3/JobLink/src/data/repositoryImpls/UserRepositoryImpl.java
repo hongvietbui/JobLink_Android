@@ -90,30 +90,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException {
-        return Observable.create(emitter -> {
-            authApi.changePassUser(new ApiReq<>(request)).enqueue(new Callback<ApiResp<String>>() {
-                @Override
-                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
-                    // Check if the response is successful and not null
-                    if (response.isSuccessful() && response.body() != null) {
-                        if (!emitter.isDisposed()) {
-                            emitter.onNext(response.body()); // Emit the response body
-                        }
-                    } else {
-                        if (!emitter.isDisposed()) {
-                            emitter.onError(new IOException("Failed to change password"));
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ApiResp<String>> call, Throwable throwable) {
-                    if (!emitter.isDisposed()) {
-                        emitter.onError(new IOException("Failed to change password", throwable));
-                    }
-                }
-            });
-        });
+        return authApi.changePassUser(new ApiReq<>(request));
     }
 
 }
