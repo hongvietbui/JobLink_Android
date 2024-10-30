@@ -1,6 +1,9 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetQRCodeByUserIdUseCase;
+import com.SE1730.Group3.JobLink.src.presentation.fragments.TransferSuccessDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
@@ -38,7 +43,16 @@ public class TransferActivity extends AppCompatActivity {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private ImageView ivQrCode;
-    private TextView tvBankAccount, tvBankName;
+
+    private BroadcastReceiver showDialogReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String amount = intent.getStringExtra("amount");
+
+            var dialog = TransferSuccessDialog.newInstance(amount);
+            dialog.show(getSupportFragmentManager(), "TransferSuccessDialog");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +62,8 @@ public class TransferActivity extends AppCompatActivity {
     }
 
     private void bindingViews() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(showDialogReceiver, new IntentFilter("SHOW_TRANSFER_SUCCESS_DIALOG"));
+
         ivQrCode = findViewById(R.id.ivQRCode);
 
         var getQrCodeDisposable = getQRCodeByUserIdUseCase.execute()
@@ -62,9 +78,6 @@ public class TransferActivity extends AppCompatActivity {
                 }, Throwable::printStackTrace);
 
         disposables.add(getQrCodeDisposable);
-
-        tvBankAccount = findViewById(R.id.tvBankAccount);
-        tvBankName = findViewById(R.id.tvBankName);
     }
 
     private void loadBase64QRCode(Context context, String qrCode, ImageView imageView) {
@@ -96,5 +109,6 @@ public class TransferActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         disposables.clear();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(showDialogReceiver);
     }
 }

@@ -29,7 +29,19 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class NetworkModule {
     @Provides
     @Singleton
-    public Retrofit provideRetrofit(SharedPreferences sharedPreferences) {
+    public Moshi provideMoshi(){
+        Moshi moshi = new Moshi.Builder()
+                .add(new LocalDateJsonAdapter())
+                .add(new LocalDateTimeJsonAdapter())
+                .add(new UUIDJsonAdapter())
+                .add(new BigDecimalAdapter())
+                .build();
+        return moshi;
+    }
+
+    @Provides
+    @Singleton
+    public Retrofit provideRetrofit(SharedPreferences sharedPreferences, Moshi moshi) {
         String token = sharedPreferences.getString("accessToken", "");
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -37,13 +49,6 @@ public class NetworkModule {
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .addInterceptor(new AuthInterceptor(sharedPreferences))
-                .build();
-
-        Moshi moshi = new Moshi.Builder()
-                .add(new LocalDateJsonAdapter())
-                .add(new LocalDateTimeJsonAdapter())
-                .add(new UUIDJsonAdapter())
-                .add(new BigDecimalAdapter())
                 .build();
 
         return new Retrofit.Builder()
