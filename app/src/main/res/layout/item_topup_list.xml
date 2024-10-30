@@ -15,7 +15,7 @@
 
         <!-- Job Description -->
         <TextView
-            android:id="@+id/jobDescription"
+            android:id="@+id/TransactionTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Datetime"
@@ -27,37 +27,40 @@
 
         <!-- Address -->
         <TextView
-            android:id="@+id/jobAddress"
+            android:id="@+id/TransactionAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Amount"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobDescription"
+            app:layout_constraintTop_toBottomOf="@id/TransactionTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
             android:textColor="#777777"/>
 
         <!-- Duration -->
-        <TextView
-            android:id="@+id/DurationJob"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Status"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobAddress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"/> <!-- Orange for duration -->
+        <!-- Orange for duration -->
 
         <!-- Price -->
         <TextView
-            android:id="@+id/PriceJob"
+            android:id="@+id/TransactionStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="Status"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TransactionAmount" />
+
+        <TextView
+            android:id="@+id/TransactionType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Payment Type"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/DurationJob"
+            app:layout_constraintTop_toBottomOf="@id/TransactionStatus"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"/> <!-- Red for price -->

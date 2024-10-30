@@ -34,8 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister, tvForgotPass;
     private ImageView ivEye;
-
     private Disposable loginObservable;
+    Intent intent;
 
     @Inject
     LoginUseCase loginUseCase;
@@ -82,12 +82,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onTvRegisterClick(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
+        intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     private void onTvForgotPassClick(View view) {
-        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        intent = new Intent(this, ResetPasswordActivity.class);
         startActivity(intent);
     }
 
@@ -101,7 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribe(result -> {
             if(result) {
                 Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                
+                intent = new Intent(this, TopUpHistoryActivity.class);
+                startActivity(intent);
                 userDAO.getCurrentUser()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

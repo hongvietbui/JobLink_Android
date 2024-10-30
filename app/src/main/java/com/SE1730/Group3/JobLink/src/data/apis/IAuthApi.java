@@ -29,5 +29,7 @@ public interface IAuthApi {
     Call<ApiResp<String>> VerifyOtp(@Body ApiReq<OtpReqDTO> request);
     @POST("auth/reset-password")
     Call<ApiResp<String>> ResetPassword(@Body ApiReq<ResetPassDTO> request);
+
+
     
 }
