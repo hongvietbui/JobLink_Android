@@ -3,16 +3,22 @@ package com.SE1730.Group3.JobLink.src.data.apis;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.RoleDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
+import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
 
 import java.util.List;
 import java.util.UUID;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -50,4 +56,6 @@ public interface IJobApi {
     Call<ApiResp<List<UserDTO>>> ListUserApplyJob(@Path("jobId") UUID jobId);
     @GET("Job/job-owner-details/{jobId}")
     Call<ApiResp<JobAndOwnerDetailsResponse>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
+    @POST("Job/create-job")
+    Observable<ApiResp<String>> createJob(@Body ApiReq<CreateJobRequest> request);
 }

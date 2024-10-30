@@ -60,6 +60,12 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Job Name -->
+        <EditText
+            android:id="@+id/edtJobName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên công việc" />
         <!-- Tabs for Days -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +74,6 @@
             android:weightSum="7"
             android:paddingBottom="8dp">
 
-            <!-- Example Tab Button -->
             <EditText
                 android:id="@+id/dateEditText"
                 android:layout_width="319dp"
@@ -76,8 +81,6 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:hint="Nhập ngày" />
-
-            <!-- Add other tabs similarly for T2 to T7 -->
         </LinearLayout>
 
         <!-- Start Time Selection -->
@@ -95,15 +98,18 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/timeEditText"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:gravity="center"
                 android:text="08" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=":" />
+
             <EditText
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
@@ -114,48 +120,62 @@
 
         <!-- Duration Radio Group -->
         <RadioGroup
+            android:id="@+id/rgDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RadioButton
+                android:id="@+id/rbTwoHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2 giờ - Thời gian để hoàn thành công việc" />
 
             <RadioButton
+                android:id="@+id/rbThreeHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3 giờ - Thời gian để hoàn thành công việc" />
 
             <RadioButton
+                android:id="@+id/rbFourHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4 giờ - Thời gian để hoàn thành công việc" />
         </RadioGroup>
 
-        <!-- Notes Textarea -->
+        <!-- Job Price -->
+        <EditText
+            android:id="@+id/edtJobPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Giá công việc" />
+
+        <!-- Total Price with VAT -->
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng cộng (bao gồm VAT):"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Notes for Job -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ghi chú cho JobLinker"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
 
         <EditText
+            android:id="@+id/edtJobDescription"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:hint="Nhập ghi chú của bạn..."
             android:background="@drawable/background_linear"
             android:minLines="3" />
-
-        <!-- Payment Method Buttons -->
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload ảnh mô tả"
-            android:drawableStart="@drawable/background_linear" />
-
-
 
         <!-- Payment Rules and Total Amount -->
         <TextView
@@ -182,33 +202,12 @@
             android:text="2. Hoàn tiền qua chuyển khoản ngân hàng: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng trừ đi 20% giá trị của gói ban đầu."
             android:layout_marginStart="16dp" />
 
-        <!-- Total and Place Order Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tổng cộng "
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1,025,000 VND"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
+        <!-- Tạo Job Button -->
         <Button
+            android:id="@+id/btnCreateJob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tạo JOb"
-            android:textSize="16sp"
-            />
+            android:text="Tạo Job"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

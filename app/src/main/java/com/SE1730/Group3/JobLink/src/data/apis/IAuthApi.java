@@ -30,7 +30,7 @@ public interface IAuthApi {
     Call<ApiResp<String>> VerifyOtp(@Body ApiReq<OtpReqDTO> request);
     @POST("auth/reset-password")
     Call<ApiResp<String>> ResetPassword(@Body ApiReq<ResetPassDTO> request);
-       @POST("user/change-password")
+    @POST("user/change-password")
     Observable<ApiResp<String>> changePassUser (@Body ApiReq<ChangePassReqDTO> request);
  
 }
