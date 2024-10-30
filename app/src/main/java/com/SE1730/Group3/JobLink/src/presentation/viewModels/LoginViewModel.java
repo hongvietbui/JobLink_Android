@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
-import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
-import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
 
 import java.io.IOException;
 
@@ -23,7 +21,7 @@ public class LoginViewModel extends ViewModel {
     private final LoginUseCase loginUseCase;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
-    public MutableLiveData<ApiResp<LoginRespDTO>> loginResult = new MutableLiveData<>();
+    public MutableLiveData<ApiResp<Boolean>> loginResult = new MutableLiveData<>();
 
     @Inject
     public LoginViewModel(LoginUseCase loginUseCase) {
@@ -35,13 +33,18 @@ public class LoginViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
-                    loginResult.postValue(null);
+                    //check if the resp status is true or not
+                    if(resp){
+                        loginResult.postValue(new ApiResp<Boolean>("Login sucessfully", true));
+                    }else
+                        loginResult.postValue(new ApiResp<Boolean>("Login failed", false));
                 }, error -> {
-                    loginResult.postValue(new ApiResp<LoginRespDTO>(error.getMessage(), null));
+                    loginResult.postValue(new ApiResp<Boolean>(error.getMessage(), false));
                 });
 
         disposables.add(disposable);
     }
+
 
     public void onCleared() {
         super.onCleared();

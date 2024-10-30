@@ -10,20 +10,15 @@
         android:layout_height="match_parent"
         android:background="@drawable/splah_bg" />
 
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="20dp"
-        android:src="@drawable/logo"/>
+
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:paddingTop="160dp"
+        android:paddingTop="100dp"
+        android:textStyle="bold"
         android:text="JOBLINK"
         android:textColor="@color/colorDarkBlue"
         android:textSize="40sp" />

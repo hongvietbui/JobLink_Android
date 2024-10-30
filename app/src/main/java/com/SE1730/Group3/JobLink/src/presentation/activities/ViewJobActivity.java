@@ -1,7 +1,11 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,29 +16,35 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
-import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewJobAdapter;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
-import jakarta.inject.Inject;
+
 @AndroidEntryPoint
 public class ViewJobActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewJobs;
     private ViewJobAdapter viewJobAdapter;
+    private Spinner spinnerSortBy;
+    private Spinner spinnerSortOrder;
+    private EditText editTextFilter;
+    private Button buttonApplyFilter;
+    private View progressBar;
+
+    private int pageIndex = 1;
+    private final int pageSize = 10;
+    private boolean isLoading = false;
+    private boolean hasMorePages = true;
 
     @Inject
-    GetJobUseCase getJobUseCase;  // Use-case to fetch jobs
+    GetJobUseCase getJobUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,70 +52,98 @@ public class ViewJobActivity extends AppCompatActivity {
         setContentView(R.layout.activity_viewjob);
 
         bindingViews();
+        setupFilterButton();
+        setupRecyclerView();
 
-        fetchJobsFromApi();
+        try {
+            fetchJobsFromApi();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void bindingViews() {
         recyclerViewJobs = findViewById(R.id.recyclerViewJobs);
+        spinnerSortBy = findViewById(R.id.spinnerSortBy);
+        spinnerSortOrder = findViewById(R.id.spinnerSortOrder);
+        editTextFilter = findViewById(R.id.editTextFilter);
+        buttonApplyFilter = findViewById(R.id.buttonApplyFilter);
+        progressBar = findViewById(R.id.progressBar);
+    }
+
+    private void setupFilterButton() {
+        buttonApplyFilter.setOnClickListener(v -> {
+            String keyword = editTextFilter.getText().toString().trim();
+            String sortBy = spinnerSortBy.getSelectedItem().toString();
+            boolean isDescending = spinnerSortOrder.getSelectedItem().toString().equals("Descending");
+            pageIndex = 1;
+            hasMorePages = true;
+            try {
+                fetchJobsFromApi(keyword, sortBy, isDescending);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void setupRecyclerView() {
         recyclerViewJobs.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private void fetchJobsFromApi() {
-        try {
-            CompletableFuture<ApiResp<Pagination<JobDTO>>> future = getJobUseCase.execute(1, 10, "name", false, "");
-
-            future.thenAccept(apiResp -> {
-                // Log the entire API response for debugging
-                Log.d("ViewJobActivity", "API Response: " + apiResp);
-
-                if (apiResp.getStatus() == 200) {
-                    List<JobDTO> jobList = apiResp.getData().getItems();
-
-                    if (jobList != null) {
-                        runOnUiThread(() -> {
-                            viewJobAdapter = new ViewJobAdapter(jobList);
-                            recyclerViewJobs.setAdapter(viewJobAdapter);
-                        });
-                    } else {
-                        runOnUiThread(() ->
-                                Toast.makeText(ViewJobActivity.this, "Error parsing job data", Toast.LENGTH_SHORT).show()
-                        );
+        recyclerViewJobs.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager != null && !isLoading && hasMorePages &&
+                        layoutManager.findLastVisibleItemPosition() >= viewJobAdapter.getItemCount() - 3) {
+                    pageIndex++;
+                    try {
+                        fetchJobsFromApi();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                } else {
-                    runOnUiThread(() ->
-                            Toast.makeText(ViewJobActivity.this, "Failed to fetch jobs: " + apiResp.getMessage(), Toast.LENGTH_SHORT).show()
-                    );
                 }
-            }).exceptionally(throwable -> {
-                Log.e("ViewJobActivity", "Error fetching jobs: ", throwable);
-                runOnUiThread(() ->
-                        Toast.makeText(ViewJobActivity.this, "Failed to fetch jobs", Toast.LENGTH_LONG).show()
-                );
-                return null;
-            });
-
-        } catch (IOException e) {
-            Log.e("ViewJobActivity", "IOException occurred while fetching jobs", e);
-        }
+            }
+        });
     }
 
-    private List<ListJobReqDTO> parseJobListFromApiResponse(String apiResponseData) {
-        Log.d("ViewJobActivity", "Raw API Response Data: " + apiResponseData);  // Log the raw data
+    private void fetchJobsFromApi() throws IOException {
+        fetchJobsFromApi("", "", false);
+    }
 
-        Moshi moshi = new Moshi.Builder()
-                .add(new LocalDateJsonAdapter())  // Registering the LocalDate adapter
-                .build();
+    private void fetchJobsFromApi(String filter, String sortBy, boolean isDescending) throws IOException {
+        if (!hasMorePages) return;
+        isLoading = true;
+        progressBar.setVisibility(View.VISIBLE);
 
-        Type type = Types.newParameterizedType(List.class, ListJobReqDTO.class);
-        JsonAdapter<List<ListJobReqDTO>> adapter = moshi.adapter(type);
+        CompletableFuture<ApiResp<Pagination<JobDTO>>> future =
+                getJobUseCase.execute(pageIndex, pageSize, sortBy, isDescending, filter);
 
-        try {
-            return adapter.fromJson(apiResponseData);
-        } catch (IOException e) {
-            Log.e("ViewJobActivity", "Error parsing job list from JSON", e);
+        future.thenAccept(apiResp -> {
+            isLoading = false;
+            progressBar.setVisibility(View.GONE);
+            if (apiResp.getStatus() == 200) {
+                List<JobDTO> jobList = apiResp.getData().getItems();
+                hasMorePages = !jobList.isEmpty();
+
+                runOnUiThread(() -> {
+                    if (pageIndex == 1) {
+                        viewJobAdapter = new ViewJobAdapter(ViewJobActivity.this, jobList); // Pass context
+                        recyclerViewJobs.setAdapter(viewJobAdapter);
+                    } else {
+                        viewJobAdapter.addJobs(jobList);
+                    }
+                });
+            } else {
+                runOnUiThread(() -> showToast("Failed to fetch jobs."));
+            }
+        }).exceptionally(ex -> {
+            isLoading = false;
+            progressBar.setVisibility(View.GONE);
+            runOnUiThread(() -> showToast("An error occurred: " + ex.getMessage()));
             return null;
-        }
+        });
     }
 
+    private void showToast(String message) {
+        Toast.makeText(ViewJobActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
 }
