@@ -1,7 +1,7 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#f5f5f5">
@@ -53,7 +53,7 @@
             android:layout_marginStart="8dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_search"
-            android:tint="#B0B0B0" />
+            app:tint="@color/colorBlack" />
 
         <EditText
             android:layout_width="0dp"
@@ -77,9 +77,9 @@
     <!-- Map Placeholder -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="560dp"
-        android:background="#E0E0E0"
+        android:layout_height="511dp"
         android:layout_gravity="center_horizontal"
+        android:background="#E0E0E0"
         android:radius="8dp">
 
         <TextView
@@ -89,4 +89,10 @@
             android:text="Map will be displayed here"
             android:textColor="#B0B0B0" />
     </androidx.cardview.widget.CardView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chọn vị trí này"
+        android:textSize="16sp"
+        />
 </LinearLayout>

@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -46,7 +47,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_location_pin"
-                        android:tint="@color/red15" />
+                        app:tint="@color/red15" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -151,7 +152,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chọn trong danh sách"
+            android:text="Upload ảnh mô tả"
             android:drawableStart="@drawable/background_linear" />
 
 
@@ -167,18 +168,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bTaskee hỗ trợ 1 trong 2 hình thức hoàn tiền bên dưới" />
+            android:text="JobLink hỗ trợ 1 trong 2 hình thức hoàn tiền bên dưới" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. Hoàn tiền qua bPay: bTaskee hoàn lại tổng số tiền của những buổi chưa sử dụng."
+            android:text="1. Hoàn tiền qua bPay: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng."
             android:layout_marginStart="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2. Hoàn tiền qua chuyển khoản ngân hàng: bTaskee hoàn lại tổng số tiền của những buổi chưa sử dụng trừ đi 20% giá trị của gói ban đầu."
+            android:text="2. Hoàn tiền qua chuyển khoản ngân hàng: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng trừ đi 20% giá trị của gói ban đầu."
             android:layout_marginStart="16dp" />
 
         <!-- Total and Place Order Button -->
@@ -186,7 +187,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="space_between"
             android:paddingTop="8dp">
 
             <TextView
