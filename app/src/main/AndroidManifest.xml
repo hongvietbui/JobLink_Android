@@ -20,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
         <service android:name=".src.domain.utilities.signalR.TransferHubService" android:exported="false"/>
-        
+
         <activity android:name=".src.presentation.activities.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
