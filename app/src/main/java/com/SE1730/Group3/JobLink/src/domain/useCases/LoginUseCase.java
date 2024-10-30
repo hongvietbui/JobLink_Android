@@ -50,9 +50,9 @@ public class LoginUseCase {
                             .map(userResp -> {
 
                                 if (userResp.getStatus() == 200) {
-                                    if(!userDAO.isUserExisted(userResp.getData().getId())){
-                                        userDAO.insert(IUserMapper.INSTANCE.toUser(userResp.getData()));
-                                    }
+
+                                    userDAO.deleteAllUsers();
+                                    userDAO.insert(IUserMapper.INSTANCE.toUser(userResp.getData()));
                                     return true;
                                 } else {
                                     return false;

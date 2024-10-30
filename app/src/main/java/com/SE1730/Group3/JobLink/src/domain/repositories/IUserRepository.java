@@ -12,6 +12,7 @@ import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 import java.io.IOException;
 
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IUserRepository {
     Observable<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException;

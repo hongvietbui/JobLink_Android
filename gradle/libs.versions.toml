@@ -25,6 +25,7 @@ play-services-maps = "19.0.0"
 play-services-location = "21.3.0"
 richEditor="2.0.0"
 activity = "1.9.3"
+signalR = "8.0.8"
 
 [libraries]
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -58,12 +59,14 @@ threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", ver
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
 adapter-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
+room-rxjava = { group = "androidx.room", name = "room-rxjava3", version.ref = "room" }
 
 viewPager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
 
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "play-services-maps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "play-services-location" }
 
+signalR = {group = "com.microsoft.signalr", name = "signalr", version.ref = "signalR" }
 richEditor = { group = "jp.wasabeef", name = "richeditor-android", version.ref = "richEditor" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 [plugins]
