@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.domain.repositories;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.LoginReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
@@ -17,4 +18,5 @@ public interface IUserRepository {
     Observable<ApiResp<LoginRespDTO>> loginUser(LoginReqDTO request) throws IOException;
     Observable<ApiResp<Boolean>> logoutUser() throws IOException;
     Observable<ApiResp<UserDTO>> getCurrentUser() throws IOException;
+    Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
 }

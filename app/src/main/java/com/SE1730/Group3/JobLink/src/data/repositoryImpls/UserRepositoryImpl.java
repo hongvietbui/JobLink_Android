@@ -5,6 +5,7 @@ import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.LoginReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
@@ -86,4 +87,10 @@ public class UserRepositoryImpl implements IUserRepository {
     public Observable<ApiResp<UserDTO>> getCurrentUser() throws IOException {
         return userApi.getCurrentUser();
     }
+
+    @Override
+    public Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException {
+        return authApi.changePassUser(new ApiReq<>(request));
+    }
+
 }

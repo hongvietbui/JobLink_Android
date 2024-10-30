@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.impl.UnitOfWorkImpl;
@@ -46,4 +47,7 @@ public class DatabaseModule {
     public IUserDAO provideUserDAO(JobLinkDatabase database) {
         return database.userDAO();
     }
+
+    @Provides
+    public IMessageDAO provideMessageDAO(JobLinkDatabase database){return database.messageDAO();}
 }
