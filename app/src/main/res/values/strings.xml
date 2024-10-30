@@ -36,4 +36,5 @@ Mesh panels on the sides and back create airflow and combat cling.</string>
     <string name="title_activity_maps">Map</string>
     <string name="please_enter_the_otp_sent_to_your_phone">Please enter the OTP sent to your phone.</string>
     <string name="verify_otp">Verify OTP</string>
+    <string name="title_activity_create_job">CreateJobActivity</string>
 </resources>

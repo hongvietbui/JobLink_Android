@@ -20,24 +20,37 @@
         android:theme="@style/Theme.JobLink"
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".CreateJobActivity"
+            android:exported="false"
+            android:label="@string/title_activity_create_job"
+            android:theme="@style/Theme.JobLink" />
+        <activity android:name=".src.presentation.activities.RegisterActivity" />
+        <activity android:name=".src.presentation.activities.JobDetailsActivity" />
+        <activity
+            android:name=".src.presentation.activities.ViewJobActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.presentation.activities.ResetPasswordActivity"
+            android:exported="true" />
 
+        <service
+            android:name=".src.domain.utilities.signalR.TransferHubService"
+            android:exported="false" />
 
-
-        <activity android:name=".src.presentation.activities.RegisterActivity"/>
-        <activity android:name=".src.presentation.activities.JobDetailsActivity"/>
-        <activity android:name=".src.presentation.activities.ViewJobActivity" android:exported="true"/>
-        <activity android:name=".src.presentation.activities.ResetPasswordActivity" android:exported="true"/>
-        <service android:name=".src.domain.utilities.signalR.TransferHubService" android:exported="false"/>
-        <activity android:name=".src.presentation.activities.MainActivity" android:exported="true">
+        <activity
+            android:name=".src.presentation.activities.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".src.presentation.activities.LoginActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDv7k0i13euDi8VBhsBSXy2TT-A7g0xBRg" />
