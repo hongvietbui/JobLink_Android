@@ -19,30 +19,7 @@ import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewJobAdapter;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import javax.inject.Inject;
-
-import dagger.hilt.android.AndroidEntryPoint;
-
-@AndroidEntryPoint
-public class ViewJobActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerViewJobs;
-    private ViewJobAdapter viewJobAdapter;
-    private Spinner spinnerSortBy;
-    private Spinner spinnerSortOrder;  // Add this spinner for sorting order
-    private EditText editTextFilter;
-    private Button buttonApplyFilter;
-    private View progressBar;
-
-    private int pageIndex = 1;
-    private final int pageSize = 10;  // Default page size, can be adjusted if needed
-
-    @Inject
-    GetJobUseCase getJobUseCase;  // Use-case to fetch jobs
-
+public class ViewJobActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

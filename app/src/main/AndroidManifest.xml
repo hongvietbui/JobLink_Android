@@ -19,11 +19,30 @@
         android:theme="@style/Theme.JobLink"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <service
+            android:name=".src.domain.utilities.signalR.ChatHubService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name=".src.domain.utilities.signalR.TransferHubService"
+            android:exported="false" />
+
         <activity
-            android:name=".src.presentation.activities.TopUpHistoryActivity"
+            android:name=".src.presentation.activities.BaseActivity"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".src.presentation.activities.AppliedWorkersActivity"
             android:exported="false" />
         <activity
-            android:name=".src.presentation.activities.MainActivity"
+            android:name=".src.presentation.activities.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.presentation.activities.WithdrawActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +60,16 @@
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity android:name=".src.presentation.activities.LoginActivity" />
         <activity android:name=".src.presentation.activities.TransferActivity" /> <!-- API KEY -->
+        <activity
+            android:name=".src.presentation.activities.ChangePassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.presentation.activities.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.presentation.activities.TopUpHistoryActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDv7k0i13euDi8VBhsBSXy2TT-A7g0xBRg" />

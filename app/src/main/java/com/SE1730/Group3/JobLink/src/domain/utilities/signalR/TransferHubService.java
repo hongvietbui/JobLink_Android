@@ -11,6 +11,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.TransactionDTO;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.BigDecimalAdapter;
@@ -30,13 +33,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
 public class TransferHubService extends Service {
-
+    private Moshi moshi;
     private HubConnection hubConnection;
     private String userId = "0";
 
     @Inject
-    public TransferHubService() {
+    public TransferHubService(Moshi moshi) {
         this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/transfer?userId=" + userId).build();
+        this.moshi = moshi;
     }
 
     @Override
@@ -55,10 +59,20 @@ public class TransferHubService extends Service {
                     .doOnError(error -> Log.e("TransferHubService", "Error starting connection", error))
                     .subscribe();
 
-            // Ví dụ: Đăng ký lắng nghe sự kiện từ Hub
             hubConnection.on("ReceiveTransfer", (data) -> {
-                Log.d("TransferHubService", "Received transfer data: " + data);
-                // Xử lý dữ liệu được nhận
+
+                var jsonAdapter = moshi.adapter(TransactionDTO.class);
+                try{
+                    TransactionDTO transactionDTO = jsonAdapter.fromJson(data);
+
+                    //display successful message
+                    Intent boardcastIntent = new Intent("SHOW_TRANSFER_SUCCESS_DIALOG");
+                    boardcastIntent.putExtra("amount", transactionDTO.getAmount().toString());
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(boardcastIntent);
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
             }, String.class);
         }
     }
@@ -67,8 +81,8 @@ public class TransferHubService extends Service {
         if (hubConnection != null) {
             hubConnection.stop().doOnComplete(() -> {
                 Log.d("TransferHubService", "Connection stopped for re-authentication");
-                this.userId = newUserId; // Cập nhật userId mới
-                startHubConnection(); // Khởi động lại kết nối với userId mới
+                this.userId = newUserId;
+                startHubConnection();
             }).subscribe(
                     () -> Log.d("TransferHubService", "HubConnection completed"),
                     throwable -> Log.e("TransferHubService", "Error during HubConnection", throwable)

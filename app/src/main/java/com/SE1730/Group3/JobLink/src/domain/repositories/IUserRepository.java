@@ -5,6 +5,7 @@ import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.ForgetPassReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.LoginReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.OtpReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
@@ -28,4 +29,5 @@ public interface IUserRepository {
     Observable<ApiResp<List<NotificationDTO>>> getNotificationsForCurrentUser() throws IOException;
     Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException;
 
+    Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
 }

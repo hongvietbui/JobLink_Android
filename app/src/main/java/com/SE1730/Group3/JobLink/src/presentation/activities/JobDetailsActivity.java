@@ -16,7 +16,7 @@ import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class JobDetailsActivity extends AppCompatActivity {
+public class JobDetailsActivity extends BaseActivity {
     private ViewPager2 viewPager;
 
     private ImageButton btnLeft, btnRight;

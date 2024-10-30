@@ -13,8 +13,19 @@ import androidx.fragment.app.DialogFragment;
 import com.SE1730.Group3.JobLink.databinding.FragmentTransferSuccessBinding;
 
 public class TransferSuccessDialog extends DialogFragment {
+    private static final String ARG_AMOUNT = "arg_amount";
     private FragmentTransferSuccessBinding binding;
 
+    public static TransferSuccessDialog newInstance(String amount) {
+        var dialog = new TransferSuccessDialog();
+        Bundle args = new Bundle();
+
+        args.putString(ARG_AMOUNT, amount);
+
+        dialog.setArguments(args);
+        return dialog;
+    }
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,9 +37,11 @@ public class TransferSuccessDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String amount = getArguments() != null ? getArguments().getString(ARG_AMOUNT) : "0";
+
         // Thiết lập các thông báo trong Dialog
         binding.tvSuccessMessage.setText("Transfer successfully!");
-        binding.tvAmount.setText("Money: ______ VND");
+        binding.tvAmount.setText("Money: "+amount+" VND");
         binding.tvThankYou.setText("Thank you for choosing our app!");
 
         // Khởi động countdown timer
