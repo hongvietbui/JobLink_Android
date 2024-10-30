@@ -27,11 +27,9 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/placeholder_avatar"
                     android:contentDescription="TuấnAnh026"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/avatar_background" />
+                    android:layout_marginEnd="16dp"/>
 
                 <!-- User Info -->
                 <LinearLayout
