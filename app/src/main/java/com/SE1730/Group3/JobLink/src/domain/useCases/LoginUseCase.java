@@ -38,32 +38,46 @@ public class LoginUseCase {
                 .build();
 
         return userRepository.loginUser(request)
-            .concatMap(resp -> {
+                .concatMap(resp -> {
+                    Log.d("LoginDebug", "Login response status: " + resp.getStatus());
 
-                if (resp.getStatus() == 200) {
-                    LoginRespDTO loginRespDTO = resp.getData();
+                    if (resp.getStatus() == 200) {
+                        LoginRespDTO loginRespDTO = resp.getData();
 
-                    editor.putString("accessToken", loginRespDTO.getAccessToken());
-                    editor.apply();
+                        Log.d("LoginDebug", "Received accessToken: " + loginRespDTO.getAccessToken());
 
-                    return userRepository.getCurrentUser()
-                            .map(userResp -> {
+                        editor.putString("accessToken", loginRespDTO.getAccessToken());
+                        editor.apply();
 
-                                if (userResp.getStatus() == 200) {
+                        return userRepository.getCurrentUser()
+                                .map(userResp -> {
+                                    Log.d("LoginDebug", "getCurrentUser response status: " + userResp.getStatus());
 
-                                    userDAO.deleteAllUsers();
-                                    userDAO.insert(IUserMapper.INSTANCE.toUser(userResp.getData()));
-                                    return true;
-                                } else {
+                                    if (userResp.getStatus() == 200) {
+                                        Log.d("LoginDebug", "User data: " + userResp.getData().toString());
+
+                                        userDAO.deleteAllUsers();
+                                        userDAO.insert(IUserMapper.INSTANCE.toUser(userResp.getData()));
+                                        return true;
+                                    } else {
+                                        Log.d("LoginDebug", "Failed to retrieve user with status: " + userResp.getStatus());
+                                        return false;
+                                    }
+                                })
+                                .onErrorReturn(throwable -> {
+                                    Log.e("LoginDebug", "Error retrieving current user", throwable);
                                     return false;
-                                }
-                            })
-                            .onErrorReturn(throwable -> false);
+                                });
 
-                } else {
-                    return Observable.just(false);
-                }
-            })
-            .onErrorReturn(throwable -> false);
+                    } else {
+                        Log.d("LoginDebug", "Login failed with status: " + resp.getStatus());
+                        return Observable.just(false);
+                    }
+                })
+                .onErrorReturn(throwable -> {
+                    Log.e("LoginDebug", "Error during login process", throwable);
+                    return false;
+                });
     }
+
 }

@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,27 +95,40 @@ public class LoginActivity extends BaseActivity {
     private void login() throws IOException {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
+
+        // Debug username và password
+        Log.d("LoginDebug", "Username: " + username);
+        Log.d("LoginDebug", "Password: " + password);
+
         // Call login api
         loginObservable = loginUseCase.execute(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-            if(result) {
-                Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, TopUpHistoryActivity.class);
-                startActivity(intent);
-                userDAO.getCurrentUser()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(resp -> {
-                transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                    // Debug kết quả từ API
+                    Log.d("LoginDebug", "Login result: " + result);
+
+                    if (result) {
+                        Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(this, TopUpHistoryActivity.class);
+                        startActivity(intent);
+
+                        userDAO.getCurrentUser()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(resp -> {
+                                    Log.d("LoginDebug", "User ID: " + resp.getId().toString());
+                                    transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                                }, error -> {
+                                    error.printStackTrace();
+                                });
+                    } else {
+                        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                    }
                 }, error -> {
-                    error.printStackTrace();
+                    // Log lỗi nếu API call gặp vấn đề
+                    Log.e("LoginDebug", "Login error", error);
                 });
-            } else {
-                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

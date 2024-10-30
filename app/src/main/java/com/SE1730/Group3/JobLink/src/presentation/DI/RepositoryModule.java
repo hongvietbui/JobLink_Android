@@ -40,10 +40,5 @@ public class RepositoryModule {
     public ITransactionRepository provideTransactionRepository(ITransactionApi transactionApi) {
         return new TransactionRepositoryImpl(transactionApi);
     }
-        @Provides
-        @Singleton
-        public ITransactionRepository provideTransactionRepository (ITransactionApi transactionApi){
-            return new TransactionRepositoryImpl(transactionApi);
-        }
-    }
+}
 
