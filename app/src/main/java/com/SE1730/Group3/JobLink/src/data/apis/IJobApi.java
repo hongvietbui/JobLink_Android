@@ -1,9 +1,14 @@
 package com.SE1730.Group3.JobLink.src.data.apis;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.RoleDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+
+import java.util.List;
 import java.util.UUID;
+
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -25,9 +30,9 @@ public interface IJobApi {
     @GET("job/role")
     Call<ApiResp<RoleDTO>> getUserRoleById(@Query("role") UUID jobId);
 
-//    @GET("applied-workers")
-//    Call<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(
-//            @Query("jobId") UUID jobId,
-//            @Header("Authorization") String accessToken
-//    );
+    @GET("applied-workers")
+    Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(
+            @Query("jobId") UUID jobId,
+            @Header("Authorization") String accessToken
+    );
 }

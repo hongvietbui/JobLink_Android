@@ -9,16 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.domain.entities.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdapter.ViewHolder> {
-    private List<User> appliedWorkers;
+    private List<JobWorkerDTO> appliedWorkers;
     private OnWorkerClickListener listener;
 
-    public AppliedWorkerAdapter(List<User> appliedWorkers, OnWorkerClickListener listener) {
+    public AppliedWorkerAdapter(List<JobWorkerDTO> appliedWorkers, OnWorkerClickListener listener) {
         this.appliedWorkers = appliedWorkers;
         this.listener = listener;
     }
@@ -32,20 +33,20 @@ public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User worker = appliedWorkers.get(position);
-        holder.textViewFullName.setText(worker.getFirstName() + " " + worker.getLastName());
-        holder.textViewEmail.setText(worker.getEmail());
-        holder.textViewPhone.setText(worker.getPhoneNumber());
-        holder.textViewDob.setText(worker.getDateOfBirth());
-        holder.textViewAddress.setText(worker.getAddress());
-
-        // Tải ảnh đại diện sử dụng Picasso
-        Picasso.get()
-                .load(worker.getAvatar())
-                .into(holder.imageViewAvatar);
-
-        // Xử lý click item
-        holder.itemView.setOnClickListener(v -> listener.onWorkerClick(worker));
+//        User worker = appliedWorkers.get(position);
+//        holder.textViewFullName.setText(worker.getFirstName() + " " + worker.getLastName());
+//        holder.textViewEmail.setText(worker.getEmail());
+//        holder.textViewPhone.setText(worker.getPhoneNumber());
+//        holder.textViewDob.setText(worker.getDateOfBirth());
+//        holder.textViewAddress.setText(worker.getAddress());
+//
+//        // Tải ảnh đại diện sử dụng Picasso
+//        Picasso.get()
+//                .load(worker.getAvatar())
+//                .into(holder.imageViewAvatar);
+//
+//        // Xử lý click item
+//        holder.itemView.setOnClickListener(v -> listener.onWorkerClick(worker));
     }
 
     @Override

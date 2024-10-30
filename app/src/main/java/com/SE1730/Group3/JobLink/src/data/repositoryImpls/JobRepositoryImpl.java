@@ -1,14 +1,18 @@
 package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.listjob.ListJobReqDTO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import io.reactivex.rxjava3.core.Observable;
 import jakarta.inject.Inject;
 
 import retrofit2.Call;
@@ -43,6 +47,11 @@ public class JobRepositoryImpl implements IJobRepository {
         });
 
         return future;
+    }
+
+    @Override
+    public Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken){
+        return jobApi.getAppliedWorkersByJobId(jobId, accessToken);
     }
 
 }
