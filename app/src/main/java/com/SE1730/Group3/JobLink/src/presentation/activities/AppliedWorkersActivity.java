@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
-import com.SE1730.Group3.JobLink.src.domain.entities.User;
+import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserByWorkerIdUseCase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.AppliedWorkerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.ViewAppliedWorkerViewModel;
 
@@ -20,11 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class AppliedWorkersActivity extends BaseActivity implements AppliedWorkerAdapter.OnWorkerClickListener {
     private RecyclerView recyclerView;
     private AppliedWorkerAdapter adapter;
-    private List<JobWorkerDTO> appliedWorkers;
+    private List<JobWorkerDTO> jobWorkerDTOList;
+    private List<UserDTO> appliedWorkers;
     private ViewAppliedWorkerViewModel viewAppliedWorkerViewModel;
+
+    @Inject
+    GetUserByWorkerIdUseCase getUserByWorkerIdUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +46,7 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        appliedWorkers = new ArrayList<>();
+        jobWorkerDTOList = new ArrayList<>();
         loadAppliedWorkers();
 
         // Khởi tạo Adapter và gán nó cho RecyclerView
@@ -63,11 +72,22 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         viewAppliedWorkerViewModel.viewAppliedWorkerResult.observe(this, result -> {
             if(result!=null){
 
-                List<JobWorkerDTO> list = result.getData();
+                jobWorkerDTOList = result.getData();
 
-                for (JobWorkerDTO dto: list) {
-                    appliedWorkers.add(dto);
+                for(JobWorkerDTO jobWorkerDTO : jobWorkerDTOList){
+                    try {
+                        getUserByWorkerIdUseCase.execute(jobWorkerDTO.getWorkerId())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(resp -> {
+                                    appliedWorkers.add(resp.getData());
+                                }, error -> {
+                                    throw new Exception("Fetch failed");
+                                });
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+
                 Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
             }else{
@@ -88,7 +108,7 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
     }
 
     @Override
-    public void onWorkerClick(User worker) {
+    public void onWorkerClick(UserDTO worker) {
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("workerId", worker.getId());
         startActivity(intent);

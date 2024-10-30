@@ -15,6 +15,7 @@ import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -30,4 +31,5 @@ public interface IUserRepository {
     Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException;
 
     Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
+    Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException;
 }

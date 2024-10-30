@@ -20,6 +20,7 @@ import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -193,9 +194,15 @@ public class UserRepositoryImpl implements IUserRepository {
         return userApi.getUserTransaction(new ApiReq<>(request));
     }
 
-
+    @Override
     public Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException {
         return authApi.changePassUser(new ApiReq<>(request));
     }
+
+    @Override
+    public Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException {
+        return userApi.getUserByWorkerId(workerId);
+    }
+
 
 }
