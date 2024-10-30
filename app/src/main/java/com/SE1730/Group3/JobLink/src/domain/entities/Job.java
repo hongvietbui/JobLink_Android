@@ -8,11 +8,11 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
+
 public class Job extends BaseEntity<UUID> {
     private String name;
     private String Description;
     private String OwnerId;
-    private String WorkerId;
     private String Address;
     private int Lat;
     private int Lon;

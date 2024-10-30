@@ -1,8 +1,13 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,8 +33,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class LoginActivity extends BaseActivity {
     private EditText edtUsername, edtPassword;
     private Button btnLogin;
-
+    private TextView tvRegister, tvForgotPass;
+    private ImageView ivEye;
     private Disposable loginObservable;
+    Intent intent;
 
     @Inject
     LoginUseCase loginUseCase;
@@ -51,7 +58,10 @@ public class LoginActivity extends BaseActivity {
     private void bindingViews(){
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+        tvRegister = findViewById(R.id.tvRegister);
+        tvForgotPass = findViewById(R.id.tvForgetPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        ivEye = findViewById(R.id.ivEye);
     }
 
     private void setEvents(){
@@ -62,30 +72,63 @@ public class LoginActivity extends BaseActivity {
                 throw new RuntimeException(e);
             }
         });
+        tvForgotPass.setOnClickListener(this::onTvForgotPassClick);
+        tvRegister.setOnClickListener(this::onTvRegisterClick);
+        ivEye.setOnClickListener(this::onIvEyeClick);
+    }
+
+    private void onIvEyeClick(View view) {
+        //hide and show password
+
+    }
+
+    private void onTvRegisterClick(View view) {
+        intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void onTvForgotPassClick(View view) {
+        intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void login() throws IOException {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
+
+        // Debug username và password
+        Log.d("LoginDebug", "Username: " + username);
+        Log.d("LoginDebug", "Password: " + password);
+
         // Call login api
         loginObservable = loginUseCase.execute(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-            if(result) {
-                Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                userDAO.getCurrentUser()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(resp -> {
-                transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                    // Debug kết quả từ API
+                    Log.d("LoginDebug", "Login result: " + result);
+
+                    if (result) {
+                        Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(this, TopUpHistoryActivity.class);
+                        startActivity(intent);
+
+                        userDAO.getCurrentUser()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(resp -> {
+                                    Log.d("LoginDebug", "User ID: " + resp.getId().toString());
+                                    transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                                }, error -> {
+                                    error.printStackTrace();
+                                });
+                    } else {
+                        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                    }
                 }, error -> {
-                    error.printStackTrace();
+                    // Log lỗi nếu API call gặp vấn đề
+                    Log.e("LoginDebug", "Login error", error);
                 });
-            } else {
-                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
