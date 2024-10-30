@@ -1,12 +1,12 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
@@ -14,17 +14,15 @@ import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 
 import java.util.List;
 
-public class OwnerViewJobAdapter  extends RecyclerView.Adapter<OwnerViewJobAdapter.JobViewHolder>{
-
+public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdapter.JobViewHolder> {
     private List<JobDTO> jobList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-
         void onViewDetailsClick(JobDTO job);
     }
 
-    public OwnerViewJobAdapter(OnItemClickListener listener) {
+    public WorkerViewJobAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -53,14 +51,12 @@ public class OwnerViewJobAdapter  extends RecyclerView.Adapter<OwnerViewJobAdapt
     }
 
     static class JobViewHolder extends RecyclerView.ViewHolder {
-
         private TextView jobName;
-        private TextView jobDescription;
         private TextView jobAddress;
         private TextView jobStatus;
         private TextView jobDuration;
         private TextView jobPrice;
-        private Button buttonViewDetail;
+        private Button onViewDetailsClick;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,19 +65,17 @@ public class OwnerViewJobAdapter  extends RecyclerView.Adapter<OwnerViewJobAdapt
             jobStatus = itemView.findViewById(R.id.jobStatusUser);
             jobDuration = itemView.findViewById(R.id.DurationJobUser);
             jobPrice = itemView.findViewById(R.id.PriceJobUser);
-            buttonViewDetail = itemView.findViewById(R.id.DetailOwnerJob_btn);
+            onViewDetailsClick = itemView.findViewById(R.id.DetailOwnerJob_btn);
         }
 
         public void bind(JobDTO job, OnItemClickListener listener) {
             jobName.setText(job.getName());
-
             jobAddress.setText("Address: " + job.getAddress());
             jobStatus.setText("Status: " + job.getStatus());
             jobDuration.setText("Duration: " + job.getDuration() + " hours");
             jobPrice.setText("Price: $" + job.getPrice());
 
-
-            buttonViewDetail.setOnClickListener(v -> listener.onViewDetailsClick(job));
+            onViewDetailsClick.setOnClickListener(v -> listener.onViewDetailsClick(job));
         }
     }
 }

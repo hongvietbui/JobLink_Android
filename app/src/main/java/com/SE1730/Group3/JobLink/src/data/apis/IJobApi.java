@@ -44,7 +44,8 @@ public interface IJobApi {
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
             @Query("sortBy") String sortBy,
-            @Query("isDescending") boolean isDescending);
+            @Query("isDescending") boolean isDescending
+    );
     @GET("Job/apply-job/{jobId}")
     Call<ApiResp<List<UserDTO>>> ListUserApplyJob(@Path("jobId") UUID jobId);
     @GET("Job/job-owner-details/{jobId}")

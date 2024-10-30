@@ -46,7 +46,7 @@ public class UserManageJobActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return 2; // Two fragments: Owner and Worker
+            return 2;
         }
     }
 }

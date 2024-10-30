@@ -19,7 +19,6 @@
     import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
     import com.SE1730.Group3.JobLink.src.presentation.adapters.OwnerViewJobAdapter;
     import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobCreatedByUserViewModel;
-    import com.SE1730.Group3.JobLink.src.presentation.viewModels.ListUserApplyViewModel;
 
     import java.io.IOException;
     import java.util.UUID;
@@ -30,7 +29,6 @@
     public class OwnerManageJobFragment extends Fragment {
 
         private JobCreatedByUserViewModel jobCreatedByUserViewModel;
-        private ListUserApplyViewModel listUserApplyViewModel;
 
         private RecyclerView recyclerView;
         private OwnerViewJobAdapter jobAdapter; // Create an adapter for your jobs
@@ -41,17 +39,14 @@
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_owner_manage_job, container, false);
 
-            // Initialize ViewModels using ViewModelProvider
             jobCreatedByUserViewModel = new ViewModelProvider(this).get(JobCreatedByUserViewModel.class);
-            listUserApplyViewModel = new ViewModelProvider(this).get(ListUserApplyViewModel.class);
 
-            // Initialize RecyclerView
             recyclerView = view.findViewById(R.id.recycler_view_owner_jobs);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             jobAdapter = new OwnerViewJobAdapter(new OwnerViewJobAdapter.OnItemClickListener() {
                 @Override
-                public void onViewApplicantsClick(JobDTO job) {
+                public void onViewDetailsClick(JobDTO job) {
                     viewApplicants(job.getId());
                 }
             });
@@ -68,12 +63,12 @@
             });
 
             // Fetch jobs
-            fetchJobsApplied();
+            fetchJobsCreated();
 
             return view;
         }
 
-        private void fetchJobsApplied() {
+        private void fetchJobsCreated() {
             // Set the required parameters for pagination
             try {
                 jobCreatedByUserViewModel.getJobsCreatedByUser(1, 10, "", false);
