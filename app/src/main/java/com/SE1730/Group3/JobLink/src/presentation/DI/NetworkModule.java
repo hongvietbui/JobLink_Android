@@ -13,12 +13,12 @@ import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateTimeJsonAdap
 import com.SE1730.Group3.JobLink.src.presentation.adapters.UUIDJsonAdapter;
 import com.squareup.moshi.Moshi;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
-import javax.inject.Singleton;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;

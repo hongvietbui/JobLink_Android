@@ -13,12 +13,18 @@ import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
 import com.squareup.moshi.Moshi;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ChatHubService extends Service {
 
     private Moshi moshi;
     private HubConnection hubConnection;
     private String userId = "0";
 
+    @Inject
     public ChatHubService(Moshi moshi) {
         this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/chat?userId=" + userId).build();
         this.moshi = moshi;

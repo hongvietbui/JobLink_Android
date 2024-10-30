@@ -1,16 +1,11 @@
 package com.SE1730.Group3.JobLink.src.data.interceptors;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

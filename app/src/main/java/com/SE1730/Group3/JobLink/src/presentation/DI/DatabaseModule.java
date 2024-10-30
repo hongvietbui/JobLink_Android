@@ -10,6 +10,7 @@ import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.impl.UnitOfWorkImpl;
 import com.SE1730.Group3.JobLink.src.domain.entities.JobLinkDatabase;
+import com.SE1730.Group3.JobLink.src.domain.migrations.UpdateDatabase;
 
 import javax.inject.Singleton;
 
@@ -28,7 +29,8 @@ public class DatabaseModule {
                 context.getApplicationContext(),
                 JobLinkDatabase.class,
                 "joblink_database"
-        ).build();
+        ).addMigrations(UpdateDatabase.MIGRATION_1_2)
+        .addMigrations(UpdateDatabase.MIGRATION_2_3).build();
     }
 
     @Provides
