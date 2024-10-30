@@ -66,6 +66,7 @@
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity android:name=".src.presentation.activities.LoginActivity" />
         <activity android:name=".src.presentation.activities.TransferActivity" />
+        <activity android:name=".src.presentation.activities.TopUpHistoryActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

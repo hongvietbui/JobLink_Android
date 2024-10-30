@@ -189,7 +189,10 @@ public class JobRepositoryImpl implements IJobRepository {
         });
     }
 
-
+    @Override
+    public Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException {
+        return jobApi.getUserRoleByJobId(jobId);
+    }
 
 
 }

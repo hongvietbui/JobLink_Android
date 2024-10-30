@@ -19,7 +19,7 @@ import retrofit2.http.POST;
 
 public interface IAuthApi {
     @POST("auth/register")
-    Call<ApiResp<String>> registerUser(@Body ApiReq<RegisterReqDTO> request);
+    Observable<ApiResp<String>> registerUser(@Body ApiReq<RegisterReqDTO> request);
     @POST("auth/login")
     Observable<ApiResp<LoginRespDTO>> loginUser(@Body ApiReq<LoginReqDTO> request);
     @POST("auth/refresh-access-token")

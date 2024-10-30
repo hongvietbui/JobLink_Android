@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserRoleOfJobUserCase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
@@ -25,16 +26,22 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobDetailViewModel;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class JobDetailsActivity extends BaseActivity {
+    @Inject
+    GetUserRoleOfJobUserCase getUserRoleOfJobUserCase;
+
     private ViewPager2 viewPager;
     private ImageButton btnLeft, btnRight;
     private Button btnMap, btnImage, btnDetails;
     private ImageView ivJobOwner;
     private TextView tvName, tvemail, tvLocation, tvphone;
     private Button btnAccept, btnCancel;
+    private Button btnListApplicant;
     private JobDetailViewModel jobDetailViewModel;
     private UUID jobId;
 
@@ -53,6 +60,25 @@ public class JobDetailsActivity extends BaseActivity {
         try {
             Intent intent = getIntent();
             String jobIdString = intent.getStringExtra("jobId");
+
+            getUserRoleOfJobUserCase.execute(UUID.fromString(jobIdString)).subscribe(apiResp -> {
+                if (apiResp.getStatus() == 200) {
+                    String role = apiResp.getData();
+                    Log.d("JobDetailsActivity", "User role: " + role);
+                    if (role.equals("Owner")) {
+                        btnAccept.setVisibility(Button.GONE);
+                        btnCancel.setVisibility(Button.GONE);
+                        btnListApplicant.setVisibility(Button.VISIBLE);
+                    } else {
+                        btnAccept.setVisibility(Button.VISIBLE);
+                        btnCancel.setVisibility(Button.VISIBLE);
+                        btnListApplicant.setVisibility(Button.GONE);
+                    }
+                } else {
+                    Log.e("JobDetailsActivity", "Failed to get user role");
+                }
+            });
+
             if (jobIdString != null) {
                 jobId = UUID.fromString(jobIdString);
                 Log.e("JobDetailsActivity", "Job ID: " + jobId);
@@ -119,6 +145,7 @@ public class JobDetailsActivity extends BaseActivity {
         tvemail = findViewById(R.id.tvemail);
         btnAccept = findViewById(R.id.btnAccept);
         btnCancel = findViewById(R.id.btnCancel);
+        btnListApplicant = findViewById(R.id.btnListApplicant);
     }
 
     private void setEvents() {

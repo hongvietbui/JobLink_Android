@@ -23,4 +23,6 @@ public interface IJobRepository {
     Observable<ApiResp<List<UserDTO>>> listUserApplyJob(UUID jobId) throws IOException;
 
     Observable<ApiResp<JobAndOwnerDetailsResponse>> JobDetail(UUID jobId) throws IOException;
+
+    Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException;
 }
