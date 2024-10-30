@@ -100,19 +100,29 @@
                 android:spinnerMode="dropdown" />
 
             <EditText
+                android:id="@+id/etMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Amount of money you want to withdraw"/>
 
             <EditText
+                android:id="@+id/etAccountNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Account number"/>
 
             <EditText
+                android:id="@+id/etAccountName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Account holder's name"/>
+
+            <Button
+                android:id="@+id/btnWithdraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Submit"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -14,7 +14,7 @@ import com.SE1730.Group3.JobLink.src.presentation.adapters.AppliedWorkerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppliedWorkersActivity extends AppCompatActivity implements AppliedWorkerAdapter.OnWorkerClickListener {
+public class AppliedWorkersActivity extends BaseActivity implements AppliedWorkerAdapter.OnWorkerClickListener {
     private RecyclerView recyclerView;
     private AppliedWorkerAdapter adapter;
     private List<User> appliedWorkers;

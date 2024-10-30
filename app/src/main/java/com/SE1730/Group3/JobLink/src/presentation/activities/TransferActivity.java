@@ -31,7 +31,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import lombok.val;
 
 @AndroidEntryPoint
-public class TransferActivity extends AppCompatActivity {
+public class TransferActivity extends BaseActivity {
     @Inject
     GetQRCodeByUserIdUseCase getQRCodeByUserIdUseCase;
 

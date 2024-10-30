@@ -13,7 +13,7 @@ import com.SE1730.Group3.JobLink.R;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private Button btnRegister, btnJobDetails, btnLogin, btnTransfer;
 
     @Override

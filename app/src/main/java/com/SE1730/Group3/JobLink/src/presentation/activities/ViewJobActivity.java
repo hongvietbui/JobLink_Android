@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.SE1730.Group3.JobLink.R;
 
-public class ViewJobActivity extends AppCompatActivity {
+public class ViewJobActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

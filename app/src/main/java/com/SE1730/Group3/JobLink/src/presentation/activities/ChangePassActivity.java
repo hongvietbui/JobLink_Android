@@ -20,7 +20,7 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.ChangePassViewModel
 import java.io.IOException;
 import java.util.UUID;
 
-public class ChangePassActivity extends AppCompatActivity {
+public class ChangePassActivity extends BaseActivity {
 
     private EditText edtCurPass, edtNewPass, edtConfirmPass;
     private Button btnChangePass;
