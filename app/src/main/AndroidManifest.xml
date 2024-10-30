@@ -41,6 +41,8 @@
         <activity
             android:name=".src.presentation.activities.WithdrawActivity"
             android:exported="false" />
+        <activity android:name=".src.presentation.activities.JobActivity"
+            android:exported="false" />
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
@@ -54,17 +56,20 @@
             android:name=".src.presentation.activities.ChangePassActivity"
             android:exported="false" />
         <activity
-            android:name=".src.presentation.activities.MainActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        android:name=".src.presentation.activities.LoginActivity"
+        android:exported="true"><intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+
+        <activity
+            android:name=".src.presentation.activities.MainActivity"
+            android:exported="false" >
+
         </activity>
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
-        <activity android:name=".src.presentation.activities.LoginActivity" />
         <activity android:name=".src.presentation.activities.TransferActivity" />
 
         <meta-data
