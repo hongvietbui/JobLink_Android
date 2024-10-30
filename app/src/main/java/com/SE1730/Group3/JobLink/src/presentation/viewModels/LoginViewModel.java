@@ -47,6 +47,7 @@ public class LoginViewModel extends ViewModel {
         disposables.add(disposable);
     }
 
+
     public void onCleared() {
         super.onCleared();
         disposables.clear();

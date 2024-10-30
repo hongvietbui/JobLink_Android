@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribe(result -> {
             if(result) {
                 Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
+                
             } else {
                 Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
             }

@@ -7,7 +7,6 @@ import dagger.Component;
 import lombok.Data;
 
 @Data
-@Component.Builder
 public class NotificationDTO {
     private UUID id;
     private String message;

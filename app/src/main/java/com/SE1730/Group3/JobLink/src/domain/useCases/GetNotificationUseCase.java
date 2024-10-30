@@ -7,12 +7,14 @@ import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.rxjava3.core.Observable;
 
 public class GetNotificationUseCase {
     private final IUserRepository userRepository;
 
-
+    @Inject
     public GetNotificationUseCase(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
