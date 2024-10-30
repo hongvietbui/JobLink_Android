@@ -1,12 +1,13 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
@@ -14,17 +15,18 @@ import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 
 import java.util.List;
 
-public class OwnerViewJobAdapter  extends RecyclerView.Adapter<OwnerViewJobAdapter.JobViewHolder>{
+public class OwnerViewJobAdapter extends RecyclerView.Adapter<OwnerViewJobAdapter.JobViewHolder> {
 
     private List<JobDTO> jobList;
+    private Context context;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-
         void onViewDetailsClick(JobDTO job);
     }
 
-    public OwnerViewJobAdapter(OnItemClickListener listener) {
+    public OwnerViewJobAdapter(Context context, OnItemClickListener listener) {
+        this.context = context;
         this.listener = listener;
     }
 
@@ -52,10 +54,8 @@ public class OwnerViewJobAdapter  extends RecyclerView.Adapter<OwnerViewJobAdapt
         return jobList != null ? jobList.size() : 0;
     }
 
-    static class JobViewHolder extends RecyclerView.ViewHolder {
-
+    class JobViewHolder extends RecyclerView.ViewHolder {
         private TextView jobName;
-        private TextView jobDescription;
         private TextView jobAddress;
         private TextView jobStatus;
         private TextView jobDuration;
@@ -74,13 +74,12 @@ public class OwnerViewJobAdapter  extends RecyclerView.Adapter<OwnerViewJobAdapt
 
         public void bind(JobDTO job, OnItemClickListener listener) {
             jobName.setText(job.getName());
-
             jobAddress.setText("Address: " + job.getAddress());
             jobStatus.setText("Status: " + job.getStatus());
             jobDuration.setText("Duration: " + job.getDuration() + " hours");
             jobPrice.setText("Price: $" + job.getPrice());
 
-
+            // Set up button click to trigger listener
             buttonViewDetail.setOnClickListener(v -> listener.onViewDetailsClick(job));
         }
     }

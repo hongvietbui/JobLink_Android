@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <!-- Action Bar -->
-    <!--  <View
-       android:layout_width="match_parent"
-       android:layout_height="56dp"
-       android:background="@color/colorPrimary"
-       android:id="@+id/action_bar"/>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/action_bar"/>
 
-   <!-- Slider Section with transparent buttons -->
+    <!-- Slider Section with transparent buttons -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -106,7 +106,7 @@
             android:paddingLeft="16dp">
 
             <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tvName1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
@@ -114,13 +114,13 @@
                 android:textStyle="bold"/>
 
             <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
-                android:id="@+id/tvemail"
+                android:id="@+id/tvemail2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
                 android:layout_marginTop="4dp"/>
             <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
-                android:id="@+id/tvphonenum"
+                android:id="@+id/tvphonenum3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone number"
@@ -138,26 +138,6 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingTop="16dp">
-
-        <!-- Accept Button -->
-        <Button
-            android:id="@+id/btnAccept"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Accept"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/holo_green_dark"/>
-
-        <!-- Cancel Button -->
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/holo_red_dark"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
+import com.SE1730.Group3.JobLink.src.presentation.activities.JobDetailsActivity;
 
 import java.util.List;
 
 public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdapter.JobViewHolder> {
     private List<JobDTO> jobList;
-    private OnItemClickListener listener;
+    private Context context;
 
-    public interface OnItemClickListener {
-        void onViewDetailsClick(JobDTO job);
-    }
-
-    public WorkerViewJobAdapter(OnItemClickListener listener) {
-        this.listener = listener;
+    public WorkerViewJobAdapter(Context context) {
+        this.context = context;
     }
 
     public void setJobs(List<JobDTO> jobs) {
@@ -42,7 +41,7 @@ public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdap
     @Override
     public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
         JobDTO job = jobList.get(position);
-        holder.bind(job, listener);
+        holder.bind(job);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdap
         return jobList != null ? jobList.size() : 0;
     }
 
-    static class JobViewHolder extends RecyclerView.ViewHolder {
+    class JobViewHolder extends RecyclerView.ViewHolder {
         private TextView jobName;
         private TextView jobAddress;
         private TextView jobStatus;
@@ -68,14 +67,19 @@ public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdap
             onViewDetailsClick = itemView.findViewById(R.id.DetailOwnerJob_btn);
         }
 
-        public void bind(JobDTO job, OnItemClickListener listener) {
+        public void bind(JobDTO job) {
             jobName.setText(job.getName());
             jobAddress.setText("Address: " + job.getAddress());
             jobStatus.setText("Status: " + job.getStatus());
             jobDuration.setText("Duration: " + job.getDuration() + " hours");
             jobPrice.setText("Price: $" + job.getPrice());
 
-            onViewDetailsClick.setOnClickListener(v -> listener.onViewDetailsClick(job));
+            // Set click listener to start JobDetailsActivity with jobId
+            onViewDetailsClick.setOnClickListener(v -> {
+                Intent intent = new Intent(context, JobDetailsActivity.class);
+                intent.putExtra("jobId", job.getId().toString());
+                context.startActivity(intent);
+            });
         }
     }
 }
