@@ -29,7 +29,8 @@ public class DatabaseModule {
                 context.getApplicationContext(),
                 JobLinkDatabase.class,
                 "joblink_database"
-        ).addMigrations(UpdateDatabase.MIGRATION_1_2).build();
+        ).addMigrations(UpdateDatabase.MIGRATION_1_2)
+        .addMigrations(UpdateDatabase.MIGRATION_2_3).build();
     }
 
     @Provides

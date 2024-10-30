@@ -10,7 +10,7 @@ import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 
 @Database(entities = {User.class, Message.class}
-        , version = 2)
+        , version = 3)
 @TypeConverters({DateTimeConverter.class})
 public abstract class JobLinkDatabase extends RoomDatabase {
     public abstract IUserDAO userDAO();

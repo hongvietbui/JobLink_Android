@@ -106,9 +106,6 @@ public class RegisterActivity extends BaseActivity {
 
     private void openLoginActivity(){
         //Todo: open login activity
-        Intent intent;
-        intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
         Toast.makeText(this, "Open login activity", Toast.LENGTH_SHORT).show();
     }
 

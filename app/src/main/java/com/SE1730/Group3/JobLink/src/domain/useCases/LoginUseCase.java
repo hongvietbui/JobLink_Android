@@ -57,6 +57,8 @@ public class LoginUseCase {
                                         Log.d("LoginDebug", "User data: " + userResp.getData().toString());
 
                                         userDAO.deleteAllUsers();
+                                        User user = IUserMapper.INSTANCE.toUser(userResp.getData());
+
                                         userDAO.insert(IUserMapper.INSTANCE.toUser(userResp.getData()));
                                         return true;
                                     } else {
