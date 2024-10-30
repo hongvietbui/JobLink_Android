@@ -19,6 +19,11 @@
         android:theme="@style/Theme.JobLink"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <service
+            android:name=".src.domain.utilities.signalR.ChatHubService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".src.presentation.activities.BaseActivity"
             android:exported="false" />
@@ -50,7 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".src.presentation.activities.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity android:name=".src.presentation.activities.LoginActivity" />
