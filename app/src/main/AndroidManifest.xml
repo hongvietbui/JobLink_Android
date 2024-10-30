@@ -22,15 +22,15 @@
         <service
             android:name=".src.domain.utilities.signalR.ChatHubService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"/>
+        <service
+            android:name=".src.domain.utilities.signalR.TransferHubService"
+            android:exported="false" />
 
         <activity
             android:name=".src.presentation.activities.BaseActivity"
             android:exported="false" />
 
-        <service
-            android:name=".src.domain.utilities.signalR.TransferHubService"
-            android:exported="false" />
 
         <activity
             android:name=".src.presentation.activities.AppliedWorkersActivity"

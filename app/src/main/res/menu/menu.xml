@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Common items -->
     <item
         android:id="@+id/nav_home"
-        android:title="Home" />
+        android:title="Home"
+        app:showAsAction="always" />
 
     <!-- Logged-in items -->
     <group android:id="@+id/logged_in_group" android:visible="false">
         <item
             android:id="@+id/nav_manage_job"
-            android:title="Manage Job" />
+            android:title="Manage Job"
+            app:showAsAction="always" />
         <item
             android:id="@+id/nav_manage_transaction"
             android:title="Manage Transaction" />
