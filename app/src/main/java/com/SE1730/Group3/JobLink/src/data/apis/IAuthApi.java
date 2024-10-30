@@ -5,11 +5,11 @@ import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.ForgetPassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.LoginReqDTO;
-import com.SE1730.Group3.JobLink.src.data.models.request.RefreshTokenReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.RegisterReqDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.ResetPassDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.RefreshTokenReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.AccessTokenRespDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.OtpReqDTO;
-import com.SE1730.Group3.JobLink.src.data.models.request.ResetPassDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -30,6 +30,7 @@ public interface IAuthApi {
     Call<ApiResp<String>> VerifyOtp(@Body ApiReq<OtpReqDTO> request);
     @POST("auth/reset-password")
     Call<ApiResp<String>> ResetPassword(@Body ApiReq<ResetPassDTO> request);
-    @POST("user/change-password")
+       @POST("user/change-password")
     Observable<ApiResp<String>> changePassUser (@Body ApiReq<ChangePassReqDTO> request);
+ 
 }

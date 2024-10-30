@@ -9,10 +9,10 @@ import org.threeten.bp.LocalDateTime;
 
 import java.util.UUID;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
+@Builder
 @Data
 @Entity(tableName = "Users")
 public class User extends BaseEntity<UUID> {
@@ -31,4 +31,26 @@ public class User extends BaseEntity<UUID> {
     private String refreshToken;
     private LocalDateTime refreshTokenExpiryTime;
     private UserStatus status;
+
+    // Full constructor
+    public User(String username, String password, String email, String firstName, String lastName,
+                String phoneNumber, String dateOfBirth, String address, Integer lat, Integer lon,
+                String avatar, UUID roleId, String refreshToken, LocalDateTime refreshTokenExpiryTime,
+                UserStatus status) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.lat = lat;
+        this.lon = lon;
+        this.avatar = avatar;
+        this.roleId = roleId;
+        this.refreshToken = refreshToken;
+        this.refreshTokenExpiryTime = refreshTokenExpiryTime;
+        this.status = status;
+    }
 }

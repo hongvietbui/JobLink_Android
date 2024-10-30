@@ -12,13 +12,12 @@ import com.SE1730.Group3.JobLink.src.data.repositoryImpls.TransactionRepositoryI
 import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
-import retrofit2.Retrofit;
-
-import javax.inject.Singleton;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -41,4 +40,10 @@ public class RepositoryModule {
     public ITransactionRepository provideTransactionRepository(ITransactionApi transactionApi) {
         return new TransactionRepositoryImpl(transactionApi);
     }
-}
+        @Provides
+        @Singleton
+        public ITransactionRepository provideTransactionRepository (ITransactionApi transactionApi){
+            return new TransactionRepositoryImpl(transactionApi);
+        }
+    }
+

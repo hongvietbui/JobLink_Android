@@ -14,7 +14,6 @@ public class JobDTO {
     private String name;
     private String description;
     private UUID ownerId;
-    private UUID workerId;
     private String address;
     private Integer lat;
     private Integer lon;
