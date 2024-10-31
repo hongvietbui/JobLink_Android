@@ -8,8 +8,8 @@ import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
-import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
@@ -163,11 +163,11 @@ public class JobRepositoryImpl implements IJobRepository {
         });
     }
     @Override
-    public Observable<ApiResp<JobAndOwnerDetailsResponse>> JobDetail(UUID jobId) throws IOException{
+    public Observable<ApiResp<JobOwnerDetailsResp>> getJobOwnerDetails(UUID jobId) throws IOException{
         return Observable.create(emitter -> {
-            jobApi.GetJobOwnerDetails(jobId).enqueue(new Callback<ApiResp<JobAndOwnerDetailsResponse>>() {
+            jobApi.GetJobOwnerDetails(jobId).enqueue(new Callback<ApiResp<JobOwnerDetailsResp>>() {
                 @Override
-                public void onResponse(Call<ApiResp<JobAndOwnerDetailsResponse>> call, Response<ApiResp<JobAndOwnerDetailsResponse>> response) {
+                public void onResponse(Call<ApiResp<JobOwnerDetailsResp>> call, Response<ApiResp<JobOwnerDetailsResp>> response) {
                     if(response.isSuccessful()){
                         if(!emitter.isDisposed()){
                             emitter.onNext(response.body());
@@ -182,7 +182,7 @@ public class JobRepositoryImpl implements IJobRepository {
                 }
 
                 @Override
-                public void onFailure(Call<ApiResp<JobAndOwnerDetailsResponse>> call, Throwable throwable) {
+                public void onFailure(Call<ApiResp<JobOwnerDetailsResp>> call, Throwable throwable) {
                     if (!emitter.isDisposed()) {
                         emitter.onError(new IOException("Network request failed", throwable));
                     }
@@ -192,11 +192,13 @@ public class JobRepositoryImpl implements IJobRepository {
     }
 
     @Override
+    public Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException {
+        return jobApi.getUserRoleByJobId(jobId);
+    }
+
+    @Override
     public Observable<ApiResp<String>> createJob(CreateJobRequest request) {
         ApiReq<CreateJobRequest> apiReq = new ApiReq<>(request);
         return jobApi.createJob(apiReq);
     }
-
-
-
 }

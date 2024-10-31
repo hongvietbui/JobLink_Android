@@ -31,7 +31,12 @@
             android:name=".src.presentation.activities.BaseActivity"
             android:exported="false" />
 
-
+        <activity
+            android:name=".src.presentation.activities.UserManageJobActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.presentation.activities.ViewJobActivity"
+            android:exported="true" />
         <activity
             android:name=".src.presentation.activities.AppliedWorkersActivity"
             android:exported="false" />
@@ -56,21 +61,20 @@
             android:name=".src.presentation.activities.ChangePassActivity"
             android:exported="false" />
         <activity
-        android:name=".src.presentation.activities.LoginActivity"
-        android:exported="true"><intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
-
-        <activity
             android:name=".src.presentation.activities.MainActivity"
-            android:exported="false" >
+            android:exported="true" >
 
         </activity>
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
+        <activity android:name=".src.presentation.activities.LoginActivity" android:exported="true">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
+        <activity android:name=".src.presentation.activities.TopUpHistoryActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

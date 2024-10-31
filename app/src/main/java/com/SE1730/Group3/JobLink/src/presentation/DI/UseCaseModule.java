@@ -2,11 +2,10 @@ package com.SE1730.Group3.JobLink.src.presentation.DI;
 
 import android.content.SharedPreferences;
 
-import com.SE1730.Group3.JobLink.src.data.repositoryImpls.UserRepositoryImpl;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
+import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
-import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetNotificationUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetQRCodeByUserIdUseCase;
