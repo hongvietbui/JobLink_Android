@@ -46,31 +46,7 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     public Observable<ApiResp<String>> registerUser(RegisterReqDTO request) throws IOException {
-        return Observable.create(emmiter -> {
-            ApiReq<RegisterReqDTO> apiReq = new ApiReq<>(request);
-
-            authApi.registerUser(apiReq).enqueue(new retrofit2.Callback<ApiResp<String>>() {
-                @Override
-                public void onResponse(Call<ApiResp<String>> call, Response<ApiResp<String>> response) {
-                    if (response.isSuccessful()) {
-                        if (!emmiter.isDisposed()) {
-                            emmiter.onNext(response.body());
-                            emmiter.onComplete();
-                        }
-                    } else {
-                        if (!emmiter.isDisposed())
-                            emmiter.onError(new IOException("Failed to register user"));
-                    }
-                }
-
-
-                @Override
-                public void onFailure(Call<ApiResp<String>> call, Throwable t) {
-                    if (!emmiter.isDisposed())
-                        emmiter.onError(new IOException("Failed to register user"));
-                }
-            });
-        });
+        return authApi.registerUser(new ApiReq<>(request));
     }
 
     @Override

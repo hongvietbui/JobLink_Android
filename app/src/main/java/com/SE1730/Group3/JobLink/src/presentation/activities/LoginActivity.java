@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
@@ -24,8 +23,6 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -110,7 +107,7 @@ public class LoginActivity extends BaseActivity {
 
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, TopUpHistoryActivity.class);
+                        intent = new Intent(this, HomeActivity.class);
                         startActivity(intent);
 
                         userDAO.getCurrentUser()

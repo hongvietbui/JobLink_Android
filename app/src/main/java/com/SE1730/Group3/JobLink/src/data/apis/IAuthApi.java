@@ -19,7 +19,7 @@ import retrofit2.http.POST;
 
 public interface IAuthApi {
     @POST("auth/register")
-    Call<ApiResp<String>> registerUser(@Body ApiReq<RegisterReqDTO> request);
+    Observable<ApiResp<String>> registerUser(@Body ApiReq<RegisterReqDTO> request);
     @POST("auth/login")
     Observable<ApiResp<LoginRespDTO>> loginUser(@Body ApiReq<LoginReqDTO> request);
     @POST("auth/refresh-access-token")
@@ -30,7 +30,7 @@ public interface IAuthApi {
     Call<ApiResp<String>> VerifyOtp(@Body ApiReq<OtpReqDTO> request);
     @POST("auth/reset-password")
     Call<ApiResp<String>> ResetPassword(@Body ApiReq<ResetPassDTO> request);
-       @POST("user/change-password")
+    @POST("user/change-password")
     Observable<ApiResp<String>> changePassUser (@Body ApiReq<ChangePassReqDTO> request);
  
 }

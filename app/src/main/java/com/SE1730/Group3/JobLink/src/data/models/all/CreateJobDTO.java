@@ -9,16 +9,10 @@ import lombok.Data;
 
 @Builder
 @Data
-public class JobDTO {
-    private UUID id;
+public class CreateJobDTO {
     private String name;
     private String description;
-    private UUID ownerId;
-    private String address;
-    private Integer lat;
-    private Integer lon;
     private JobStatus status;
     private Double duration ;
     private Double price;
-    private String Avatar;
 }

@@ -54,7 +54,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             LatLng location = new LatLng(lat, lon);
             googleMap.addMarker(new com.google.android.gms.maps.model.MarkerOptions().position(location).title("Job Location"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 30));
         } else {
             // If arguments are missing, log a warning
             Log.w("MapFragment", "Latitude and Longitude arguments are missing");

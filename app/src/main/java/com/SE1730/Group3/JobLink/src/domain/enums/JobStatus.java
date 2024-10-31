@@ -7,7 +7,8 @@ public enum JobStatus {
     EXPIRED("Expired"),
     DELETED("Deleted"),
     COMPLETED("Completed"),
-    IN_PROGRESS("InProgress");
+    IN_PROGRESS("InProgress"),
+    WAITING_FOR_APPLICANTS("WaitingForApplicants");
 
     public final String value;
 

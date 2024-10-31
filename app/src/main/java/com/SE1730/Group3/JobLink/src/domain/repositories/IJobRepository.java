@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.domain.repositories;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
@@ -14,7 +15,6 @@ import java.util.concurrent.CompletableFuture;
 
 import io.reactivex.rxjava3.core.Observable;
 
-
 public interface IJobRepository {
     CompletableFuture<ApiResp<Pagination<JobDTO>>> getJobs(int pageIndex, int pageSize, String sortBy, boolean isDescending, String filter) throws IOException;
 
@@ -24,7 +24,12 @@ public interface IJobRepository {
 
     Observable<ApiResp<List<UserDTO>>> listUserApplyJob(UUID jobId) throws IOException;
 
-    Observable<ApiResp<JobAndOwnerDetailsResponse>> JobDetail(UUID jobId) throws IOException;
+    Observable<ApiResp<JobOwnerDetailsResp>> getJobOwnerDetails(UUID jobId) throws IOException;
+
+    Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException;
+
+    Observable<ApiResp<String>> createJob(CreateJobRequest request);
+
     Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken);
     Observable<ApiResp<String>> acceptWorker(String jobId, String workerId) throws IOException;
     Observable<ApiResp<String>> rejectWorker(String jobId, String workerId) throws IOException;

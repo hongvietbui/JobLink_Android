@@ -15,7 +15,7 @@
 
         <!-- Job Name -->
         <TextView
-            android:id="@+id/jobName"
+            android:id="@+id/jobNameUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Job Name"
@@ -26,27 +26,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="#000000"/>
 
-        <!-- Job Description -->
-        <TextView
-            android:id="@+id/jobDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Job Description"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"
-            android:textColor="#555555"/>
 
         <!-- Address -->
         <TextView
-            android:id="@+id/jobAddress"
+            android:id="@+id/jobAddressUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Job Address"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobDescription"
+            app:layout_constraintTop_toBottomOf="@id/jobNameUser"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
@@ -54,12 +42,12 @@
 
         <!-- Status -->
         <TextView
-            android:id="@+id/jobStatus"
+            android:id="@+id/jobStatusUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobAddress"
+            app:layout_constraintTop_toBottomOf="@id/jobAddressUser"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
@@ -67,12 +55,12 @@
 
         <!-- Duration -->
         <TextView
-            android:id="@+id/DurationJob"
+            android:id="@+id/DurationJobUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Duration: 4 hours"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobStatus"
+            app:layout_constraintTop_toBottomOf="@id/jobStatusUser"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
@@ -80,12 +68,12 @@
 
         <!-- Price -->
         <TextView
-            android:id="@+id/PriceJob"
+            android:id="@+id/PriceJobUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Price: $300"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/DurationJob"
+            app:layout_constraintTop_toBottomOf="@id/DurationJobUser"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="8dp"
@@ -93,11 +81,11 @@
 
         <!-- View Applicants Button -->
         <Button
-            android:id="@+id/buttonViewApplicants"
+            android:id="@+id/DetailOwnerJob_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="View Applicants"
-            app:layout_constraintTop_toBottomOf="@id/PriceJob"
+            android:text="Detail"
+            app:layout_constraintTop_toBottomOf="@id/PriceJobUser"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
