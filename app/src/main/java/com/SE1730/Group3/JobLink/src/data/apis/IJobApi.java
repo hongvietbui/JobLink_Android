@@ -60,10 +60,10 @@ public interface IJobApi {
     Call<ApiResp<JobOwnerDetailsResp>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
 
     @PATCH("job/assign/{jobId}")
-    Observable<ApiResp<String>> AssignJob(@Path("jobId") UUID jobId, @Query("userId") UUID userId);
+    Observable<ApiResp<String>> assignJob(@Path("jobId") UUID jobId);
 
     @PATCH("job/accept/{jobId}/{workerId}")
-    Observable<ApiResp<String>> AcceptJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
+    Observable<ApiResp<String>> acceptJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
     
     @POST("Job/create-job")
     Observable<ApiResp<String>> createJob(@Body ApiReq<CreateJobRequest> request);
