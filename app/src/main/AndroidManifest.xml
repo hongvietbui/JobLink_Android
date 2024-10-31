@@ -30,7 +30,9 @@
         <activity
             android:name=".src.presentation.activities.BaseActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".src.presentation.activities.ResetPasswordActivity"
+            android:exported="true" />
         <activity
             android:name=".src.presentation.activities.UserManageJobActivity"
             android:exported="true" />
