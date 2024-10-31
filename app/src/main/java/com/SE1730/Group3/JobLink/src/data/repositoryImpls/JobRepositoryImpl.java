@@ -196,6 +196,7 @@ public class JobRepositoryImpl implements IJobRepository {
         return jobApi.getUserRoleByJobId(jobId);
     }
 
+    @Override
     public Observable<ApiResp<String>> createJob(CreateJobRequest request) {
         ApiReq<CreateJobRequest> apiReq = new ApiReq<>(request);
         return jobApi.createJob(apiReq);

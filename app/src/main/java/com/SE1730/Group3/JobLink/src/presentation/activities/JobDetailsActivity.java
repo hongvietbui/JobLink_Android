@@ -85,7 +85,7 @@ public class JobDetailsActivity extends BaseActivity {
                         if (apiResp.getStatus() == 200) {
                             String role = apiResp.getData();
                             Log.d("JobDetailsActivity", "User role: " + role);
-                            if (role.equals("Owner")) {
+                            if (role.equals("JobOwner")) {
                                 btnAccept.setVisibility(Button.GONE);
                                 btnCancel.setVisibility(Button.GONE);
                                 btnListApplicant.setVisibility(Button.VISIBLE);
@@ -212,6 +212,8 @@ public class JobDetailsActivity extends BaseActivity {
                 updateButtonStyles(position);
             }
         });
+
+        btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -231,5 +233,11 @@ public class JobDetailsActivity extends BaseActivity {
                 btnDetails.setBackgroundColor(getResources().getColor(R.color.aquamarine15));
                 break;
         }
+    }
+
+    private void startAppliedWorkersActivity() {
+        Intent intent = new Intent(this, AppliedWorkersActivity.class);
+        intent.putExtra("jobId", jobId.toString());
+        startActivity(intent);
     }
 }

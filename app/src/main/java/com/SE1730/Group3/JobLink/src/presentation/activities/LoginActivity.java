@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
 
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, MainActivity.class);
+                        intent = new Intent(this, HomeActivity.class);
                         startActivity(intent);
 
                         userDAO.getCurrentUser()

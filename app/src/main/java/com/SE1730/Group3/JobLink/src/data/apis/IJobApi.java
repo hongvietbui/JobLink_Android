@@ -8,7 +8,6 @@ import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
-import com.SE1730.Group3.JobLink.src.data.models.resposnse.JobAndOwnerDetailsResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +35,7 @@ public interface IJobApi {
     Call<ApiResp<JobDTO>> getJobById(@Query("jobId") UUID jobId);
 
     @GET("job/role")
-    Observable<ApiResp<String>> getUserRoleByJobId(@Query("role") UUID jobId);
+    Observable<ApiResp<String>> getUserRoleByJobId(@Query("jobId") UUID jobId);
 
     @GET("Job/created-by-user")
     Call<ApiResp<Pagination<JobDTO>>> GetJobsCreatedByUser(
