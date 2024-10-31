@@ -65,7 +65,7 @@ public interface IJobApi {
     Call<ApiResp<JobOwnerDetailsResp>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
 
     @PATCH("job/assign/{jobId}")
-    Observable<ApiResp<String>> AssignJob(@Path("jobId") UUID jobId, @Query("userId") UUID userId);
+    Observable<ApiResp<String>> assignJob(@Path("jobId") UUID jobId);
 
     @PATCH("job/accept/{jobId}/{workerId}")
     Observable<ApiResp<String>> AcceptWorker(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);

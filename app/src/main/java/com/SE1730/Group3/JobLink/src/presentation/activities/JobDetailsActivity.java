@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
+import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserRoleOfJobUserCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
@@ -22,6 +24,7 @@ import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.MapFragment;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobDetailViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +45,9 @@ public class JobDetailsActivity extends BaseActivity {
     @Inject
     JobDetailUsecase jobDetailUsecase;
 
+    @Inject
+    AssignJobUseCase assignJobUseCase;
+
     CompositeDisposable compositeDisposable;
 
     private ViewPager2 viewPager;
@@ -51,7 +57,6 @@ public class JobDetailsActivity extends BaseActivity {
     private TextView tvName, tvemail, tvLocation, tvphone;
     private Button btnAccept, btnCancel;
     private Button btnListApplicant;
-    private JobDetailViewModel jobDetailViewModel;
     private UUID jobId;
 
     @Override
@@ -63,7 +68,6 @@ public class JobDetailsActivity extends BaseActivity {
         onBinding();
         setEvents();
 
-        jobDetailViewModel = new ViewModelProvider(this).get(JobDetailViewModel.class);
         loadJobDetails();
     }
 
@@ -169,7 +173,6 @@ public class JobDetailsActivity extends BaseActivity {
         }
     }
 
-
     private void onBinding() {
         viewPager = findViewById(R.id.viewPager);
         btnLeft = findViewById(R.id.btnLeft);
@@ -214,6 +217,9 @@ public class JobDetailsActivity extends BaseActivity {
         });
 
         btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
+
+        btnAccept.setOnClickListener(v -> assignJob(jobId));
+        btnAccept.setOnClickListener(v -> cancelJob());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -238,6 +244,33 @@ public class JobDetailsActivity extends BaseActivity {
     private void startAppliedWorkersActivity() {
         Intent intent = new Intent(this, AppliedWorkersActivity.class);
         intent.putExtra("jobId", jobId.toString());
+        startActivity(intent);
+    }
+
+    private void assignJob(UUID jobId) {
+        try{
+            Disposable assignJobDisposable = assignJobUseCase.execute(jobId.toString())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(apiResp -> {
+                        if (apiResp.getStatus() == 200) {
+                            Toast.makeText(this, "Job assigned successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "You've accepted this job already", Toast.LENGTH_SHORT).show();
+                        }
+                    }, throwable -> {
+                        // Error handling for assignJobUseCase
+                        Log.e("JobDetailsActivity", "You've accepted this job already", throwable);
+                    });
+
+            compositeDisposable.add(assignJobDisposable);
+        }catch (Exception ex){
+            Toast.makeText(this, "You've accepted this job already", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cancelJob(){
+        Intent intent = new Intent(this, ViewJobActivity.class);
         startActivity(intent);
     }
 }
