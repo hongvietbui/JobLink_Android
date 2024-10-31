@@ -33,7 +33,7 @@ public interface IJobApi {
     );
 
     @GET("job/id")
-    Call<ApiResp<JobDTO>> getJobById(@Query("jobId") UUID jobId);
+    Observable<ApiResp<JobDTO>> getJobById(@Query("jobId") UUID jobId);
 
     @GET("job/role")
     Observable<ApiResp<String>> getUserRoleByJobId(@Query("jobId") UUID jobId);
