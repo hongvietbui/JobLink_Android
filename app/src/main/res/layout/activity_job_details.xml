@@ -145,25 +145,34 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Accept"
+            android:text="Assign"
             android:textColor="@android:color/white"
             android:backgroundTint="@android:color/holo_green_dark"/>
 
         <!-- Cancel Button -->
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/holo_red_dark"/>
+<!--        <Button-->
+<!--            android:id="@+id/btnCancel"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Cancel"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:backgroundTint="@android:color/holo_red_dark"/>-->
 
         <Button
             android:id="@+id/btnListApplicant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View List Applicant"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnDoneJob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set done status"
             android:textColor="@android:color/white"
             android:backgroundTint="@android:color/holo_blue_dark"
             android:visibility="gone"/>

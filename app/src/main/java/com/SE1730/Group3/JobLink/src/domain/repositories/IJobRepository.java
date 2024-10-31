@@ -19,6 +19,7 @@ import io.reactivex.rxjava3.core.Observable;
 public interface IJobRepository {
     CompletableFuture<ApiResp<Pagination<JobDTO>>> getJobs(int pageIndex, int pageSize, String sortBy, boolean isDescending, String filter) throws IOException;
 
+    Observable<ApiResp<JobDTO>> getJobById(UUID jobId) throws IOException;
     Observable<ApiResp<Pagination<JobDTO>>> getJobsCreatedByUser(int pageIndex, int pageSize, String sortBy, boolean isDescending) throws IOException;
 
     Observable<ApiResp<Pagination<JobDTO>>> getJobsAppliedByUser(int pageIndex, int pageSize, String sortBy, boolean isDescending) throws IOException;
@@ -30,6 +31,7 @@ public interface IJobRepository {
     Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException;
 
     Observable<ApiResp<String>> createJob(CreateJobRequest request);
+    Observable<ApiResp<String>> assignJob(UUID jobId) throws IOException;
 
     Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken);
     Observable<ApiResp<String>> acceptWorker(UUID jobId, UUID workerId) throws IOException;
