@@ -21,12 +21,17 @@ import java.util.Map;
 public class BaseActivity extends AppCompatActivity {
 
     private final Map<Integer, Class<?>> menuActivityMap = new HashMap<>();
+    private boolean isLoggedIn = false; // Trạng thái đăng nhập
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindingMenu();
 
+        // Check if coming from LoginActivity
+        if (getIntent().getBooleanExtra("isLogined", false)) {
+            setLoggedIn(true); // Set login state based on the extra
+        }
     }
 
     private void bindingMenu(){
@@ -34,16 +39,23 @@ public class BaseActivity extends AppCompatActivity {
         menuActivityMap.put(R.id.nav_manage_job, ViewJobActivity.class);
         menuActivityMap.put(R.id.nav_login, LoginActivity.class);
         menuActivityMap.put(R.id.nav_register, RegisterActivity.class);
-        //menuActivityMap.put(R.id.nav_logout, RegisterActivity.class);
         menuActivityMap.put(R.id.nav_manage_transaction, TopUpHistoryActivity.class);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+        updateMenuVisibility(menu); // Update menu based on login state
         return true;
+    }
+
+    private void updateMenuVisibility(Menu menu) {
+        menu.findItem(R.id.nav_logout).setVisible(isLoggedIn);
+        menu.findItem(R.id.nav_manage_job).setVisible(isLoggedIn);
+        menu.findItem(R.id.nav_manage_transaction).setVisible(isLoggedIn);
+        menu.findItem(R.id.nav_login).setVisible(!isLoggedIn);
+        menu.findItem(R.id.nav_register).setVisible(!isLoggedIn);
     }
 
     @Override
@@ -57,5 +69,11 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Phương thức này để gọi khi đăng nhập thành công
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
+        invalidateOptionsMenu(); // Yêu cầu cập nhật lại menu
     }
 }
