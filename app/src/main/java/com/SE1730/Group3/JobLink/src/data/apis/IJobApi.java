@@ -17,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -58,10 +59,10 @@ public interface IJobApi {
     @GET("Job/job-owner-details/{jobId}")
     Call<ApiResp<JobOwnerDetailsResp>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
 
-    @GET("job/assign/{jobId}")
+    @PATCH("job/assign/{jobId}")
     Observable<ApiResp<String>> AssignJob(@Path("jobId") UUID jobId, @Query("userId") UUID userId);
 
-    @GET("job/accept/{jobId}/{workerId}")
+    @PATCH("job/accept/{jobId}/{workerId}")
     Observable<ApiResp<String>> AcceptJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
     
     @POST("Job/create-job")
