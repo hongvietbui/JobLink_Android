@@ -1,6 +1,5 @@
 package com.SE1730.Group3.JobLink.src.domain.entities;
 
-import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;

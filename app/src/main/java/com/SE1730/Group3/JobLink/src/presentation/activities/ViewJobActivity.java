@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -65,8 +66,8 @@ public class ViewJobActivity extends AppCompatActivity {
 
     private void BindingAction() {
         Add_btn.setOnClickListener(v -> {
-         //   Intent intent = new Intent(ViewJobActivity.this, CreateJobActivity.class);
-         //   startActivity(intent);
+           Intent intent = new Intent(ViewJobActivity.this, JobActivity.class);
+            startActivity(intent);
         });
     }
 

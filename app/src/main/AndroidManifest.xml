@@ -36,11 +36,7 @@
             android:exported="true" />
         <activity
             android:name=".src.presentation.activities.ViewJobActivity"
-            android:exported="true" >   <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            android:exported="true" >
         </activity>
         <activity
             android:name=".src.presentation.activities.AppliedWorkersActivity"
@@ -56,11 +52,7 @@
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".src.presentation.activities.ChangePassActivity"
@@ -73,7 +65,11 @@
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity android:name=".src.presentation.activities.LoginActivity" android:exported="true">
-        </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> </activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
         <activity android:name=".src.presentation.activities.TopUpHistoryActivity" />
 
