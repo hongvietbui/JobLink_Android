@@ -4,6 +4,7 @@ import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -17,9 +18,8 @@ public class AcceptWorkerUseCase {
         this.jobRepository = jobRepository;
     }
 
-    public Observable<ApiResp<String>> execute(String accessToken,
-                                               String jobId,
-                                               String workerId) throws IOException {
-        return jobRepository.acceptWorker(accessToken, jobId, workerId);
+    public Observable<ApiResp<String>> execute(UUID jobId,
+                                               UUID workerId) throws IOException {
+        return jobRepository.acceptWorker(jobId, workerId);
     }
 }

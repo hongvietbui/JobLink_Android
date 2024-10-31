@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -27,8 +28,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdapter.ViewHolder> {
     private List<UserDTO> appliedWorkers;
     private OnWorkerClickListener listener;
-    private String jobId;
-    private String accessToken;
+    private UUID jobId;
 
     @Inject
     AcceptWorkerUseCase acceptWorkerUseCase;
@@ -36,11 +36,10 @@ public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdap
     RejectWorkerUseCase rejectWorkerUseCase;
 
     public AppliedWorkerAdapter(List<UserDTO> appliedWorkers, OnWorkerClickListener listener,
-                                String jobId, String accessToken) {
+                                UUID jobId) {
         this.appliedWorkers = appliedWorkers;
         this.listener = listener;
         this.jobId = jobId;
-        this.accessToken = accessToken;
     }
 
     @NonNull
@@ -85,7 +84,7 @@ public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdap
 
     private void onBtnApproveClick(ViewHolder holder, UserDTO worker) throws IOException {
         // Xử lý chấp nhận công nhân và truyền jobId và accessToken
-        acceptWorkerUseCase.execute(accessToken, jobId, worker.getId().toString()) // Cập nhật hàm execute để nhận thêm tham số
+        acceptWorkerUseCase.execute(jobId, worker.getId()) // Cập nhật hàm execute để nhận thêm tham số
                 .subscribeOn(Schedulers.io())
                 .subscribe(resp -> {
                     Toast.makeText(holder.itemView.getContext(), "Worker Accepted", Toast.LENGTH_SHORT).show();
@@ -96,7 +95,7 @@ public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdap
 
     private void onBtnDeclineClick(ViewHolder holder, UserDTO worker) throws IOException {
         // Xử lý từ chối công nhân và truyền jobId và accessToken
-        rejectWorkerUseCase.execute(accessToken, jobId, worker.getId().toString()) // Cập nhật hàm execute để nhận thêm tham số
+        rejectWorkerUseCase.execute(jobId, worker.getId()) // Cập nhật hàm execute để nhận thêm tham số
                 .subscribeOn(Schedulers.io())
                 .subscribe(resp -> {
                     Toast.makeText(holder.itemView.getContext(), "Worker Rejected", Toast.LENGTH_SHORT).show();

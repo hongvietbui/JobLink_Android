@@ -21,6 +21,11 @@ import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.GetUserHomepageDataViewModel;
 
+import java.io.IOException;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeActivity extends BaseActivity {
     private ImageView imageAvatar;
     private TextView tvUsername;
@@ -45,7 +50,7 @@ public class HomeActivity extends BaseActivity {
         tvTaskCreated = findViewById(R.id.tvTaskCreated);
         rvJobList = findViewById(R.id.rvJobList);
 
-        viewModel = new ViewModelProvider(this).get(GetUserHomepageDataViewModel.class);
+
     }
 
     private void bindingAction(){
@@ -71,12 +76,19 @@ public class HomeActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        viewModel = new ViewModelProvider(this).get(GetUserHomepageDataViewModel.class);
         bindingView();
-        loadUserData();
+        try {
+            loadUserData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         bindingAction();
     }
 
-    private void loadUserData() {
+    private void loadUserData() throws IOException {
+        viewModel.GetUserHomepageData();
+
         viewModel.getUserHomepageDataResult.observe(this, result -> {
             if (result != null && result.getData() != null) {
                 UserHompageDTO userData = result.getData();
@@ -86,7 +98,8 @@ public class HomeActivity extends BaseActivity {
                 tvEarningToday.setText(userData.getAmountEarnedToday());
                 tvEarningThisMonth.setText(userData.getAmountEarnedThisMonth());
                 tvTotalDeposit.setText(userData.getDepositAmount());
-                tvTaskCreated.setText(userData.getCreateJobThisMonth());
+                tvTaskCreated.setText(userData.getCreateJobThisMonth()+"");
+
             } else {
                 Toast.makeText(this, "Failed to load user homepage data", Toast.LENGTH_SHORT).show();
             }

@@ -14,10 +14,12 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@HiltViewModel
 public class GetUserHomepageDataViewModel extends ViewModel {
     private final GetUserHomepageDataUseCase getUserHomepageDataUseCase;
 

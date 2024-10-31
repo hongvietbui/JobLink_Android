@@ -87,7 +87,7 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         });
 
         // Khởi tạo Adapter và gán nó cho RecyclerView
-        adapter = new AppliedWorkerAdapter(appliedWorkers, this, jobId, accessToken);
+        adapter = new AppliedWorkerAdapter(appliedWorkers, this, jobIdParse);
         recyclerView.setAdapter(adapter);
     }
 
@@ -98,9 +98,9 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
 
     @Override
     public void onWorkerClick(UserDTO worker) {
-        Intent chatIntent = new Intent(this, ChatActivity.class);
-        // Thêm dữ liệu cần thiết vào intent
-        startActivity(chatIntent);
+//        Intent chatIntent = new Intent(this, ChatActivity.class);
+//        // Thêm dữ liệu cần thiết vào intent
+//        startActivity(chatIntent);
     }
 }
 
