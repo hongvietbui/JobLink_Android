@@ -14,17 +14,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         android:gravity="center"
-        android:padding="8dp"
         android:text="Available Jobs"
-        android:textColor="#333333"
+        android:textColor="#FFFFFF"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:elevation="4dp"
+    android:background="@drawable/rounded_background_title"
+    app:layout_constraintEnd_toStartOf="@id/buttonAdd"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- Circular Add Button with Plus Icon -->
 
     <!-- Sort By Spinner -->
+    <ImageButton
+        android:id="@+id/buttonAdd"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button_background"
+        android:backgroundTint="#007BFF"
+        android:contentDescription="Add Job"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/jobsTitle"
+        app:tint="#FFFFFF" />
+
     <Spinner
         android:id="@+id/spinnerSortBy"
         android:layout_width="0dp"

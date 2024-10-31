@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class ViewJobActivity extends AppCompatActivity {
     private EditText editTextFilter;
     private Button buttonApplyFilter;
     private View progressBar;
-
+    private ImageButton Add_btn;
     private int pageIndex = 1;
     private final int pageSize = 10;
     private boolean isLoading = false;
@@ -54,12 +55,19 @@ public class ViewJobActivity extends AppCompatActivity {
         bindingViews();
         setupFilterButton();
         setupRecyclerView();
-
+        BindingAction();
         try {
             fetchJobsFromApi();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void BindingAction() {
+        Add_btn.setOnClickListener(v -> {
+         //   Intent intent = new Intent(ViewJobActivity.this, CreateJobActivity.class);
+         //   startActivity(intent);
+        });
     }
 
     private void bindingViews() {
@@ -69,6 +77,7 @@ public class ViewJobActivity extends AppCompatActivity {
         editTextFilter = findViewById(R.id.editTextFilter);
         buttonApplyFilter = findViewById(R.id.buttonApplyFilter);
         progressBar = findViewById(R.id.progressBar);
+        Add_btn = findViewById(R.id.buttonAdd);
     }
 
     private void setupFilterButton() {
