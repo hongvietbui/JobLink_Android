@@ -3,6 +3,7 @@ package com.SE1730.Group3.JobLink.src.domain.repositories;
 import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.ForgetPassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
@@ -15,6 +16,7 @@ import com.SE1730.Group3.JobLink.src.data.models.response.LoginRespDTO;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -30,4 +32,6 @@ public interface IUserRepository {
     Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException;
 
     Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
+    Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException;
+    Observable<ApiResp<UserHompageDTO>> getUserHomepageData() throws IOException;
 }

@@ -65,4 +65,13 @@ public class UpdateDatabase {
             database.execSQL("ALTER TABLE `Users_new` RENAME TO `Users`");
         }
     };
+
+    public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Thực hiện câu lệnh SQL để thêm cột mới vào bảng User
+            database.execSQL("ALTER TABLE `Message` ADD COLUMN `jobId` BLOB");
+            database.execSQL("ALTER TABLE `Message` ADD COLUMN `isWorker` INTEGER DEFAULT 0 NOT NULL");
+        }
+    };
 }

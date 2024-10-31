@@ -4,12 +4,13 @@ import android.util.Log;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
-import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
@@ -58,6 +59,10 @@ public class JobRepositoryImpl implements IJobRepository {
     }
 
     @Override
+    public Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken){
+        return jobApi.getAppliedWorkersByJobId(jobId, accessToken);
+    }
+
     public Observable<ApiResp<Pagination<JobDTO>>> getJobsCreatedByUser(int pageIndex, int pageSize, String sortBy, boolean isDescending) throws IOException {
         return Observable.create(emitter -> {
 
@@ -194,6 +199,16 @@ public class JobRepositoryImpl implements IJobRepository {
     @Override
     public Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException {
         return jobApi.getUserRoleByJobId(jobId);
+    }
+
+    @Override
+    public Observable<ApiResp<String>> acceptWorker(UUID jobId, UUID workerId) throws IOException {
+        return jobApi.AcceptWorker(jobId, workerId);
+    }
+
+    @Override
+    public Observable<ApiResp<String>> rejectWorker(UUID jobId, UUID workerId) throws IOException {
+        return jobApi.RejectWorker(jobId, workerId);
     }
 
     @Override

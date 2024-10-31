@@ -1,33 +1,52 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.domain.entities.Message;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
-
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
+import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO_Impl;
+import com.SE1730.Group3.JobLink.src.domain.entities.Message;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 public class ChatActivity extends BaseActivity {
 
-    private List<Message> messageList = new ArrayList<>();
+    private List<Message> messageList;
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
     private EditText editTextMessage;
     private ImageView buttonSend, buttonBack;
-    private UUID userId;
+    private UUID senderId;
+    private UUID receiverId;
+    private UUID jobId;
+
+
+    @Inject
+    IMessageDAO messageDAO;
+
+    private BroadcastReceiver messageReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,56 +54,92 @@ public class ChatActivity extends BaseActivity {
         setContentView(R.layout.activity_chat);
         bindingView();
         bindingAction();
-    }
 
-    private UUID getUserIdFromSharedPreferences() {
-        //Todo: sua thanh get tu trang truoc
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        String userIdString = sharedPreferences.getString("userId", null);
+        // Get the senderId, receiverId, and jobId from the Intent
+        String senderIdString = getIntent().getStringExtra("senderId");
+        String receiverIdString = getIntent().getStringExtra("receiverId");
+        String jobIdString = getIntent().getStringExtra("jobId");
 
-        if (userIdString != null) {
-            return UUID.fromString(userIdString);  // Chuyển đổi chuỗi về UUID
-        } else {
-            return null;  // Xử lý trường hợp userId không tồn tại
+        if (senderIdString != null) {
+            senderId = UUID.fromString(senderIdString);
         }
+        if (receiverIdString != null) {
+            receiverId = UUID.fromString(receiverIdString);
+        }
+        if (jobIdString != null) {
+            jobId = UUID.fromString(jobIdString);
+        }
+
+        // Start ChatHubService
+        Intent serviceIntent = new Intent(this, ChatHubService.class);
+        startService(serviceIntent); // This ensures the service is running
+
+        // Set up the message adapter
+        messageAdapter = new MessageAdapter(messageList, senderId);
+        recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewMessages.setAdapter(messageAdapter);
+
+        // Register BroadcastReceiver to listen for new messages
+        registerMessageReceiver();
     }
 
-
-    private void bindingView(){
-        userId = getUserIdFromSharedPreferences();
+    private void bindingView() {
+        messageList = messageDAO.getAllMessageBetweenTwoUser(senderId, receiverId);
         recyclerViewMessages = findViewById(R.id.recyclerViewChat);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.imageViewSend);
         buttonBack = findViewById(R.id.imageViewBack);
-
-        messageAdapter = new MessageAdapter(messageList, userId);
-        recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewMessages.setAdapter(messageAdapter);
     }
 
-    private void bindingAction(){
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageText = editTextMessage.getText().toString().trim();
-                if (!messageText.isEmpty()) {
-                    sendMessage(messageText);
-                    editTextMessage.setText("");
-                }
-            }
-        });
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+    private void bindingAction() {
+        buttonSend.setOnClickListener(this::OnBtnSendClick);
+        buttonBack.setOnClickListener(this::OnBtnBackClick);
+
     }
+
+    private void OnBtnSendClick(View view) {
+        String messageText = editTextMessage.getText().toString().trim();
+        if (!messageText.isEmpty()) {
+            sendMessage(messageText);
+            editTextMessage.setText("");
+        }
+    }
+
+    private void OnBtnBackClick(View view) {
+        onBackPressed();
+    }
+
 
     private void sendMessage(String text) {
-//        Message message = new Message(text, true);
-//        messageList.add(message);
-//        messageAdapter.notifyItemInserted(messageList.size() - 1);
-//        recyclerViewMessages.scrollToPosition(messageList.size() - 1);
+        Message message = new Message(null, senderId, receiverId, text, jobId, true); // Create Message with IDs from Intent
+        ChatHubService.sendMessage(message);
+    }
+
+    private void registerMessageReceiver() {
+        messageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Get new message from Intent and add to Adapter
+                if ("NewMessageReceived".equals(intent.getAction())) {
+                    Message newMessage = (Message) intent.getSerializableExtra("message");
+                    if (newMessage != null) {
+                        messageAdapter.addMessage(newMessage);
+                        recyclerViewMessages.scrollToPosition(messageAdapter.getItemCount() - 1); // Scroll to bottom
+                    }
+                }
+            }
+        };
+
+        IntentFilter filter = new IntentFilter("NewMessageReceived");
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (messageReceiver != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
+        }
     }
 }
+
