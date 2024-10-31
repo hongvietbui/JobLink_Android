@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 @Builder
 @Data
-public class JobAndOwnerDetailsResponse {
+public class JobOwnerDetailsResp {
     private UUID jobId;
     private  String jobName;
     private String description;

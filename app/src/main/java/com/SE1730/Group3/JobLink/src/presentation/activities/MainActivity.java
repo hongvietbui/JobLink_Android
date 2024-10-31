@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends BaseActivity {
-    private Button btnRegister, btnJobDetails, btnLogin, btnTransfer;
+    private Button btnRegister, btnJobDetails, btnLogin, btnTransfer, btnCreateJob, getBtnLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,8 @@ public class MainActivity extends BaseActivity {
         btnJobDetails = findViewById(R.id.btnJobDetails);
         btnLogin = findViewById(R.id.btnLogin);
         btnTransfer = findViewById(R.id.btnTransfer);
+        btnCreateJob = findViewById(R.id.btnCreateJob);
+        getBtnLocation = findViewById(R.id.btnCreateLocation);
     }
 
     private void setEvents(){
@@ -36,6 +38,8 @@ public class MainActivity extends BaseActivity {
         btnJobDetails.setOnClickListener(v -> openJobDetailsActivity());
         btnLogin.setOnClickListener(v -> openLoginActivity());
         btnTransfer.setOnClickListener(v -> openTransferActivity());
+        btnCreateJob.setOnClickListener(v -> openCreateJobActivity());
+        getBtnLocation.setOnClickListener(v -> openCreateLocationActivity());
     }
 
     private void openRegisterActivity(){
@@ -55,6 +59,14 @@ public class MainActivity extends BaseActivity {
 
     private void openTransferActivity(){
         Intent intent = new Intent(this, TransferActivity.class);
+        startActivity(intent);
+    }
+    private void openCreateJobActivity(){
+        Intent intent = new Intent(this, JobActivity.class);
+        startActivity(intent);
+    }
+    private void openCreateLocationActivity(){
+        Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
     }
 }

@@ -158,6 +158,15 @@
             android:text="Cancel"
             android:textColor="@android:color/white"
             android:backgroundTint="@android:color/holo_red_dark"/>
+
+        <Button
+            android:id="@+id/btnListApplicant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View List Applicant"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </LinearLayout>

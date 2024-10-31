@@ -5,16 +5,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.presentation.viewModels.GetUserHomepageDataViewModel;
 
+import java.io.IOException;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeActivity extends BaseActivity {
     private ImageView imageAvatar;
     private TextView tvUsername;
@@ -24,6 +35,8 @@ public class HomeActivity extends BaseActivity {
     private TextView tvEarningToday, tvEarningThisMonth,
             tvTotalDeposit, tvTaskCreated;
     private RecyclerView rvJobList;
+
+    private GetUserHomepageDataViewModel viewModel;
 
     private void bindingView(){
         imageAvatar = findViewById(R.id.imageAvatar);
@@ -36,6 +49,8 @@ public class HomeActivity extends BaseActivity {
         tvTotalDeposit = findViewById(R.id.tvTotalDeposit);
         tvTaskCreated = findViewById(R.id.tvTaskCreated);
         rvJobList = findViewById(R.id.rvJobList);
+
+
     }
 
     private void bindingAction(){
@@ -61,7 +76,34 @@ public class HomeActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        viewModel = new ViewModelProvider(this).get(GetUserHomepageDataViewModel.class);
         bindingView();
+        try {
+            loadUserData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         bindingAction();
+    }
+
+    private void loadUserData() throws IOException {
+        viewModel.GetUserHomepageData();
+
+        viewModel.getUserHomepageDataResult.observe(this, result -> {
+            if (result != null && result.getData() != null) {
+                UserHompageDTO userData = result.getData();
+                // Cập nhật UI ở đây
+                tvUsername.setText(userData.getUserName());
+                tvBalance.setText(userData.getAccountBalance());
+                tvEarningToday.setText(userData.getAmountEarnedToday());
+                tvEarningThisMonth.setText(userData.getAmountEarnedThisMonth());
+                tvTotalDeposit.setText(userData.getDepositAmount());
+                tvTaskCreated.setText(userData.getCreateJobThisMonth()+"");
+
+            } else {
+                Toast.makeText(this, "Failed to load user homepage data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

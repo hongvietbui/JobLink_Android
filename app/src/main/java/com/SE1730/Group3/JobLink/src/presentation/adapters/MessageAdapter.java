@@ -16,7 +16,7 @@ import java.util.UUID;
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Message> messages;
-    private UUID currentUserId; // ID của người dùng hiện tại để phân biệt sent/received
+    private UUID currentUserId;
 
     public MessageAdapter(List<Message> messages, UUID currentUserId) {
         this.messages = messages;
@@ -25,7 +25,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        // So sánh senderId của tin nhắn với currentUserId để xác định kiểu tin nhắn
         if (messages.get(position).getSenderId().equals(currentUserId)) {
             return 1; // sent
         } else {
@@ -60,7 +59,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return messages.size();
     }
 
-    // ViewHolder cho tin nhắn gửi đi
+    // Thêm tin nhắn mới vào danh sách và cập nhật RecyclerView
+    public void addMessage(Message message) {
+        messages.add(message);
+        notifyItemInserted(messages.size() - 1); // Thông báo cập nhật vị trí cuối cùng
+    }
+
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessageSent;
 
@@ -70,7 +74,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    // ViewHolder cho tin nhắn nhận về
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessageReceived;
 
@@ -80,3 +83,4 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 }
+

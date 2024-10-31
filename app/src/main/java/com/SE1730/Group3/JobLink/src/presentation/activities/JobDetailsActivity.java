@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserRoleOfJobUserCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
@@ -25,16 +26,31 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobDetailViewModel;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
 public class JobDetailsActivity extends BaseActivity {
+    @Inject
+    GetUserRoleOfJobUserCase getUserRoleOfJobUserCase;
+
+    @Inject
+    JobDetailUsecase jobDetailUsecase;
+
+    CompositeDisposable compositeDisposable;
+
     private ViewPager2 viewPager;
     private ImageButton btnLeft, btnRight;
     private Button btnMap, btnImage, btnDetails;
     private ImageView ivJobOwner;
     private TextView tvName, tvemail, tvLocation, tvphone;
     private Button btnAccept, btnCancel;
+    private Button btnListApplicant;
     private JobDetailViewModel jobDetailViewModel;
     private UUID jobId;
 
@@ -42,6 +58,8 @@ public class JobDetailsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_details);
+
+        compositeDisposable = new CompositeDisposable();
         onBinding();
         setEvents();
 
@@ -49,62 +67,108 @@ public class JobDetailsActivity extends BaseActivity {
         loadJobDetails();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
     private void loadJobDetails() {
         try {
             Intent intent = getIntent();
             String jobIdString = intent.getStringExtra("jobId");
+
+            Disposable getUserRoleDisposable = getUserRoleOfJobUserCase.execute(UUID.fromString(jobIdString))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(apiResp -> {
+                        if (apiResp.getStatus() == 200) {
+                            String role = apiResp.getData();
+                            Log.d("JobDetailsActivity", "User role: " + role);
+                            if (role.equals("JobOwner")) {
+                                btnAccept.setVisibility(Button.GONE);
+                                btnCancel.setVisibility(Button.GONE);
+                                btnListApplicant.setVisibility(Button.VISIBLE);
+                            } else {
+                                btnAccept.setVisibility(Button.VISIBLE);
+                                btnCancel.setVisibility(Button.VISIBLE);
+                                btnListApplicant.setVisibility(Button.GONE);
+                            }
+                        } else {
+                            Log.e("JobDetailsActivity", "Failed to get user role");
+                        }
+                    }, throwable -> {
+                        // Error handling for getUserRoleOfJobUserCase
+                        Log.e("JobDetailsActivity", "Error fetching user role", throwable);
+                    });
+
+            compositeDisposable.add(getUserRoleDisposable);
+
             if (jobIdString != null) {
                 jobId = UUID.fromString(jobIdString);
-                Log.e("JobDetailsActivity", "Job ID: " + jobId);
+                Log.d("JobDetailsActivity", "Job ID: " + jobId);
             } else {
                 Log.e("JobDetailsActivity", "Job ID string is null");
+                tvName.setText("Job ID not provided");
+                return; // Exit early if jobIdString is null
             }
 
-            jobDetailViewModel.JobDetail(jobId);
-            jobDetailViewModel.jobsDetailResult.observe(this, apiResp -> {
-                if (apiResp.getStatus() == 200) {
-                    JobAndOwnerDetailsResponse jobDetails = apiResp.getData();
-                    Log.d("JobDetailsActivity", "Job Details: " + jobDetails.toString());
+            Disposable jobDetailDisposable = jobDetailUsecase.execute(jobId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(resp -> {
+                        if (resp.getStatus() != 200) {
+                            tvName.setText("Details not available");
+                            tvemail.setText("No email provided");
+                            tvphone.setText("No phone number available");
+                        } else {
+                            JobOwnerDetailsResp jobDetails = resp.getData();
+                            Log.d("JobDetailsActivity", "Job Details: " + jobDetails);
 
-                    // Set text values
-                    tvName.setText(jobDetails.getFirstName() + " " + jobDetails.getLastName());
-                    tvemail.setText(jobDetails.getEmail());
-                    tvphone.setText(jobDetails.getPhoneNumber());
+                            // Update UI with job details
+                            tvName.setText(jobDetails.getFirstName() + " " + jobDetails.getLastName());
+                            tvemail.setText(jobDetails.getEmail());
+                            tvphone.setText(jobDetails.getPhoneNumber());
 
-                    // Create and set up fragments with arguments
-                    JobDetailsFragment jobDetailsFragment = new JobDetailsFragment();
-                    Bundle jobDetailsBundle = new Bundle();
-                    jobDetailsBundle.putString("jobName", jobDetails.getJobName());
-                    jobDetailsBundle.putString("description", jobDetails.getDescription());
-                    jobDetailsFragment.setArguments(jobDetailsBundle);
+                            // Prepare fragments with job details
+                            JobDetailsFragment jobDetailsFragment = new JobDetailsFragment();
+                            Bundle jobDetailsBundle = new Bundle();
+                            jobDetailsBundle.putString("jobName", jobDetails.getJobName());
+                            jobDetailsBundle.putString("description", jobDetails.getDescription());
+                            jobDetailsFragment.setArguments(jobDetailsBundle);
 
-                    JobImageFragment jobImageFragment = new JobImageFragment();
-                    Bundle jobImageBundle = new Bundle();
-                    jobImageBundle.putString("avatar", jobDetails.getAvatar());
-                    jobImageFragment.setArguments(jobImageBundle);
+                            JobImageFragment jobImageFragment = new JobImageFragment();
+                            Bundle jobImageBundle = new Bundle();
+                            jobImageBundle.putString("avatar", jobDetails.getAvatar());
+                            jobImageFragment.setArguments(jobImageBundle);
 
-                    MapFragment mapFragment = new MapFragment();
-                    Bundle mapBundle = new Bundle();
-                    mapBundle.putDouble("lat", jobDetails.getLat());
-                    mapBundle.putDouble("lon", jobDetails.getLon());
-                    mapFragment.setArguments(mapBundle);
+                            MapFragment mapFragment = new MapFragment();
+                            Bundle mapBundle = new Bundle();
+                            mapBundle.putDouble("lat", jobDetails.getLat());
+                            mapBundle.putDouble("lon", jobDetails.getLon());
+                            mapFragment.setArguments(mapBundle);
 
-                    List<Fragment> fragments = List.of(jobDetailsFragment, jobImageFragment, mapFragment);
-                    ViewPagerAdapter adapter = new ViewPagerAdapter(this, fragments);
-                    viewPager.setAdapter(adapter);
+                            // Set up the ViewPager adapter with fragments
+                            List<Fragment> fragments = List.of(jobDetailsFragment, jobImageFragment, mapFragment);
+                            ViewPagerAdapter adapter = new ViewPagerAdapter(this, fragments);
+                            viewPager.setAdapter(adapter);
 
-                    updateButtonStyles(0);
-                } else {
-                    tvName.setText("Details not available");
-                    tvemail.setText("No email provided");
-                    tvphone.setText("No phone number available");
-                }
-            });
+                            updateButtonStyles(0);
+                        }
+                    }, throwable -> {
+                        // Error handling for jobDetailUsecase
+                        Log.e("JobDetailsActivity", "Error loading job details" + throwable.getStackTrace(), throwable);
+                        tvName.setText("Error loading job details");
+                    });
+
+            compositeDisposable.add(jobDetailDisposable);
+
         } catch (Exception e) {
             Log.e("JobDetailsActivity", "Error loading job details", e);
             tvName.setText("Error loading job details");
         }
     }
+
 
     private void onBinding() {
         viewPager = findViewById(R.id.viewPager);
@@ -119,6 +183,7 @@ public class JobDetailsActivity extends BaseActivity {
         tvemail = findViewById(R.id.tvemail);
         btnAccept = findViewById(R.id.btnAccept);
         btnCancel = findViewById(R.id.btnCancel);
+        btnListApplicant = findViewById(R.id.btnListApplicant);
     }
 
     private void setEvents() {
@@ -147,6 +212,8 @@ public class JobDetailsActivity extends BaseActivity {
                 updateButtonStyles(position);
             }
         });
+
+        btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -166,5 +233,11 @@ public class JobDetailsActivity extends BaseActivity {
                 btnDetails.setBackgroundColor(getResources().getColor(R.color.aquamarine15));
                 break;
         }
+    }
+
+    private void startAppliedWorkersActivity() {
+        Intent intent = new Intent(this, AppliedWorkersActivity.class);
+        intent.putExtra("jobId", jobId.toString());
+        startActivity(intent);
     }
 }
