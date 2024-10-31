@@ -40,17 +40,6 @@ tools:context=".src.presentation.activities.ChatActivity">
             android:textStyle="bold"
             android:layout_gravity="center_vertical"/>
 
-        <Button
-            android:id="@+id/buttonAccept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Accept"/>
-
-        <Button
-            android:id="@+id/buttonDecline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Decline"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

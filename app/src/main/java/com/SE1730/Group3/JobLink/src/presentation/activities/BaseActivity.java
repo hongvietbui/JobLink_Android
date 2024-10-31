@@ -35,7 +35,7 @@ public class BaseActivity extends AppCompatActivity {
         menuActivityMap.put(R.id.nav_login, LoginActivity.class);
         menuActivityMap.put(R.id.nav_register, RegisterActivity.class);
         //menuActivityMap.put(R.id.nav_logout, RegisterActivity.class);
-        //menuActivityMap.put(R.id.nav_manage_transaction, RegisterActivity.class);
+        menuActivityMap.put(R.id.nav_manage_transaction, TopUpHistoryActivity.class);
 
     }
 

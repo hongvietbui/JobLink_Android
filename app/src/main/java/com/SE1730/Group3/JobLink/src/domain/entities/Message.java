@@ -19,4 +19,6 @@ public class Message {
     private UUID senderId;
     private UUID receiverId;
     private String text;
+    private UUID jobId;
+    private Boolean isWorker;
 }

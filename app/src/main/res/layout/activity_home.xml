@@ -71,19 +71,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
                     android:id="@+id/btnDeposit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="Deposit" />
+                    android:text="Deposit"
+                    android:background="@android:color/holo_green_dark"/>
 
-                <Button
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
                     android:id="@+id/btnWithdraw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Withdraw" />
+                    android:background="@android:color/holo_red_dark"
+                    android:text="Withdraw"
+                    android:textColor="@color/colorWhite"/>
             </LinearLayout>
 
 

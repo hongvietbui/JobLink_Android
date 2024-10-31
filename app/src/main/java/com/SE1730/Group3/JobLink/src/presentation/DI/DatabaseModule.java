@@ -30,7 +30,8 @@ public class DatabaseModule {
                 JobLinkDatabase.class,
                 "joblink_database"
         ).addMigrations(UpdateDatabase.MIGRATION_1_2)
-        .addMigrations(UpdateDatabase.MIGRATION_2_3).build();
+        .addMigrations(UpdateDatabase.MIGRATION_2_3)
+                .addMigrations(UpdateDatabase.MIGRATION_3_4).build();
     }
 
     @Provides

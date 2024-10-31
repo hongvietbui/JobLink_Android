@@ -29,7 +29,7 @@ import java.util.Calendar;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel registerViewModel;
     private EditText edtUsername, edtEmail, edtPhoneNumber, edtFirstName, edtLastName, edtAddress;
 

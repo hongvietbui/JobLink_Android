@@ -1,12 +1,12 @@
 package com.SE1730.Group3.JobLink.src.data.apis;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
-import com.SE1730.Group3.JobLink.src.data.models.request.ChangePassReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
 
 import java.util.List;
@@ -38,6 +38,11 @@ public interface IJobApi {
     @GET("job/role")
     Observable<ApiResp<String>> getUserRoleByJobId(@Query("jobId") UUID jobId);
 
+    @GET("applied-workers")
+    Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(
+            @Query("jobId") UUID jobId,
+            @Header("Authorization") String accessToken
+    );
     @GET("Job/created-by-user")
     Call<ApiResp<Pagination<JobDTO>>> GetJobsCreatedByUser(
             @Query("pageIndex") int pageIndex,
@@ -63,8 +68,11 @@ public interface IJobApi {
     Observable<ApiResp<String>> assignJob(@Path("jobId") UUID jobId);
 
     @PATCH("job/accept/{jobId}/{workerId}")
-    Observable<ApiResp<String>> acceptJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
-    
+    Observable<ApiResp<String>> AcceptWorker(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
+
+    @PATCH("Job/reject/{jobId}/{workerId}")
+    Observable<ApiResp<String>> RejectWorker(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
+
     @POST("Job/create-job")
     Observable<ApiResp<String>> createJob(@Body ApiReq<CreateJobRequest> request);
 }
