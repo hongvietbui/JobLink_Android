@@ -13,8 +13,11 @@ import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -57,4 +60,12 @@ public interface IJobApi {
     Call<ApiResp<List<UserDTO>>> ListUserApplyJob(@Path("jobId") UUID jobId);
     @GET("Job/job-owner-details/{jobId}")
     Call<ApiResp<JobAndOwnerDetailsResponse>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
+
+    @PATCH("Job/accept/{jobId}/{workerId}")
+    Observable<ApiResp<String>> AcceptWorker(@Query("jobId") String jobId,
+                                                      @Query("workerId") String workerId);
+
+    @PATCH("Job/reject/{jobId}/{workerId}")
+    Observable<ApiResp<String>> RejectWorker(@Query("jobId") String jobId,
+                                                      @Query("workerId") String workerId);
 }

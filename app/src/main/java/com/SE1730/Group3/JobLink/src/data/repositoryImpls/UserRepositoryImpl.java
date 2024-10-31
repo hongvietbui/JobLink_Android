@@ -5,6 +5,7 @@ import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
+import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.ForgetPassReqDTO;
@@ -202,6 +203,11 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException {
         return userApi.getUserByWorkerId(workerId);
+    }
+
+    @Override
+    public Observable<ApiResp<UserHompageDTO>> getUserHomepageData() throws IOException {
+        return userApi.GetUserHomepageData();
     }
 
 

@@ -196,6 +196,15 @@ public class JobRepositoryImpl implements IJobRepository {
     }
 
 
+    @Override
+    public Observable<ApiResp<String>> acceptWorker(String jobId, String workerId) throws IOException {
+        return jobApi.AcceptWorker(jobId, workerId);
+    }
+
+    @Override
+    public Observable<ApiResp<String>> rejectWorker(String jobId, String workerId) throws IOException {
+        return jobApi.RejectWorker(jobId, workerId);
+    }
 
 
 }

@@ -26,5 +26,6 @@ public interface IJobRepository {
 
     Observable<ApiResp<JobAndOwnerDetailsResponse>> JobDetail(UUID jobId) throws IOException;
     Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken);
-
+    Observable<ApiResp<String>> acceptWorker(String jobId, String workerId) throws IOException;
+    Observable<ApiResp<String>> rejectWorker(String jobId, String workerId) throws IOException;
 }

@@ -29,7 +29,7 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
     private RecyclerView recyclerView;
     private AppliedWorkerAdapter adapter;
     private List<JobWorkerDTO> jobWorkerDTOList;
-    private List<UserDTO> appliedWorkers;
+    private List<UserDTO> appliedWorkers = new ArrayList<>(); // Khởi tạo danh sách
     private ViewAppliedWorkerViewModel viewAppliedWorkerViewModel;
 
     @Inject
@@ -46,71 +46,61 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        jobWorkerDTOList = new ArrayList<>();
-        loadAppliedWorkers();
-
-        // Khởi tạo Adapter và gán nó cho RecyclerView
-        adapter = new AppliedWorkerAdapter(appliedWorkers, this);
-        recyclerView.setAdapter(adapter);
-    }
-
-
-    private void loadAppliedWorkers() {
-
         try {
-            Intent intent = new Intent();
-            String jobId = intent.getStringExtra("jobId");
-            UUID jobIdParse = UUID.fromString(jobId);
-
-            String accessToken= getAccessTokenFromSharedPreferences();
-
-            viewAppliedWorkerViewModel.ViewAppliedWorker(jobIdParse, accessToken);
-        }catch (IOException e){
+            loadAppliedWorkers(); // Gọi phương thức tải dữ liệu
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private void loadAppliedWorkers() throws IOException {
+        Intent intent = getIntent(); // Lấy intent từ activity
+        String jobId = intent.getStringExtra("jobId");
+        UUID jobIdParse = UUID.fromString(jobId);
+        String accessToken = getAccessTokenFromSharedPreferences();
+
+        viewAppliedWorkerViewModel.ViewAppliedWorker(jobIdParse, accessToken);
         viewAppliedWorkerViewModel.viewAppliedWorkerResult.observe(this, result -> {
-            if(result!=null){
-
+            if (result != null && result.getData() != null) {
                 jobWorkerDTOList = result.getData();
-
-                for(JobWorkerDTO jobWorkerDTO : jobWorkerDTOList){
+                for (JobWorkerDTO jobWorkerDTO : jobWorkerDTOList) {
                     try {
                         getUserByWorkerIdUseCase.execute(jobWorkerDTO.getWorkerId())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe(resp -> {
-                                    appliedWorkers.add(resp.getData());
+                                    if (resp.getData() != null) {
+                                        appliedWorkers.add(resp.getData());
+                                        runOnUiThread(() -> adapter.notifyDataSetChanged()); // Cập nhật adapter trên UI thread
+                                    }
                                 }, error -> {
-                                    throw new Exception("Fetch failed");
+                                    // Xử lý lỗi
+                                    runOnUiThread(() -> Toast.makeText(this, "Fetch failed", Toast.LENGTH_SHORT).show());
                                 });
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
-
                 Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }else{
-                Toast.makeText(this, "Failed to load applied worker", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Failed to load applied workers", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Khởi tạo Adapter và gán nó cho RecyclerView
+        adapter = new AppliedWorkerAdapter(appliedWorkers, this, jobId, accessToken);
+        recyclerView.setAdapter(adapter);
     }
 
     private String getAccessTokenFromSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString("accessToken", null);
-
-        if (accessToken != null) {
-            return accessToken;
-        } else {
-            return null;
-        }
+        return sharedPreferences.getString("accessToken", null);
     }
 
     @Override
     public void onWorkerClick(UserDTO worker) {
-        Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("workerId", worker.getId());
-        startActivity(intent);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        // Thêm dữ liệu cần thiết vào intent
+        startActivity(chatIntent);
     }
 }
+
