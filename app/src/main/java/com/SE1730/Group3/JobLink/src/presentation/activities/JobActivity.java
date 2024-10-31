@@ -1,10 +1,12 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -32,7 +34,7 @@ public class JobActivity extends BaseActivity {
     private RadioGroup rgDuration;
     private Button btnCreateJob;
     private TextView tvTotalPrice;
-
+    private ImageButton btn_Back;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,15 @@ public class JobActivity extends BaseActivity {
         jobViewModel = new ViewModelProvider(this).get(JobViewModel.class);
         bindingViews();
         setEvents();
+        BindingAction();
         observeCreateJobResult();
+    }
+
+    private void BindingAction() {
+        btn_Back.setOnClickListener(v -> {
+        Intent intent = new Intent(JobActivity.this, ViewJobActivity.class);
+        startActivity(intent);
+    });
     }
 
     private void bindingViews() {
@@ -52,6 +62,7 @@ public class JobActivity extends BaseActivity {
         rgDuration = findViewById(R.id.rgDuration);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         btnCreateJob = findViewById(R.id.btnCreateJob);
+        btn_Back = findViewById(R.id.btnBack);
     }
 
     private void setEvents() {
