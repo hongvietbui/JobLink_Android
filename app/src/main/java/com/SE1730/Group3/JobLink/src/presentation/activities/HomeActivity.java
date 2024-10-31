@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,9 +61,13 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void onBtnWithdrawClick(View view) {
+        Intent intent = new Intent(this, WithdrawActivity.class);
+        startActivity(intent);
     }
 
     private void onBtnDepositClick(View view) {
+        Intent intent = new Intent(this, TransferActivity.class);
+        startActivity(intent);
     }
 
 

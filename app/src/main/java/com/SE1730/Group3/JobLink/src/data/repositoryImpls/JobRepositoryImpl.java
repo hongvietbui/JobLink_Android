@@ -174,31 +174,32 @@ public class JobRepositoryImpl implements IJobRepository {
     }
     @Override
     public Observable<ApiResp<JobOwnerDetailsResp>> getJobOwnerDetails(UUID jobId) throws IOException{
-        return Observable.create(emitter -> {
-            jobApi.GetJobOwnerDetails(jobId).enqueue(new Callback<ApiResp<JobOwnerDetailsResp>>() {
-                @Override
-                public void onResponse(Call<ApiResp<JobOwnerDetailsResp>> call, Response<ApiResp<JobOwnerDetailsResp>> response) {
-                    if(response.isSuccessful()){
-                        if(!emitter.isDisposed()){
-                            emitter.onNext(response.body());
-                            emitter.onComplete();
-                        }
-                    }else{
-                        String errorMessage = "Failed to fetch job and user detail. Status Code: " + response.code() + ", Message: " + response.message();
-                        if (!emitter.isDisposed()) {
-                            emitter.onError(new IOException(errorMessage));
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ApiResp<JobOwnerDetailsResp>> call, Throwable throwable) {
-                    if (!emitter.isDisposed()) {
-                        emitter.onError(new IOException("Network request failed", throwable));
-                    }
-                }
-            });
-        });
+        return jobApi.GetJobOwnerDetails(jobId);
+//        return Observable.create(emitter -> {
+//            jobApi.GetJobOwnerDetails(jobId).enqueue(new Callback<ApiResp<JobOwnerDetailsResp>>() {
+//                @Override
+//                public void onResponse(Call<ApiResp<JobOwnerDetailsResp>> call, Response<ApiResp<JobOwnerDetailsResp>> response) {
+//                    if(response.isSuccessful()){
+//                        if(!emitter.isDisposed()){
+//                            emitter.onNext(response.body());
+//                            emitter.onComplete();
+//                        }
+//                    }else{
+//                        String errorMessage = "Failed to fetch job and user detail. Status Code: " + response.code() + ", Message: " + response.message();
+//                        if (!emitter.isDisposed()) {
+//                            emitter.onError(new IOException(errorMessage));
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ApiResp<JobOwnerDetailsResp>> call, Throwable throwable) {
+//                    if (!emitter.isDisposed()) {
+//                        emitter.onError(new IOException("Network request failed", throwable));
+//                    }
+//                }
+//            });
+//        });
     }
 
     @Override
