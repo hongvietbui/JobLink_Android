@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class ViewJobActivity extends AppCompatActivity {
+public class ViewJobActivity extends BaseActivity {
 
     private RecyclerView recyclerViewJobs;
     private ViewJobAdapter viewJobAdapter;

@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class TopUpHistoryActivity extends AppCompatActivity {
+public class TopUpHistoryActivity extends BaseActivity {
     private EditText edtFromDate, edtToDate;
     private RecyclerView recyclerViewTopUpHistory;
     private List<TopUpDTO> topUpList;
