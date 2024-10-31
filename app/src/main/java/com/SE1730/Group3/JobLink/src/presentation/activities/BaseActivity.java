@@ -17,6 +17,7 @@ import com.SE1730.Group3.JobLink.R;
 
 import java.util.HashMap;
 import java.util.Map;
+import android.content.SharedPreferences;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -27,11 +28,22 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindingMenu();
+        checkLoginStatus();
+    }
 
-        // Check if coming from LoginActivity
-        if (getIntent().getBooleanExtra("isLogined", false)) {
-            setLoggedIn(true); // Set login state based on the extra
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLoginStatus();
+    }
+
+    private void checkLoginStatus() {
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        if(prefs.getString("accessToken", null) != null){
+
+            isLoggedIn = true;
         }
+        invalidateOptionsMenu(); // Refresh menu to apply updated login state
     }
 
     private void bindingMenu(){
