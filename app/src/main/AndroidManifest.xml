@@ -54,7 +54,6 @@
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
-
         </activity>
         <activity
             android:name=".src.presentation.activities.ChangePassActivity"

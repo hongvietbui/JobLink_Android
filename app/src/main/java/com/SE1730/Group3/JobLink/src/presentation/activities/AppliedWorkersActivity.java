@@ -23,8 +23,10 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@AndroidEntryPoint
 public class AppliedWorkersActivity extends BaseActivity implements AppliedWorkerAdapter.OnWorkerClickListener {
     private RecyclerView recyclerView;
     private AppliedWorkerAdapter adapter;

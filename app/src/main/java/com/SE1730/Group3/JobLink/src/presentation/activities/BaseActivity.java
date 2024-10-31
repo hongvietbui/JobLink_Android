@@ -6,12 +6,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.SE1730.Group3.JobLink.R;
 
@@ -26,17 +22,12 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindingMenu();
-
     }
 
-    private void bindingMenu(){
+    private void bindingMenu() {
         menuActivityMap.put(R.id.nav_home, HomeActivity.class);
         menuActivityMap.put(R.id.nav_manage_job, ViewJobActivity.class);
-        menuActivityMap.put(R.id.nav_login, LoginActivity.class);
-        menuActivityMap.put(R.id.nav_register, RegisterActivity.class);
-        //menuActivityMap.put(R.id.nav_logout, RegisterActivity.class);
         menuActivityMap.put(R.id.nav_manage_transaction, TopUpHistoryActivity.class);
-
     }
 
     @Override
@@ -56,6 +47,20 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         }
 
+        if (item.getItemId() == R.id.nav_logout) {
+            logout();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    // Phương thức đăng xuất
+    private void logout() {
+        // Điều hướng về màn hình đăng nhập hoặc thực hiện logic đăng xuất nếu cần
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
