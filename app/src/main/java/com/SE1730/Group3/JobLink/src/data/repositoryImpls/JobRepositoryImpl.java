@@ -216,4 +216,9 @@ public class JobRepositoryImpl implements IJobRepository {
         ApiReq<CreateJobRequest> apiReq = new ApiReq<>(request);
         return jobApi.createJob(apiReq);
     }
+
+    @Override
+    public Observable<ApiResp<String>> assignJob(UUID jobId) throws IOException {
+        return jobApi.assignJob(jobId);
+    }
 }

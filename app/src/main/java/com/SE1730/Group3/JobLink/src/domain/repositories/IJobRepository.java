@@ -30,6 +30,7 @@ public interface IJobRepository {
     Observable<ApiResp<String>> getUserRoleByJobId(UUID jobId) throws IOException;
 
     Observable<ApiResp<String>> createJob(CreateJobRequest request);
+    Observable<ApiResp<String>> assignJob(UUID jobId) throws IOException;
 
     Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken);
     Observable<ApiResp<String>> acceptWorker(UUID jobId, UUID workerId) throws IOException;
