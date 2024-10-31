@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
@@ -25,8 +24,6 @@ import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.MapFragment;
-import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobDetailViewModel;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.UUID;
@@ -307,7 +304,7 @@ public class JobDetailsActivity extends BaseActivity {
     }
 
     private void cancelJob(){
-        Intent intent = new Intent(this, ViewJobActivity.class);
+        Intent intent = new Intent(this, ViewJobsActivity.class);
         startActivity(intent);
     }
 }

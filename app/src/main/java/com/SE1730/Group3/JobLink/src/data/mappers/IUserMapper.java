@@ -19,5 +19,4 @@ public interface IUserMapper {
 
     @Mapping(target = "id", source = "id")
     User toUser(UserDTO userDTO);
-
 }

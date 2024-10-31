@@ -17,12 +17,12 @@ import java.util.concurrent.CompletableFuture;
 import io.reactivex.rxjava3.core.Observable;
 
 public interface IJobRepository {
-    CompletableFuture<ApiResp<Pagination<JobDTO>>> getJobs(int pageIndex, int pageSize, String sortBy, boolean isDescending, String filter) throws IOException;
+    Observable<ApiResp<Pagination<JobDTO>>> getJobs(Integer pageIndex, Integer pageSize, String sortBy, Boolean isDescending, String filter) throws IOException;
 
     Observable<ApiResp<JobDTO>> getJobById(UUID jobId) throws IOException;
-    Observable<ApiResp<Pagination<JobDTO>>> getJobsCreatedByUser(int pageIndex, int pageSize, String sortBy, boolean isDescending) throws IOException;
+    Observable<ApiResp<Pagination<JobDTO>>> getJobsCreatedByUser(Integer pageIndex, Integer pageSize, String sortBy, Boolean isDescending) throws IOException;
 
-    Observable<ApiResp<Pagination<JobDTO>>> getJobsAppliedByUser(int pageIndex, int pageSize, String sortBy, boolean isDescending) throws IOException;
+    Observable<ApiResp<Pagination<JobDTO>>> getJobsAppliedByUser(Integer pageIndex, Integer pageSize, String sortBy, Boolean isDescending) throws IOException;
 
     Observable<ApiResp<List<UserDTO>>> listUserApplyJob(UUID jobId) throws IOException;
 
@@ -33,7 +33,7 @@ public interface IJobRepository {
     Observable<ApiResp<String>> createJob(CreateJobRequest request);
     Observable<ApiResp<String>> assignJob(UUID jobId) throws IOException;
 
-    Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken);
+    Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId);
     Observable<ApiResp<String>> acceptWorker(UUID jobId, UUID workerId) throws IOException;
     Observable<ApiResp<String>> rejectWorker(UUID jobId, UUID workerId) throws IOException;
 }

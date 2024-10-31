@@ -7,10 +7,10 @@ import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.apis.ITransactionApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.BigDecimalAdapter;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateJsonAdapter;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.LocalDateTimeJsonAdapter;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.UUIDJsonAdapter;
+import com.SE1730.Group3.JobLink.src.domain.converters.BigDecimalConverter;
+import com.SE1730.Group3.JobLink.src.domain.converters.LocalDateConverter;
+import com.SE1730.Group3.JobLink.src.domain.converters.LocalDateTimeConverter;
+import com.SE1730.Group3.JobLink.src.domain.converters.UUIDJsonConverter;
 import com.squareup.moshi.Moshi;
 
 import javax.inject.Singleton;
@@ -31,10 +31,10 @@ public class NetworkModule {
     @Singleton
     public Moshi provideMoshi(){
         Moshi moshi = new Moshi.Builder()
-                .add(new LocalDateJsonAdapter())
-                .add(new LocalDateTimeJsonAdapter())
-                .add(new UUIDJsonAdapter())
-                .add(new BigDecimalAdapter())
+                .add(new LocalDateConverter())
+                .add(new LocalDateTimeConverter())
+                .add(new UUIDJsonConverter())
+                .add(new BigDecimalConverter())
                 .build();
         return moshi;
     }
