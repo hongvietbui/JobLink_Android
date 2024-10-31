@@ -148,8 +148,13 @@ public class JobDetailsActivity extends BaseActivity {
 
                             MapFragment mapFragment = new MapFragment();
                             Bundle mapBundle = new Bundle();
-                            mapBundle.putDouble("lat", jobDetails.getLat());
-                            mapBundle.putDouble("lon", jobDetails.getLon());
+                            if(jobDetails.getLat()!= null && jobDetails.getLon()!=null){
+                                mapBundle.putDouble("lat", jobDetails.getLat());
+                                mapBundle.putDouble("lon", jobDetails.getLon());
+                            }else {
+                                mapBundle.putDouble("lat", 21.05);
+                                mapBundle.putDouble("lon", 105.58);
+                            }
                             mapFragment.setArguments(mapBundle);
 
                             // Set up the ViewPager adapter with fragments
