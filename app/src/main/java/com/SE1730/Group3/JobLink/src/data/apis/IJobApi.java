@@ -62,7 +62,7 @@ public interface IJobApi {
     Call<ApiResp<List<UserDTO>>> ListUserApplyJob(@Path("jobId") UUID jobId);
 
     @GET("Job/job-owner-details/{jobId}")
-    Call<ApiResp<JobOwnerDetailsResp>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
+    Observable<ApiResp<JobOwnerDetailsResp>> GetJobOwnerDetails(@Path("jobId") UUID jobId);
 
     @PATCH("job/assign/{jobId}")
     Observable<ApiResp<String>> assignJob(@Path("jobId") UUID jobId);
