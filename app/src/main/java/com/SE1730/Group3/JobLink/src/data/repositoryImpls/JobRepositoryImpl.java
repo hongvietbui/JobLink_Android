@@ -59,6 +59,11 @@ public class JobRepositoryImpl implements IJobRepository {
     }
 
     @Override
+    public Observable<ApiResp<JobDTO>> getJobById(UUID jobId) throws IOException {
+        return jobApi.getJobById(jobId);
+    }
+
+    @Override
     public Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(UUID jobId, String accessToken){
         return jobApi.getAppliedWorkersByJobId(jobId, accessToken);
     }

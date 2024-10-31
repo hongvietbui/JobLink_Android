@@ -16,7 +16,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
+import com.SE1730.Group3.JobLink.src.domain.enums.JobStatus;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobByIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserRoleOfJobUserCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
@@ -48,6 +50,9 @@ public class JobDetailsActivity extends BaseActivity {
     @Inject
     AssignJobUseCase assignJobUseCase;
 
+    @Inject
+    GetJobByIdUseCase getJobByIdUseCase;
+
     CompositeDisposable compositeDisposable;
 
     private ViewPager2 viewPager;
@@ -55,8 +60,9 @@ public class JobDetailsActivity extends BaseActivity {
     private Button btnMap, btnImage, btnDetails;
     private ImageView ivJobOwner;
     private TextView tvName, tvemail, tvLocation, tvphone;
-    private Button btnAccept, btnCancel;
+    private Button btnAccept;
     private Button btnListApplicant;
+    private Button btndoneJob;
     private UUID jobId;
 
     @Override
@@ -89,15 +95,41 @@ public class JobDetailsActivity extends BaseActivity {
                         if (apiResp.getStatus() == 200) {
                             String role = apiResp.getData();
                             Log.d("JobDetailsActivity", "User role: " + role);
-                            if (role.equals("JobOwner")) {
-                                btnAccept.setVisibility(Button.GONE);
-                                btnCancel.setVisibility(Button.GONE);
-                                btnListApplicant.setVisibility(Button.VISIBLE);
-                            } else {
-                                btnAccept.setVisibility(Button.VISIBLE);
-                                btnCancel.setVisibility(Button.VISIBLE);
-                                btnListApplicant.setVisibility(Button.GONE);
-                            }
+
+                            Disposable getJobByIdDisposable = getJobByIdUseCase.execute(jobId)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(resp -> {
+                                        if (resp.getData() != null) {
+                                            JobStatus jobStatus = resp.getData().getStatus();
+
+                                            if (role.equals("JobOwner") && jobStatus.equals(JobStatus.IN_PROGRESS)) {
+                                                btnAccept.setVisibility(Button.GONE);
+//                                                btnCancel.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btndoneJob.setVisibility(Button.VISIBLE);
+                                            } else if (role.equals("JobOwner") && jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)) {
+                                                btnAccept.setVisibility(Button.GONE);
+//                                                btnCancel.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.VISIBLE);
+                                                btndoneJob.setVisibility(Button.GONE);
+                                            } else {
+                                                btnAccept.setVisibility(Button.VISIBLE);
+//                                                btnCancel.setVisibility(Button.VISIBLE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btndoneJob.setVisibility(Button.GONE);
+                                            }
+                                        } else {
+                                            Log.e("JobDetailsActivity", "Job data is null");
+                                        }
+                                    }, throwable -> {
+                                        // Error handling for getJobByIdUseCase
+                                        Log.e("JobDetailsActivity", "Error fetching job details", throwable);
+                                    });
+
+                            compositeDisposable.add(getJobByIdDisposable);
+
+                            // Add getJobByIdDisposable to CompositeDisposable if needed
                         } else {
                             Log.e("JobDetailsActivity", "Failed to get user role");
                         }
@@ -190,7 +222,7 @@ public class JobDetailsActivity extends BaseActivity {
         tvphone = findViewById(R.id.tvphonenum);
         tvemail = findViewById(R.id.tvemail);
         btnAccept = findViewById(R.id.btnAccept);
-        btnCancel = findViewById(R.id.btnCancel);
+//        btnCancel = findViewById(R.id.btnCancel);
         btnListApplicant = findViewById(R.id.btnListApplicant);
     }
 
@@ -224,7 +256,6 @@ public class JobDetailsActivity extends BaseActivity {
         btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
 
         btnAccept.setOnClickListener(v -> assignJob(jobId));
-        btnAccept.setOnClickListener(v -> cancelJob());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -261,11 +292,12 @@ public class JobDetailsActivity extends BaseActivity {
                         if (apiResp.getStatus() == 200) {
                             Toast.makeText(this, "Job assigned successfully", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, "You've accepted this job already", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "You've assigned this job already", Toast.LENGTH_SHORT).show();
                         }
                     }, throwable -> {
                         // Error handling for assignJobUseCase
                         Log.e("JobDetailsActivity", "You've accepted this job already", throwable);
+                        Toast.makeText(this, "You've assigned this job already", Toast.LENGTH_SHORT).show();
                     });
 
             compositeDisposable.add(assignJobDisposable);

@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, HomeActivity.class);
+                        intent = new Intent(this, ViewJobActivity.class);
                         startActivity(intent);
 
                         userDAO.getCurrentUser()
