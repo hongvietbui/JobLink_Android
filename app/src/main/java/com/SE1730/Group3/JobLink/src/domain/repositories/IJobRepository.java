@@ -5,6 +5,7 @@ import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
+import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
 
 import java.io.IOException;
 import java.util.List;

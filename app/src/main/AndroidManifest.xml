@@ -46,6 +46,8 @@
         <activity
             android:name=".src.presentation.activities.WithdrawActivity"
             android:exported="false" />
+        <activity android:name=".src.presentation.activities.JobActivity"
+            android:exported="false" />
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">

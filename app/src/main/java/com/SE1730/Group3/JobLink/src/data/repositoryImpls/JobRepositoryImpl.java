@@ -5,9 +5,11 @@ import android.util.Log;
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
+import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
+import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
@@ -194,5 +196,8 @@ public class JobRepositoryImpl implements IJobRepository {
         return jobApi.getUserRoleByJobId(jobId);
     }
 
-
+    public Observable<ApiResp<String>> createJob(CreateJobRequest request) {
+        ApiReq<CreateJobRequest> apiReq = new ApiReq<>(request);
+        return jobApi.createJob(apiReq);
+    }
 }
