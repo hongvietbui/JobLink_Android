@@ -1,10 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#4836ac</color>
+    <color name="colorAccent">#000</color>
+
+    <color name="colorPrimaryDark">#292929</color>
+    <color name="primaryLightColor">#ffffff</color>
+    <color name="secondaryColor">#000000</color>
+    <color name="secondaryLightColor">#2c2c2c</color>
+    <color name="secondaryDarkColor">#000000</color>
+
+    <color name="secondaryTextColor">#000000</color>
+    <color name="primaryTextColor">#ffffff</color>
+
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="grey5">#FFFFFF</color>
+    <color name="grey10">#CBCACB</color>
+    <color name="grey15">#7C7C7C</color>
+    <color name="grey20">#000000</color>
+
+
+    <color name="red5">#FFC7C7</color>
+    <color name="red10">#FE7878</color>
+    <color name="red15">#FE2424</color>
+    <color name="red20">#E00202</color>
+
+    <color name="orange5">#FBE0BF</color>
+    <color name="orange10">#FECC91</color>
+    <color name="orange15">#FFA439</color>
+    <color name="orange20">#D67401</color>
+
+
+    <color name="yellow5">#FCFDC4</color>
+    <color name="yellow10">#FAFD8C</color>
+    <color name="yellow15">#FAFF38</color>
+    <color name="yellow20">#D3D801</color>
+
+
+    <color name="lime5">#EEFFBF</color>
+    <color name="lime10">#DCFE7C</color>
+    <color name="lime15">#C5FE25</color>
+    <color name="lime20">#9CD301</color>
+
+
+    <color name="green5">#CAFEB9</color>
+    <color name="green10">#99FD7A</color>
+    <color name="green15">#5FFF2E</color>
+    <color name="green20">#34DB01</color>
+
+
+    <color name="aquamarine5">#CDFFF5</color>
+    <color name="aquamarine10">#90FFE9</color>
+    <color name="aquamarine15">#33FED6</color>
+    <color name="aquamarine20">#02D9AF</color>
+
+    <color name="cyne5">#D5FEFE</color>
+    <color name="cyne10">#9EFEFD</color>
+    <color name="cyne15">#2EFFFD</color>
+    <color name="cyne20">#00DBD9</color>
+
+
+    <color name="skyblue5">#DEF7FE</color>
+    <color name="skyblue10">#A1EAFF</color>
+    <color name="skyblue15">#34D1FD</color>
+    <color name="skyblue20">#02AFDF</color>
+
+    <color name="blue5">#D9DAFE</color>
+    <color name="blue10">#989CFD</color>
+    <color name="blue15">#313AFF</color>#3498DB
+    <color name="blue20">#010BD9</color>
+
+
+    <color name="purple5">#F0C8FD</color>
+    <color name="purple10">#E18FFE</color>
+    <color name="purple15">#C834FE</color>
+    <color name="purple20">#A101DB</color>
+
+    <color name="orchid5">#FBD0FD</color>
+    <color name="orchid10">#FAA4FE</color>
+    <color name="orchid15">#F331FC</color>
+    <color name="orchid20">#CF00D8</color>
+
+
+    <color name="pink5">#FFD0F6</color>
+    <color name="pink10">#FD89E8</color>
+    <color name="pink15">#FF28D8</color>
+    <color name="pink20">#D501AF</color>
+
+
+    <color name="violet5">#FCD4E5</color>
+    <color name="violet10">#FD94BF</color>
+    <color name="violet15">#FE3A8A</color>
+    <color name="violet20">#D60158</color>
+
+
+    <integer-array name="color_all">
+        <item>@color/grey5</item>
+        <item>@color/grey10</item>
+        <item>@color/grey15</item>
+        <item>@color/grey20</item>
+
+        <item>@color/red5</item>
+        <item>@color/grey10</item>
+        <item>@color/grey15</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/orange5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey15</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/yellow5</item>
+        <item>@color/grey5</item>
+        <item>@color/yellow15</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/lime5</item>
+        <item>@color/grey5</item>
+        <item>@color/lime15</item>
+        <item>@color/lime20</item>
+
+
+        <item>@color/green5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/aquamarine5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+        <item>@color/cyne5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/skyblue5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+        <item>@color/blue5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/purple5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/orchid5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+
+        <item>@color/pink5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+        <item>@color/violet5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+        <item>@color/grey5</item>
+
+
+    </integer-array>
+
+
+    <integer-array name="color_instagram">
+        <item>@color/ins_color_1</item>
+        <item>@color/ins_color_2</item>
+        <item>@color/ins_color_3</item>
+        <item>@color/ins_color_4</item>
+        <item>@color/ins_color_5</item>
+        <item>@color/ins_color_6</item>
+        <item>@color/ins_color_7</item>
+        <item>@color/ins_color_8</item>
+        <item>@color/ins_color_9</item>
+
+
+        <item>@color/ins_color_10</item>
+        <item>@color/ins_color_11</item>
+        <item>@color/ins_color_12</item>
+        <item>@color/ins_color_13</item>
+        <item>@color/ins_color_14</item>
+        <item>@color/ins_color_15</item>
+        <item>@color/ins_color_16</item>
+        <item>@color/ins_color_17</item>
+        <item>@color/ins_color_18</item>
+
+
+        <item>@color/ins_color_19</item>
+        <item>@color/ins_color_20</item>
+        <item>@color/ins_color_21</item>
+        <item>@color/ins_color_22</item>
+        <item>@color/ins_color_23</item>
+        <item>@color/ins_color_24</item>
+        <item>@color/ins_color_25</item>
+        <item>@color/ins_color_26</item>
+        <item>@color/ins_color_27</item>
+
+
+    </integer-array>
+
+
+    <color name="ins_color_1">#ffffff</color>
+    <color name="ins_color_2">#000000</color>
+    <color name="ins_color_3">#3498DB</color>
+    <color name="ins_color_4">#06D100</color>
+    <color name="ins_color_5">#FFE002</color>
+    <color name="ins_color_6">#FF9402</color>
+    <color name="ins_color_7">#FF283F</color>
+    <color name="ins_color_8">#DF0039</color>
+    <color name="ins_color_9">#B600C2</color>
+
+
+    <color name="ins_color_10">#F90044</color>
+    <color name="ins_color_11">#FD6790</color>
+    <color name="ins_color_12">#FFC4D4</color>
+    <color name="ins_color_13">#FFEBAE</color>
+    <color name="ins_color_14">#FCD55E</color>
+    <color name="ins_color_15">#E1B802</color>
+    <color name="ins_color_16">#AC8D02</color>
+    <color name="ins_color_17">#776201</color>
+    <color name="ins_color_18">#4C7701</color>
+
+    <color name="ins_color_19">#393938</color>
+    <color name="ins_color_20">#565555</color>
+    <color name="ins_color_21">#727171</color>
+    <color name="ins_color_22">#868686</color>
+    <color name="ins_color_23">#9B9B9B</color>
+    <color name="ins_color_24">#A9A8A8</color>
+    <color name="ins_color_25">#C4C3C3</color>
+    <color name="ins_color_26">#DCDCDC</color>
+    <color name="ins_color_27">#F1F0F0</color>
+    <color name="thirdTextColor">#777777</color>
+    <color name="colorBlue">#746bc8</color>
+    <color name="colorDarkBlue">#4c79df</color>
+    <color name="fourdTextColor">#6571e9</color>
+
+    <color name="spineractivecolor">#4836ac</color>
+    <color name="spinerunfocusedcolor">#c1c1c1</color>
+    <color name="underline">#00000000</color>
+
 </resources>

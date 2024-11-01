@@ -5,14 +5,70 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
+retrofit = "2.11.0"
+moshi = "1.15.1"
+room = "2.6.1"
+lottie = "6.5.2"
+constraintlayout = "2.1.4"
+recyclerview = "1.3.2"
+shimmer = "0.5.0"
+picasso = "2.71828"
+hilt = "2.52"
+lombok = "1.18.34"
+mapstruct = "1.6.2"
+mapstruct-processor = "1.6.2"
+threetenABP = "1.4.7"
+rxjava = "3.1.9"
+rxandroid = "3.0.2"
+viewPager2 = "1.1.0"
+play-services-maps = "19.0.0"
+play-services-location = "21.3.0"
+richEditor="2.0.0"
+signalR = "8.0.8"
+activity = "1.9.3"
 
 [libraries]
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+retrofit = { group = "com.squareup.retrofit2", name="retrofit", version.ref = "retrofit" }
+moshi = {group = "com.squareup.moshi",name="moshi", version.ref = "moshi" }
+moshi-adapter = {group = "com.squareup.moshi",name="moshi-adapters", version.ref = "moshi" }
+converter-moshi = {group = "com.squareup.retrofit2",name="converter-moshi", version.ref = "retrofit" }
+
+room = { group = "androidx.room",name="room-runtime", version.ref = "room" }
+room-compiler = {group = "androidx.room",name="room-compiler", version.ref = "room" }
+
+lottie = { group = "com.airbnb.android",name="lottie", version.ref = "lottie" }
+constraintlayout = { group = "androidx.constraintlayout",name="constraintlayout", version.ref = "constraintlayout" }
+recyclerview = { group = "androidx.recyclerview",name="recyclerview", version.ref = "recyclerview" }
+shimmer = { group = "com.facebook.shimmer",name="shimmer", version.ref = "shimmer" }
+picasso = { group = "com.squareup.picasso",name="picasso", version.ref = "picasso" }
+hilt = { group = "com.google.dagger",name="hilt-android", version.ref = "hilt" }
+lombok = { group = "org.projectlombok",name="lombok", version.ref = "lombok" }
+
+mapstruct = {group = "org.mapstruct",name="mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = {group = "org.mapstruct",name="mapstruct-processor", version.ref = "mapstruct-processor" }
+
+threetenABP = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenABP" }
+
+rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+adapter-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
+room-rxjava = { group = "androidx.room", name = "room-rxjava3", version.ref = "room" }
+
+viewPager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
+
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "play-services-maps" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "play-services-location" }
+
+signalR = {group = "com.microsoft.signalr", name = "signalr", version.ref = "signalR" }
+richEditor = { group = "jp.wasabeef", name = "richeditor-android", version.ref = "richEditor" }
+#activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 

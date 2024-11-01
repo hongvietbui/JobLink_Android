@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    tools:context=".src.presentation.activities.RegisterActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splah_bg" />
+
+    <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextView
+        android:id="@+id/register_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/register"
+        android:textColor="@color/colorDarkBlue"
+        android:textSize="40sp" />
+
+    <ScrollView
+        android:id="@+id/id_register_layout"
+        android:layout_above="@id/id_register_bottom"
+        android:layout_below="@id/register_label"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <LinearLayout
+            android:id="@+id/id_register_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="40dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/id_user_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_user" />
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
+                    android:id="@+id/edtUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toEndOf="@+id/id_user_image"
+                    android:layout_toRightOf="@+id/id_user_image"
+                    android:backgroundTint="@color/thirdTextColor"
+                    android:hint="Username"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="16dp"
+                    android:textColorHint="@color/thirdTextColor" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41dp">
+
+                <ImageView
+                    android:id="@+id/id_email_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_email" />
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toEndOf="@+id/id_email_image"
+                    android:layout_toRightOf="@+id/id_email_image"
+                    android:backgroundTint="@color/thirdTextColor"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="16dp"
+                    android:textColorHint="@color/thirdTextColor" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41dp">
+
+                <!-- Icon mật khẩu -->
+                <ImageView
+                    android:id="@+id/id_password_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_password" />
+
+                <!-- TextInputLayout chứa trường mật khẩu -->
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout
+                    android:id="@+id/tilPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toEndOf="@id/id_password_image"
+                    android:backgroundTint="@color/thirdTextColor"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="16dp"
+                    app:passwordToggleTint="@color/colorPrimary"
+                    app:passwordToggleDrawable="@drawable/ic_eye"
+                    app:passwordToggleEnabled="true">
+
+                    <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password"/>
+                </com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41dp">
+
+                <!-- Icon mật khẩu -->
+                <ImageView
+                    android:id="@+id/id_repassword_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_password" />
+
+                <!-- TextInputLayout chứa trường mật khẩu -->
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout
+                    android:id="@+id/tilRepassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toEndOf="@id/id_repassword_image"
+                    android:backgroundTint="@color/thirdTextColor"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="16dp"
+                    app:passwordToggleTint="@color/colorPrimary"
+                    app:passwordToggleDrawable="@drawable/ic_eye"
+                    app:passwordToggleEnabled="true">
+
+                    <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password"/>
+                </com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextInputLayout>
+
+            </RelativeLayout>
+
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_firstName_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
+
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtFirstName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_firstName_image"-->
+<!--                    android:layout_toRightOf="@+id/id_firstName_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="First name"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor" />-->
+<!--            </RelativeLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_lastName_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
+
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtLastName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_lastName_image"-->
+<!--                    android:layout_toRightOf="@+id/id_lastName_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="Last name"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor" />-->
+<!--            </RelativeLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_address_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
+
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtAddress"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_address_image"-->
+<!--                    android:layout_toRightOf="@+id/id_address_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="Address"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor" />-->
+<!--            </RelativeLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_phoneNumber_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
+
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtPhoneNumber"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_phoneNumber_image"-->
+<!--                    android:layout_toRightOf="@+id/id_phoneNumber_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="Phone number"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor"/>-->
+<!--            </RelativeLayout>-->
+            <!--Date of birth-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41dp">
+
+                <ImageView
+                    android:id="@+id/id_dateOfBirth_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_user" />
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
+                    android:id="@+id/edtDateOfBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toEndOf="@+id/id_dateOfBirth_image"
+                    android:layout_toRightOf="@+id/id_dateOfBirth_image"
+                    android:backgroundTint="@color/thirdTextColor"
+                    android:hint="Date of birth"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="16dp"
+                    android:textColorHint="@color/thirdTextColor"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:clickable="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/id_register_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/background_button"
+            android:text="Register"
+            android:textColor="@color/fourdTextColor" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp">
+
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Already have an account ? "
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=" Log in"
+                android:clickable="true"
+                android:textColor="@color/fourdTextColor"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="5dp"
+            android:layerType="software"
+            android:src="@drawable/dotted" />
+
+    </LinearLayout>
+</RelativeLayout>

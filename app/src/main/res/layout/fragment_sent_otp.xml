@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Instruction TextView -->
+    <TextView
+        android:id="@+id/text_instruction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Enter your email to receive the OTP"
+        android:textSize="16sp"
+        android:textColor="@color/primaryTextColor"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_default="spread" />
+
+    <!-- Email Input -->
+    <EditText
+        android:id="@+id/editText_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Email address"
+        android:inputType="textEmailAddress"
+        android:textColorHint="@color/grey10"
+        android:textColor="@color/colorBlack"
+        android:padding="12dp"
+        android:background="@drawable/background_linear"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/text_instruction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_default="spread" />
+
+    <!-- Send OTP Button -->
+    <Button
+        android:id="@+id/button_send_otp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Send OTP"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="12dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/editText_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_default="spread" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
