@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.DI;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
@@ -7,12 +8,15 @@ import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.apis.ITransactionApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.interceptors.AuthInterceptor;
+import com.SE1730.Group3.JobLink.src.data.interceptors.TokenAuthenticator;
 import com.SE1730.Group3.JobLink.src.domain.converters.BigDecimalConverter;
 import com.SE1730.Group3.JobLink.src.domain.converters.LocalDateConverter;
 import com.SE1730.Group3.JobLink.src.domain.converters.LocalDateTimeConverter;
 import com.SE1730.Group3.JobLink.src.domain.converters.UUIDJsonConverter;
+import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.squareup.moshi.Moshi;
 
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -41,7 +45,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit(SharedPreferences sharedPreferences, Moshi moshi) {
+    public Retrofit provideRetrofit(SharedPreferences sharedPreferences, Moshi moshi, IUserDAO userDAO, Provider<IAuthApi> authApiProvider, Context context) {
         String token = sharedPreferences.getString("accessToken", "");
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -49,6 +53,7 @@ public class NetworkModule {
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .addInterceptor(new AuthInterceptor(sharedPreferences))
+                .authenticator(new TokenAuthenticator(userDAO, authApiProvider, sharedPreferences, context))
                 .build();
 
         return new Retrofit.Builder()

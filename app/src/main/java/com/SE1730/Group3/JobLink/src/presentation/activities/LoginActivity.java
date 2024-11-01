@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -33,8 +34,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister, tvForgotPass;
     private ImageView ivEye;
-    private Disposable loginObservable;
     Intent intent;
+
+    CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
     LoginUseCase loginUseCase;
@@ -94,24 +96,24 @@ public class LoginActivity extends AppCompatActivity {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
 
-        // Debug username và password
-        Log.d("LoginDebug", "Username: " + username);
-        Log.d("LoginDebug", "Password: " + password);
-
+//        // Debug username và password
+//        Log.d("LoginDebug", "Username: " + username);
+//        Log.d("LoginDebug", "Password: " + password);
+        //make loading spinner visible
         // Call login api
-        loginObservable = loginUseCase.execute(username, password)
+        Disposable loginDisposable = loginUseCase.execute(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                    // Debug kết quả từ API
-                    Log.d("LoginDebug", "Login result: " + result);
-
+//                    // Debug kết quả từ API
+//                    Log.d("LoginDebug", "Login result: " + result);
+                    // make loading spinner invisible
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
                         intent = new Intent(this, ViewJobsActivity.class);
                         startActivity(intent);
 
-                        userDAO.getCurrentUser()
+                        disposables.add(userDAO.getCurrentUser()
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(resp -> {
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                     transferHubService.updateUserIdAndReconnect(resp.getId().toString());
                                 }, error -> {
                                     error.printStackTrace();
-                                });
+                                }));
                     } else {
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
                     }
@@ -127,13 +129,15 @@ public class LoginActivity extends AppCompatActivity {
                     // Log lỗi nếu API call gặp vấn đề
                     Log.e("LoginDebug", "Login error", error);
                 });
+
+        disposables.add(loginDisposable);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(loginObservable != null && !loginObservable.isDisposed())
-            loginObservable.dispose();
+
+        disposables.clear();
     }
 }
 

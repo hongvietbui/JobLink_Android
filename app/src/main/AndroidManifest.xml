@@ -32,7 +32,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".src.presentation.activities.UserManageJobActivity"
+            android:name=".src.presentation.activities.JobManagementNavigationActivity"
             android:exported="true" />
         <activity
             android:name=".src.presentation.activities.ViewJobsActivity"

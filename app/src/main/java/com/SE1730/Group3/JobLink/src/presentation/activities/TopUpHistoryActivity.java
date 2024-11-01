@@ -64,8 +64,6 @@ public class TopUpHistoryActivity extends BaseActivity {
             return;
         }
         Toast.makeText(this, "Filtering top up history", Toast.LENGTH_SHORT).show();
-
-
     }
 
 

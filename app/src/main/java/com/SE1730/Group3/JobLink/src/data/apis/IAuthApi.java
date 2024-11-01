@@ -32,5 +32,4 @@ public interface IAuthApi {
     Call<ApiResp<String>> ResetPassword(@Body ApiReq<ResetPassDTO> request);
     @POST("user/change-password")
     Observable<ApiResp<String>> changePassUser (@Body ApiReq<ChangePassReqDTO> request);
- 
 }

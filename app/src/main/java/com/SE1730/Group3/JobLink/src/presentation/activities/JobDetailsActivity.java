@@ -3,9 +3,12 @@ package com.SE1730.Group3.JobLink.src.presentation.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
+import com.SE1730.Group3.JobLink.databinding.ActivityJobDetailsBinding;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.enums.JobStatus;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
@@ -24,6 +28,7 @@ import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.MapFragment;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,10 +62,16 @@ public class JobDetailsActivity extends BaseActivity {
     private Button btnMap, btnImage, btnDetails;
     private ImageView ivJobOwner;
     private TextView tvName, tvemail, tvLocation, tvphone;
-    private Button btnAccept;
+    private Button btnAssign;
     private Button btnListApplicant;
-    private Button btndoneJob;
+    private Button btnCompleteJob;
     private UUID jobId;
+
+    private ProgressBar progressBar;
+
+    private ShimmerFrameLayout shimmerFrameLayout;
+
+    private LinearLayout llContent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +93,8 @@ public class JobDetailsActivity extends BaseActivity {
 
     private void loadJobDetails() {
         try {
+            shimmerFrameLayout.startShimmer();
+
             Intent intent = getIntent();
             String jobIdString = intent.getStringExtra("jobId");
 
@@ -100,28 +113,44 @@ public class JobDetailsActivity extends BaseActivity {
                                         if (resp.getData() != null) {
                                             JobStatus jobStatus = resp.getData().getStatus();
 
-                                            if (role.equals("JobOwner") && jobStatus.equals(JobStatus.IN_PROGRESS)) {
-                                                btnAccept.setVisibility(Button.GONE);
-//                                                btnCancel.setVisibility(Button.GONE);
-                                                btnListApplicant.setVisibility(Button.GONE);
-                                                btndoneJob.setVisibility(Button.VISIBLE);
-                                            } else if (role.equals("JobOwner") && jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)) {
-                                                btnAccept.setVisibility(Button.GONE);
-//                                                btnCancel.setVisibility(Button.GONE);
-                                                btnListApplicant.setVisibility(Button.VISIBLE);
-                                                btndoneJob.setVisibility(Button.GONE);
+                                            if (role.equals("JobOwner")) {
+                                                btnAssign.setVisibility(Button.GONE);
+                                                if(jobStatus.equals(JobStatus.IN_PROGRESS)){
+                                                    btnListApplicant.setVisibility(Button.GONE);
+                                                    btnCompleteJob.setVisibility(Button.VISIBLE);
+                                                }
+
+                                                if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)){
+                                                    btnListApplicant.setVisibility(Button.VISIBLE);
+                                                    btnCompleteJob.setVisibility(Button.GONE);
+                                                }
                                             } else {
-                                                btnAccept.setVisibility(Button.VISIBLE);
+                                                btnAssign.setVisibility(Button.VISIBLE);
 //                                                btnCancel.setVisibility(Button.VISIBLE);
                                                 btnListApplicant.setVisibility(Button.GONE);
-                                                btndoneJob.setVisibility(Button.GONE);
+                                                btnCompleteJob.setVisibility(Button.GONE);
                                             }
+
+                                            shimmerFrameLayout.stopShimmer();
+                                            shimmerFrameLayout.setVisibility(View.GONE);
+
+                                            llContent.setVisibility(View.VISIBLE);
                                         } else {
                                             Log.e("JobDetailsActivity", "Job data is null");
+
+                                            shimmerFrameLayout.stopShimmer();
+                                            shimmerFrameLayout.setVisibility(View.GONE);
+
+                                            llContent.setVisibility(View.VISIBLE);
                                         }
                                     }, throwable -> {
                                         // Error handling for getJobByIdUseCase
                                         Log.e("JobDetailsActivity", "Error fetching job details", throwable);
+
+                                        shimmerFrameLayout.stopShimmer();
+                                        shimmerFrameLayout.setVisibility(View.GONE);
+
+                                        llContent.setVisibility(View.VISIBLE);
                                     });
 
                             compositeDisposable.add(getJobByIdDisposable);
@@ -129,10 +158,18 @@ public class JobDetailsActivity extends BaseActivity {
                             // Add getJobByIdDisposable to CompositeDisposable if needed
                         } else {
                             Log.e("JobDetailsActivity", "Failed to get user role");
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+
+                            llContent.setVisibility(View.VISIBLE);
                         }
                     }, throwable -> {
                         // Error handling for getUserRoleOfJobUserCase
                         Log.e("JobDetailsActivity", "Error fetching user role", throwable);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+
+                        llContent.setVisibility(View.VISIBLE);
                     });
 
             compositeDisposable.add(getUserRoleDisposable);
@@ -218,9 +255,14 @@ public class JobDetailsActivity extends BaseActivity {
         tvName = findViewById(R.id.tvName);
         tvphone = findViewById(R.id.tvphonenum);
         tvemail = findViewById(R.id.tvemail);
-        btnAccept = findViewById(R.id.btnAccept);
-//        btnCancel = findViewById(R.id.btnCancel);
+        btnAssign = findViewById(R.id.btnAssign);
         btnListApplicant = findViewById(R.id.btnListApplicant);
+        btnCompleteJob = findViewById(R.id.btnCompleteJob);
+
+        progressBar = findViewById(R.id.progressBar);
+
+        shimmerFrameLayout = findViewById(R.id.shimmer_loading);
+        llContent = findViewById(R.id.llContent);
     }
 
     private void setEvents() {
@@ -252,7 +294,7 @@ public class JobDetailsActivity extends BaseActivity {
 
         btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
 
-        btnAccept.setOnClickListener(v -> assignJob(jobId));
+        btnAssign.setOnClickListener(v -> assignJob(jobId));
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -282,16 +324,21 @@ public class JobDetailsActivity extends BaseActivity {
 
     private void assignJob(UUID jobId) {
         try{
+            btnAssign.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+
             Disposable assignJobDisposable = assignJobUseCase.execute(jobId.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(apiResp -> {
+                        progressBar.setVisibility(View.GONE);
                         if (apiResp.getStatus() == 200) {
                             Toast.makeText(this, "Job assigned successfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(this, "You've assigned this job already", Toast.LENGTH_SHORT).show();
                         }
                     }, throwable -> {
+                        progressBar.setVisibility(View.GONE);
                         // Error handling for assignJobUseCase
                         Log.e("JobDetailsActivity", "You've accepted this job already", throwable);
                         Toast.makeText(this, "You've assigned this job already", Toast.LENGTH_SHORT).show();
@@ -300,6 +347,7 @@ public class JobDetailsActivity extends BaseActivity {
             compositeDisposable.add(assignJobDisposable);
         }catch (Exception ex){
             Toast.makeText(this, "You've accepted this job already", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserByWorkerIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.ViewAppliedWorkerUseCase;
-import com.SE1730.Group3.JobLink.src.presentation.activities.BaseActivity;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.AppliedWorkerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.ViewAppliedWorkerViewModel;
 
@@ -71,9 +69,8 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         Intent intent = getIntent(); // Lấy intent từ activity
         String jobId = intent.getStringExtra("jobId");
         UUID jobIdParse = UUID.fromString(jobId);
-        String accessToken = getAccessTokenFromSharedPreferences();
 
-        Disposable disposable = viewAppliedWorkerUseCase.execute(UUID.fromString(jobId), accessToken)
+        Disposable disposable = viewAppliedWorkerUseCase.execute(UUID.fromString(jobId))
                 .subscribeOn(Schedulers.io())
                 .subscribe(resp -> {
                     jobWorkerDTOList = resp.getData();
@@ -106,11 +103,6 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
         // Khởi tạo Adapter và gán nó cho RecyclerView
         adapter = new AppliedWorkerAdapter(appliedWorkers, this, jobIdParse, viewAppliedWorkerViewModel);
         recyclerView.setAdapter(adapter);
-    }
-
-    private String getAccessTokenFromSharedPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("accessToken", null);
     }
 
     @Override

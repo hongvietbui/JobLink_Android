@@ -42,10 +42,10 @@ public class ViewAppliedWorkerViewModel extends ViewModel {
         this.rejectWorkerUseCase = rejectWorkerUseCase;
     }
 
-    public void ViewAppliedWorker(UUID jobId, String accessToken)
+    public void ViewAppliedWorker(UUID jobId)
             throws IOException
     {
-        Disposable disposable = viewAppliedWorkerUseCase.execute(jobId, accessToken)
+        Disposable disposable = viewAppliedWorkerUseCase.execute(jobId)
                 .subscribeOn(Schedulers.io())
                 .subscribe(resp -> {
                     viewAppliedWorkerResult.postValue(resp);
