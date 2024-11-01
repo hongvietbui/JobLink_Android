@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AcceptWorkerUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RejectWorkerUseCase;
+import com.SE1730.Group3.JobLink.src.presentation.viewModels.ViewAppliedWorkerViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -23,23 +25,25 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdapter.ViewHolder> {
     private List<UserDTO> appliedWorkers;
     private OnWorkerClickListener listener;
     private UUID jobId;
+    private ViewAppliedWorkerViewModel viewModel;
 
-    @Inject
-    AcceptWorkerUseCase acceptWorkerUseCase;
-    @Inject
-    RejectWorkerUseCase rejectWorkerUseCase;
-
+    // Constructor mới với ViewModel
     public AppliedWorkerAdapter(List<UserDTO> appliedWorkers, OnWorkerClickListener listener,
-                                UUID jobId) {
+                                UUID jobId, ViewAppliedWorkerViewModel viewModel) {
         this.appliedWorkers = appliedWorkers;
         this.listener = listener;
         this.jobId = jobId;
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -66,42 +70,24 @@ public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdap
         // Xử lý click item
         holder.itemView.setOnClickListener(v -> listener.onWorkerClick(worker));
 
+        // Gọi ViewModel để xử lý khi chấp nhận hoặc từ chối
         holder.btnApprove.setOnClickListener(v -> {
             try {
-                onBtnApproveClick(holder, worker);
+                viewModel.acceptWorker(jobId, worker.getId());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            Toast.makeText(holder.itemView.getContext(), "Worker Accepted", Toast.LENGTH_SHORT).show();
         });
+
         holder.btnDecline.setOnClickListener(v -> {
             try {
-                onBtnDeclineClick(holder, worker);
+                viewModel.rejectWorker(jobId, worker.getId());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            Toast.makeText(holder.itemView.getContext(), "Worker Rejected", Toast.LENGTH_SHORT).show();
         });
-    }
-
-    private void onBtnApproveClick(ViewHolder holder, UserDTO worker) throws IOException {
-        // Xử lý chấp nhận công nhân và truyền jobId và accessToken
-        acceptWorkerUseCase.execute(jobId, worker.getId()) // Cập nhật hàm execute để nhận thêm tham số
-                .subscribeOn(Schedulers.io())
-                .subscribe(resp -> {
-                    Toast.makeText(holder.itemView.getContext(), "Worker Accepted", Toast.LENGTH_SHORT).show();
-                }, error -> {
-                    Toast.makeText(holder.itemView.getContext(), "Error Accepting Worker", Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    private void onBtnDeclineClick(ViewHolder holder, UserDTO worker) throws IOException {
-        // Xử lý từ chối công nhân và truyền jobId và accessToken
-        rejectWorkerUseCase.execute(jobId, worker.getId()) // Cập nhật hàm execute để nhận thêm tham số
-                .subscribeOn(Schedulers.io())
-                .subscribe(resp -> {
-                    Toast.makeText(holder.itemView.getContext(), "Worker Rejected", Toast.LENGTH_SHORT).show();
-                }, error -> {
-                    Toast.makeText(holder.itemView.getContext(), "Error Rejecting Worker", Toast.LENGTH_SHORT).show();
-                });
     }
 
     @Override

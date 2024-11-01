@@ -4,6 +4,7 @@ import com.SE1730.Group3.JobLink.src.domain.entities.baseEntities.BaseEntity;
 
 import org.threeten.bp.LocalDateTime;
 
+import java.util.List;
 import java.util.UUID;
 
 import lombok.Data;
@@ -22,7 +23,7 @@ public class UserDTO {
     private Integer lat;
     private Integer lon;
     private String avatar;
-    private UUID roleId;
+    private List<RoleDTO> roleList;
     private String refreshToken;
     private LocalDateTime refreshTokenExpiryTime;
     private String status;
