@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import org.threeten.bp.format.DateTimeFormatter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,7 +45,10 @@ public class TopUpAdapter extends RecyclerView.Adapter<TopUpAdapter.TopUpViewHol
     public void onBindViewHolder(@NonNull TopUpViewHolder holder, int position) {
         TopUpDTO topUp = topUpList.get(position);
 
-        holder.dateTimeTextView.setText(topUp.getTransactionDate().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = topUp.getTransactionDate().format(formatter);
+
+        holder.dateTimeTextView.setText(formattedDate);
         holder.amountTextView.setText(topUp.getAmount().toString());
         holder.statusTextView.setText(topUp.getStatus());
         holder.paymentTypeTextView.setText(topUp.getPaymentType());
