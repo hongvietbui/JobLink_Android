@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
+import com.SE1730.Group3.JobLink.src.domain.dao.INotificationDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUnitOfWork;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.impl.UnitOfWorkImpl;
@@ -30,8 +31,9 @@ public class DatabaseModule {
                 JobLinkDatabase.class,
                 "joblink_database"
         ).addMigrations(UpdateDatabase.MIGRATION_1_2)
-        .addMigrations(UpdateDatabase.MIGRATION_2_3)
-                .addMigrations(UpdateDatabase.MIGRATION_3_4).build();
+                .addMigrations(UpdateDatabase.MIGRATION_2_3)
+                .addMigrations(UpdateDatabase.MIGRATION_3_4)
+                .addMigrations(UpdateDatabase.MIGRATION_4_5).build();
     }
 
     @Provides
@@ -53,4 +55,7 @@ public class DatabaseModule {
 
     @Provides
     public IMessageDAO provideMessageDAO(JobLinkDatabase database){return database.messageDAO();}
+
+    @Provides
+    public INotificationDAO provideNotificationDAO(JobLinkDatabase database){return database.notificationDAO();}
 }
