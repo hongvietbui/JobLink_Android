@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_owner_jobs"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/view_item_apply_job" />
+        tools:listitem="@layout/view_item_user_job" />
 
     <Button
         android:id="@+id/button_view_applicants"

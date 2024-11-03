@@ -6,13 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 @Builder
 @Data
-public class JobAndOwnerDetailsResponse {
+public class JobOwnerDetailsResp {
     private UUID jobId;
     private  String jobName;
     private String description;
     private String avatar;
-    private int lat;
-    private int lon;
+    private Integer lat = 0;
+    private Integer lon = 0;
     private String firstName;
     private String lastName;
     private String email;

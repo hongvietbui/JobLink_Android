@@ -28,10 +28,18 @@ public class JobImageFragment extends Fragment {
         // Get data from the activity or ViewModel
         if (getArguments() != null) {
             String avatarUrl = getArguments().getString("avatar");
-            Picasso.get()
-                    .load(avatarUrl)
-                    .error(R.drawable.ic_image_error) // Placeholder or error image
-                    .into(imageView);
+            if(avatarUrl == null || avatarUrl==""){
+                Picasso.get()
+                        .load(R.drawable.ic_image_error)
+                        .error(R.drawable.ic_image_error) // Placeholder or error image
+                        .into(imageView);
+            }else {
+
+                Picasso.get()
+                        .load(avatarUrl)
+                        .error(R.drawable.ic_image_error) // Placeholder or error image
+                        .into(imageView);
+            }
         }
 
         return view;

@@ -29,7 +29,7 @@ import java.util.Calendar;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel registerViewModel;
     private EditText edtUsername, edtEmail, edtPhoneNumber, edtFirstName, edtLastName, edtAddress;
 
@@ -74,39 +74,32 @@ public class RegisterActivity extends BaseActivity {
         edtDateOfBirth.setOnClickListener(v -> openDatePickerDialog());
         btnRegister.setOnClickListener(v -> register());
         tvLogin.setOnClickListener(v -> openLoginActivity());
-//        ivIsPasswordShow.setOnClickListener(v -> Validator.togglePasswordVisibility(tilPassword.getEditText(), ivIsPasswordShow));
-//        ivIsRepasswordShow.setOnClickListener(v -> Validator.togglePasswordVisibility(tilRepassword.getEditText(), ivIsRepasswordShow));
     }
 
     private void register(){
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if(!checkFormValidation()){
-                        return;
-                    }
-
-                    registerViewModel.RegisterUser(edtUsername.getText().toString(),
-                            edtEmail.getText().toString(),
-                            tilRepassword.getEditText().getText().toString(),
-                            edtFirstName.getText().toString(),
-                            edtLastName.getText().toString(),
-                            edtPhoneNumber.getText().toString(),
-                            edtAddress.getText().toString(),
-                            LocalDate.parse(edtDateOfBirth.getText().toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-
-                    handleRegisterResult();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        try {
+            if(!checkFormValidation()){
+                return;
             }
-        });
+
+            registerViewModel.RegisterUser(edtUsername.getText().toString(),
+                    edtEmail.getText().toString(),
+                    tilRepassword.getEditText().getText().toString(),
+                    edtFirstName.getText().toString(),
+                    edtLastName.getText().toString(),
+                    edtPhoneNumber.getText().toString(),
+                    edtAddress.getText().toString(),
+                    LocalDate.parse(edtDateOfBirth.getText().toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+            handleRegisterResult();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void openLoginActivity(){
-        //Todo: open login activity
-        Toast.makeText(this, "Open login activity", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void openDatePickerDialog(){
@@ -126,6 +119,8 @@ public class RegisterActivity extends BaseActivity {
     private void handleRegisterResult(){
         registerViewModel.registerResult.observe(this, result -> {
             if(result!=null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 Snackbar.make(findViewById(android.R.id.content), result.getMessage(), Snackbar.LENGTH_SHORT).show();
             }else{
                 Snackbar.make(findViewById(android.R.id.content), "Failed to register user", Snackbar.LENGTH_SHORT).show();
@@ -137,11 +132,16 @@ public class RegisterActivity extends BaseActivity {
         boolean result = true;
 
         if(Validator.areFieldsNullOrEmpty(edtUsername, edtEmail,
-                edtPhoneNumber, edtFirstName, edtLastName, edtAddress, edtDateOfBirth))
+                edtPhoneNumber, edtFirstName, edtLastName, edtAddress))
             result = false;
 
         if(Validator.areFieldsNullOrEmpty(tilPassword, tilRepassword))
             result = false;
+
+        //Todo: Fix date of birth issue
+        if(Validator.isNullOrEmpty(edtDateOfBirth)){
+            edtDateOfBirth.setText("10/10/2003");
+        }
 
         return result;
     }

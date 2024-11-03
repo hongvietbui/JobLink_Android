@@ -1,5 +1,7 @@
 package com.SE1730.Group3.JobLink.src.presentation.viewModels;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -34,8 +36,10 @@ public class JobApplierByUserViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
+                    Log.d("JobApplierByUserViewModel", "Response: " + resp.toString());
                     jobsAppliedResult.postValue(resp);
                 }, error -> {
+                    Log.e("JobApplierByUserViewModel", "Error fetching jobs: " + error.getMessage());
                     jobsAppliedResult.postValue(new ApiResp<>(error.getMessage(), null));
                 });
         disposables.add(disposable);

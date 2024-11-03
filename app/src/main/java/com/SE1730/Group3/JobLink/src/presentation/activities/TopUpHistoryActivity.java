@@ -30,7 +30,11 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TopUpHistoryActivity extends AppCompatActivity {
+public class TopUpHistoryActivity extends BaseActivity {
+    private EditText edtFromDate, edtToDate;
+    private RecyclerView recyclerViewTopUpHistory;
+    private List<TopUpDTO> topUpList;
+    private TopUpAdapter topUpHistoryAdapter;
     private Button btnFilter;
     private EditText fromDate, toDate;
     private TopupHistoryViewModel topupHistoryViewModel;
@@ -72,6 +76,7 @@ public class TopUpHistoryActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Toast.makeText(this, "Date format is yyyy-mm-dd", Toast.LENGTH_SHORT).show();
         }
+        Toast.makeText(this, "Filtering top up history", Toast.LENGTH_SHORT).show();
     }
 
     private void fetchTopUpHistory(Date fromDate, Date toDate) {

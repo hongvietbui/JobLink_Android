@@ -1,0 +1,282 @@
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.facebook.shimmer.ShimmerFrameLayout
+
+        android:id="@+id/shimmer_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:shimmer_auto_start="true"
+        android:background="#f2f2f2">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary" />
+
+        <!-- Slider Section with transparent buttons -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!-- ViewPager or Slider for content -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!-- Left Arrow Button (Transparent) -->
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_left"
+                android:background="@android:color/transparent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <!-- Right Arrow Button (Transparent) -->
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@android:color/transparent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <!-- Tab Layout (Map, Image, Details) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Map Tab -->
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_no_radius"
+                android:backgroundTint="@color/orange5"
+                android:text="IMAGE" />
+
+            <!-- Image Tab -->
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_no_radius"
+                android:backgroundTint="@color/green10"
+                android:text="MAP" />
+
+            <!-- Details Tab -->
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_no_radius"
+                android:backgroundTint="@color/blue5"
+                android:text="Details" />
+        </LinearLayout>
+
+        <!-- Job Owner Info Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <!-- Job Owner Image -->
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_profile"
+                android:layout_gravity="center_vertical"/>
+
+            <!-- Job Owner Details -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp">
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:layout_marginTop="4dp"/>
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone number"
+                    android:layout_marginTop="4dp"/>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Accept / Cancel Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="16dp">
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Action Bar -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/action_bar"/>
+
+        <!-- Slider Section with transparent buttons -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!-- ViewPager or Slider for content -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!-- Left Arrow Button (Transparent) -->
+            <ImageButton
+                android:id="@+id/btnLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_left"
+                android:background="@android:color/transparent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <!-- Right Arrow Button (Transparent) -->
+            <ImageButton
+                android:id="@+id/btnRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@android:color/transparent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <!-- Tab Layout (Map, Image, Details) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Map Tab -->
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
+                android:id="@+id/btnImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_no_radius"
+                android:backgroundTint="@color/orange5"
+                android:text="IMAGE" />
+
+            <!-- Image Tab -->
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
+                android:id="@+id/btnMap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_no_radius"
+                android:backgroundTint="@color/green10"
+                android:text="MAP" />
+
+            <!-- Details Tab -->
+            <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
+                android:id="@+id/btnDetails"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_no_radius"
+                android:backgroundTint="@color/blue5"
+                android:text="Details" />
+        </LinearLayout>
+
+        <!-- Job Owner Info Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <!-- Job Owner Image -->
+            <ImageView
+                android:id="@+id/ivJobOwner"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_profile"
+                android:layout_gravity="center_vertical"/>
+
+            <!-- Job Owner Details -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp">
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                    android:id="@+id/tvName1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                    android:id="@+id/tvemail2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:layout_marginTop="4dp"/>
+                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_TextView
+                    android:id="@+id/tvphonenum3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone number"
+                    android:layout_marginTop="4dp"/>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Accept / Cancel Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="16dp">
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

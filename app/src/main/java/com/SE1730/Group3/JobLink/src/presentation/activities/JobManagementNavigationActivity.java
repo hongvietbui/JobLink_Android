@@ -16,21 +16,21 @@ import com.SE1730.Group3.JobLink.src.presentation.fragments.WorkerManageJobFragm
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class UserManageJobActivity extends AppCompatActivity {
+public class JobManagementNavigationActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_manage_job);
+        setContentView(R.layout.activity_job_management_navigation);
 
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new ViewPagerAdapter(this));
     }
 
     private class ViewPagerAdapter extends FragmentStateAdapter {
-        public ViewPagerAdapter(@NonNull UserManageJobActivity fragmentActivity) {
+        public ViewPagerAdapter(@NonNull JobManagementNavigationActivity fragmentActivity) {
             super(fragmentActivity);
         }
 
@@ -46,7 +46,7 @@ public class UserManageJobActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return 2; // Two fragments: Owner and Worker
+            return 2;
         }
     }
 }

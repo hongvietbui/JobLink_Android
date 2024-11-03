@@ -1,7 +1,7 @@
 package com.SE1730.Group3.JobLink.src.domain.useCases;
 
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
-import com.SE1730.Group3.JobLink.src.data.models.response.JobAndOwnerDetailsResponse;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class JobDetailUsecase {
     public JobDetailUsecase(IJobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
-    public  Observable<ApiResp<JobAndOwnerDetailsResponse>> execute(UUID JobId) throws IOException {
-        return jobRepository.JobDetail(JobId);
+    public  Observable<ApiResp<JobOwnerDetailsResp>> execute(UUID JobId) throws IOException {
+        return jobRepository.getJobOwnerDetails(JobId);
     }
 }
