@@ -2,8 +2,6 @@ package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
-import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
-import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
@@ -167,10 +165,10 @@ public class UserRepositoryImpl implements IUserRepository {
         return authApi.changePassUser(new ApiReq<>(request));
     }
 
-    @Override
-    public Observable<ApiResp<List<NotificationDTO>>> getUserNotifications() throws IOException {
-        return userApi.getUserNotification();
-    }
+//    @Override
+//    public Observable<ApiResp<List<NotificationDTO>>> getUserNotifications() throws IOException {
+//        return userApi.getUserNotification();
+//    }
 
     public Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException {
         return userApi.getUserByWorkerId(workerId);

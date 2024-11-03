@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.SE1730.Group3.JobLink.src.domain.dao.INotificationDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Notification;
+import com.SE1730.Group3.JobLink.src.presentation.activities.NotificationActivity;
 import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
@@ -93,7 +94,7 @@ public class NotificationService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
 
-        Intent intent = new Intent(this, NotificationListActivity.class);
+        Intent intent = new Intent(this, NotificationActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)

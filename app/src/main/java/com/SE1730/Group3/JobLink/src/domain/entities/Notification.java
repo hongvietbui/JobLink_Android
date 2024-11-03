@@ -10,10 +10,12 @@ import lombok.Data;
 @Entity(tableName = "Notification")
 @Data
 @Builder
+@AllArgsConstructor
 public class Notification {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
     private String message;
     private String timestamp;
+    private boolean isRead;
 }
