@@ -19,8 +19,8 @@ public class GetNotificationUseCase {
         this.userRepository = userRepository;
     }
 
-
     public Observable<ApiResp<List<NotificationDTO>>> execute() throws IOException {
-        return userRepository.getNotificationsForCurrentUser();
+        return userRepository.getUserNotifications();
     }
+
 }

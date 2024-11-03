@@ -22,7 +22,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class GetNotificationViewModel extends ViewModel {
     private final GetNotificationUseCase getNotificationUseCase;
     private final CompositeDisposable disposables = new CompositeDisposable();
-    public MutableLiveData<ApiResp<List<NotificationDTO>>> getNotificationResult = new MutableLiveData<>();
+    public static MutableLiveData<ApiResp<List<NotificationDTO>>> getNotificationResult = new MutableLiveData<>();
 
     @Inject
     public GetNotificationViewModel(GetNotificationUseCase getNotificationUseCase) {
@@ -36,7 +36,7 @@ public class GetNotificationViewModel extends ViewModel {
                 .subscribe(resp ->{
                     getNotificationResult.postValue(resp);
                 },error ->{
-                    getNotificationResult.postValue(new ApiResp<List<NotificationDTO>>(error.getMessage(),null));
+                    getNotificationResult.postValue(new ApiResp<>(error.getMessage(),null));
                 });
         disposables.add(disposable);
     }

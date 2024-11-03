@@ -29,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class ViewJobActivity extends AppCompatActivity {
-
     private RecyclerView recyclerViewJobs;
     private ViewJobAdapter viewJobAdapter;
     private Spinner spinnerSortBy;

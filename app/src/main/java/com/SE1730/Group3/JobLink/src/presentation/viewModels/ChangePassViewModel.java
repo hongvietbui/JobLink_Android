@@ -25,13 +25,12 @@ public class ChangePassViewModel extends ViewModel {
     public final MutableLiveData<ApiResp<String>> changePassResult = new MutableLiveData<>();
 
     @Inject
-    public ChangePassViewModel(ChangePassUseCase changePassUseCase){
+    public ChangePassViewModel(ChangePassUseCase changePassUseCase) {
         this.changePassUseCase = changePassUseCase;
     }
 
     public void ChangePassUser(UUID userId, String currentPass, String newPass)
-            throws IOException
-    {
+            throws IOException {
         Disposable disposable = changePassUseCase.execute(userId, currentPass, newPass)
                 .subscribeOn(Schedulers.io())
                 .subscribe(resp -> {

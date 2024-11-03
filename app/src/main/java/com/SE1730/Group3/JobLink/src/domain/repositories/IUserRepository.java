@@ -26,8 +26,6 @@ public interface IUserRepository {
     Observable<ApiResp<String>> sendOTP (ForgetPassReqDTO request) throws IOException;
     Observable<ApiResp<String>> VerifyOtp (OtpReqDTO request) throws IOException;
     Observable<ApiResp<String>> ResetPassword (ResetPassDTO request) throws IOException;
-    Observable<ApiResp<List<NotificationDTO>>> getNotificationsForCurrentUser() throws IOException;
-    Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException;
-
     Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
+    Observable<ApiResp<List<NotificationDTO>>> getUserNotifications() throws IOException;
 }

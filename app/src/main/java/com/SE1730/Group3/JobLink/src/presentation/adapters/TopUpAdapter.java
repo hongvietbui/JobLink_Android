@@ -11,13 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopUpAdapter extends RecyclerView.Adapter<TopUpAdapter.TopUpViewHolder> {
     private List<TopUpDTO> topUpList;
 
-    public TopUpAdapter(List<TopUpDTO> topUpList) {
-        this.topUpList = topUpList;
+    public TopUpAdapter() {
+        this.topUpList = new ArrayList<>();
+    }
+    public void setData(List<TopUpDTO> newTopUpList) {
+        this.topUpList = newTopUpList;
+        notifyDataSetChanged();
     }
 
     @NonNull

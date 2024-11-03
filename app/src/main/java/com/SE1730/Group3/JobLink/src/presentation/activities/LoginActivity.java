@@ -36,6 +36,7 @@ public class LoginActivity extends BaseActivity {
     private TextView tvRegister, tvForgotPass;
     private ImageView ivEye;
     private Disposable loginObservable;
+    private Boolean isPwdVisible = false;
     Intent intent;
 
     @Inject
@@ -79,6 +80,20 @@ public class LoginActivity extends BaseActivity {
 
     private void onIvEyeClick(View view) {
         //hide and show password
+        if (isPwdVisible) {
+            // Hide password
+            edtPassword.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            ivEye.setImageResource(R.drawable.ic_eye); // Update with appropriate icon resource for 'closed eye'
+        } else {
+            // Show password
+            edtPassword.setTransformationMethod(null);
+            ivEye.setImageResource(R.drawable.ic_eye_off); // Update with appropriate icon resource for 'open eye'
+        }
+        // Toggle the boolean state
+        isPwdVisible = !isPwdVisible;
+
+        // Move cursor to the end of the text in case of toggling
+        edtPassword.setSelection(edtPassword.getText().length());
 
     }
 

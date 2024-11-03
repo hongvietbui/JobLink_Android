@@ -8,7 +8,9 @@ import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.TopupReqDTO;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
@@ -20,10 +22,7 @@ public interface IUserApi {
     @GET("user/me")
     Observable<ApiResp<UserDTO>> getCurrentUser();
 
-    @GET("user/notification")
+    @GET("user/notifications")
     Observable<ApiResp<List<NotificationDTO>>> getUserNotification();
-
-    @GET("user/topup")
-    Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(ApiReq<TopupReqDTO> request);
 
 }
