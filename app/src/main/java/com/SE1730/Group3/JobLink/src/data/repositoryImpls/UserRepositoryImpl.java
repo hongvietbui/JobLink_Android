@@ -38,6 +38,7 @@ public class UserRepositoryImpl implements IUserRepository {
     private final IUserApi userApi;
     private final IUnitOfWork unitOfWork;
 
+
     @Inject
     public UserRepositoryImpl(IAuthApi authApi, IUserApi userApi, IUnitOfWork unitOfWork) {
         this.authApi = authApi;
@@ -162,21 +163,15 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public Observable<ApiResp<List<NotificationDTO>>> getNotificationsForCurrentUser() throws IOException {
-        return userApi.getUserNotification();
-    }
-
-    @Override
-    public Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException {
-        return userApi.getUserTransaction(new ApiReq<>(request));
-    }
-
-    @Override
     public Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException {
         return authApi.changePassUser(new ApiReq<>(request));
     }
 
     @Override
+    public Observable<ApiResp<List<NotificationDTO>>> getUserNotifications() throws IOException {
+        return userApi.getUserNotification();
+    }
+
     public Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException {
         return userApi.getUserByWorkerId(workerId);
     }

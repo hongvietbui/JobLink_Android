@@ -29,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class NotificationFragment extends Fragment {
-
     private RecyclerView recyclerViewNotifications;
     private NotificationAdapter notificationAdapter;
     private GetNotificationViewModel getNotificationViewModel;
@@ -44,13 +43,10 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         getNotificationViewModel = new ViewModelProvider(this).get(GetNotificationViewModel.class);
-
-        bindView(view);
+        bindingView(view);
         setupRecyclerView();
         observeNotifications();
-
         try {
             getNotificationViewModel.getNotification();
         } catch (IOException e) {
@@ -58,7 +54,7 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-    private void bindView(View view) {
+    private void bindingView(View view) {
         recyclerViewNotifications = view.findViewById(R.id.recyclerViewNotification);
     }
 
@@ -72,16 +68,18 @@ public class NotificationFragment extends Fragment {
         getNotificationViewModel.getNotificationResult.observe(getViewLifecycleOwner(), new Observer<ApiResp<List<NotificationDTO>>>() {
             @Override
             public void onChanged(ApiResp<List<NotificationDTO>> apiResp) {
-                if (apiResp != null && apiResp.getStatus() == 200 && apiResp.getData() != null) {
-                    notificationsList.clear();
-                    notificationsList.addAll(apiResp.getData());
-                    notificationAdapter.notifyDataSetChanged();
-                    Toast.makeText(getContext(), "Notifications loaded successfully!", Toast.LENGTH_SHORT).show();
-                } else if (apiResp != null) {
-                    Toast.makeText(getContext(), "Failed to load notifications. Please try again.", Toast.LENGTH_SHORT).show();
+                if (apiResp != null) {
+                    if (apiResp.getStatus() == 200 && apiResp.getData() != null) {
+                        notificationsList.clear();
+                        notificationsList.addAll(apiResp.getData());
+                        notificationAdapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "Tải thông báo thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Hiển thị thông báo lỗi nếu phản hồi API không thành công
+                        Toast.makeText(getContext(), "Không tải được thông báo: " + apiResp.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Log.e("NotificationFragment", "ApiResp is null.");
-                    Toast.makeText(getContext(), "An unexpected error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Đã xảy ra lỗi bất ngờ.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

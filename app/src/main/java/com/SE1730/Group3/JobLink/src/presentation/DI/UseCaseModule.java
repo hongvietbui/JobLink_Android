@@ -15,7 +15,6 @@ import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RejectWorkerUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.ResetPassUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.SendOtpUseCase;
-import com.SE1730.Group3.JobLink.src.domain.useCases.TopupUsecase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.VerifyOtpUseCase;
 
 import javax.inject.Singleton;
@@ -76,12 +75,6 @@ public class UseCaseModule {
 
     @Provides
     @Singleton
-    public static TopupUsecase providesTopupUsecase(IUserRepository userRepository) {
-        return new TopupUsecase(userRepository);
-    }
-
-    @Provides
-    @Singleton
     public static AcceptWorkerUseCase providesAcceptWorkerUseCase(IJobRepository jobRepository) {
         return new AcceptWorkerUseCase(jobRepository);
     }
@@ -91,4 +84,5 @@ public class UseCaseModule {
     public static RejectWorkerUseCase providesRejectWorkerUseCase(IJobRepository jobRepository) {
         return new RejectWorkerUseCase(jobRepository);
     }
+
 }
