@@ -9,6 +9,7 @@ import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -30,7 +31,7 @@ public class TransactionRepositoryImpl implements ITransactionRepository {
     }
 
     @Override
-    public Observable<ApiResp<TopUpDTO>> getTopUpHistory(Date fromDate, Date toDate) throws IOException {
+    public Observable<ApiResp<List<TopUpDTO>>> getTopUpHistory(Date fromDate, Date toDate) throws IOException {
         return transactionApi.getTransactionByUser(fromDate, toDate);
     }
 

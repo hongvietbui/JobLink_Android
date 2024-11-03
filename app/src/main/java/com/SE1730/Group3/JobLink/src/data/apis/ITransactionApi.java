@@ -4,6 +4,7 @@ import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -18,7 +19,7 @@ public interface ITransactionApi {
     Single<ApiResp<String>> getQRCodeByUserId(@Path("userId") UUID userId);
 
     @GET("transaction/topupHistory")
-    Observable<ApiResp<TopUpDTO>> getTransactionByUser(
+    Observable<ApiResp<List<TopUpDTO>>> getTransactionByUser(
             @Query("fromDate") Date fromDate,
             @Query("toDate") Date toDate);
 

@@ -84,4 +84,5 @@ public class UseCaseModule {
     public static RejectWorkerUseCase providesRejectWorkerUseCase(IJobRepository jobRepository) {
         return new RejectWorkerUseCase(jobRepository);
     }
+
 }

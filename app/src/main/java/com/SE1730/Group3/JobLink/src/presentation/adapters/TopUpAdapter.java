@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,20 @@ import java.util.List;
 
 public class TopUpAdapter extends RecyclerView.Adapter<TopUpAdapter.TopUpViewHolder> {
     private List<TopUpDTO> topUpList;
+    private Context context;
+
+    public TopUpAdapter(Context context, List<TopUpDTO> topUpList) {
+        this.context = context;
+        this.topUpList = new ArrayList<>(topUpList);
+    }
 
     public TopUpAdapter() {
         this.topUpList = new ArrayList<>();
     }
+
     public void setData(List<TopUpDTO> newTopUpList) {
-        this.topUpList = newTopUpList;
+        this.topUpList.clear();
+        this.topUpList.addAll(newTopUpList);
         notifyDataSetChanged();
     }
 
@@ -48,7 +57,6 @@ public class TopUpAdapter extends RecyclerView.Adapter<TopUpAdapter.TopUpViewHol
     }
 
     public static class TopUpViewHolder extends RecyclerView.ViewHolder {
-
         private TextView dateTimeTextView;
         private TextView amountTextView;
         private TextView statusTextView;

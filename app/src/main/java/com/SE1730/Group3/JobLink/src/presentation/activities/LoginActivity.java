@@ -82,20 +82,14 @@ public class LoginActivity extends AppCompatActivity {
     private void onIvEyeClick(View view) {
         //hide and show password
         if (isPwdVisible) {
-            // Hide password
             edtPassword.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
             ivEye.setImageResource(R.drawable.ic_eye); // Update with appropriate icon resource for 'closed eye'
         } else {
-            // Show password
             edtPassword.setTransformationMethod(null);
             ivEye.setImageResource(R.drawable.ic_eye_off); // Update with appropriate icon resource for 'open eye'
         }
-        // Toggle the boolean state
         isPwdVisible = !isPwdVisible;
-
-        // Move cursor to the end of the text in case of toggling
         edtPassword.setSelection(edtPassword.getText().length());
-
     }
 
     private void onTvRegisterClick(View view) {
@@ -111,10 +105,6 @@ public class LoginActivity extends AppCompatActivity {
     private void login() throws IOException {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
-
-//        // Debug username và password
-//        Log.d("LoginDebug", "Username: " + username);
-//        Log.d("LoginDebug", "Password: " + password);
         //make loading spinner visible
         // Call login api
         Disposable loginDisposable = loginUseCase.execute(username, password)
@@ -152,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         disposables.clear();
     }
 }

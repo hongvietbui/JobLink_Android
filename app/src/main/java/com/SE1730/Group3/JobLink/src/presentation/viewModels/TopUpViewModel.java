@@ -5,34 +5,31 @@ import androidx.lifecycle.ViewModel;
 
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.domain.useCases.TopUpUseCase;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-@HiltViewModel
-public class TopupHistoryViewModel extends ViewModel {
-    private final TopupUsecase topUpUsecase;
+public class TopUpViewModel extends ViewModel {
+    private final TopUpUseCase topUpUseCase;
     private final CompositeDisposable disposables = new CompositeDisposable();
+    public MutableLiveData<ApiResp<List<TopUpDTO>>> topUpResult = new MutableLiveData<>();
 
-    public final MutableLiveData<ApiResp<List<TopUpDTO>>> topUpResult = new MutableLiveData<>();
 
-    @Inject
-    public TopupHistoryViewModel(TopupUsecase topUpUsecase) {
-        this.topUpUsecase = topUpUsecase;
+    public TopUpViewModel(TopUpUseCase topUpUseCase) {
+        this.topUpUseCase = topUpUseCase;
     }
 
-    public void TopUpHistory( Date fromDate, Date toDate)
-            throws IOException {
-        Disposable disposable = topUpUsecase.execute(fromDate, toDate)
+    public void getTopUpHistory(Date fromDate, Date toDate) throws IOException {
+        Disposable disposable = topUpUseCase.execute(fromDate, toDate)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
                     topUpResult.postValue(resp);
                 }, error -> {
@@ -41,7 +38,8 @@ public class TopupHistoryViewModel extends ViewModel {
         disposables.add(disposable);
     }
 
-    public void onCleared() {
+    @Override
+    protected void onCleared() {
         super.onCleared();
         disposables.clear();
     }
