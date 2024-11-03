@@ -173,118 +173,118 @@
             </RelativeLayout>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="41dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
 
-                <ImageView
-                    android:id="@+id/id_firstName_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_user" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_firstName_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
 
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
-                    android:id="@+id/edtFirstName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_toEndOf="@+id/id_firstName_image"
-                    android:layout_toRightOf="@+id/id_firstName_image"
-                    android:backgroundTint="@color/thirdTextColor"
-                    android:hint="First name"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor" />
-            </RelativeLayout>
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtFirstName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_firstName_image"-->
+<!--                    android:layout_toRightOf="@+id/id_firstName_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="First name"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor" />-->
+<!--            </RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="41dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
 
-                <ImageView
-                    android:id="@+id/id_lastName_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_user" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_lastName_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
 
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
-                    android:id="@+id/edtLastName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_toEndOf="@+id/id_lastName_image"
-                    android:layout_toRightOf="@+id/id_lastName_image"
-                    android:backgroundTint="@color/thirdTextColor"
-                    android:hint="Last name"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor" />
-            </RelativeLayout>
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtLastName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_lastName_image"-->
+<!--                    android:layout_toRightOf="@+id/id_lastName_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="Last name"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor" />-->
+<!--            </RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="41dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
 
-                <ImageView
-                    android:id="@+id/id_address_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_user" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_address_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
 
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
-                    android:id="@+id/edtAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_toEndOf="@+id/id_address_image"
-                    android:layout_toRightOf="@+id/id_address_image"
-                    android:backgroundTint="@color/thirdTextColor"
-                    android:hint="Address"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor" />
-            </RelativeLayout>
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtAddress"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_address_image"-->
+<!--                    android:layout_toRightOf="@+id/id_address_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="Address"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor" />-->
+<!--            </RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="41dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="41dp">-->
 
-                <ImageView
-                    android:id="@+id/id_phoneNumber_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_user" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/id_phoneNumber_image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:src="@drawable/ic_user" />-->
 
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText
-                    android:id="@+id/edtPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_toEndOf="@+id/id_phoneNumber_image"
-                    android:layout_toRightOf="@+id/id_phoneNumber_image"
-                    android:backgroundTint="@color/thirdTextColor"
-                    android:hint="Phone number"
-                    android:inputType="phone"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="16dp"
-                    android:textColorHint="@color/thirdTextColor"/>
-            </RelativeLayout>
+<!--                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Regular_EditText-->
+<!--                    android:id="@+id/edtPhoneNumber"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginLeft="8dp"-->
+<!--                    android:layout_marginRight="8dp"-->
+<!--                    android:layout_toEndOf="@+id/id_phoneNumber_image"-->
+<!--                    android:layout_toRightOf="@+id/id_phoneNumber_image"-->
+<!--                    android:backgroundTint="@color/thirdTextColor"-->
+<!--                    android:hint="Phone number"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:textColorHint="@color/thirdTextColor"/>-->
+<!--            </RelativeLayout>-->
             <!--Date of birth-->
             <RelativeLayout
                 android:layout_width="match_parent"

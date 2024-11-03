@@ -19,7 +19,7 @@ public class ViewAppliedWorkerUseCase {
         this.jobRepository = jobRepository;
     }
 
-    public Observable<ApiResp<List<JobWorkerDTO>>> execute(UUID jobId, String accessToken){
-        return jobRepository.getAppliedWorkersByJobId(jobId, accessToken);
+    public Observable<ApiResp<List<JobWorkerDTO>>> execute(UUID jobId){
+        return jobRepository.getAppliedWorkersByJobId(jobId);
     }
 }

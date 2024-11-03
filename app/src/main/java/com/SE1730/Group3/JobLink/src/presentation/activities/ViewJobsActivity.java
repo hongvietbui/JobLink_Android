@@ -10,27 +10,25 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
-import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
-import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
-import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobsUseCase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewJobAdapter;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class ViewJobActivity extends BaseActivity {
+public class ViewJobsActivity extends BaseActivity {
+    CompositeDisposable disposables = new CompositeDisposable();
 
     private RecyclerView recyclerViewJobs;
     private ViewJobAdapter viewJobAdapter;
@@ -46,7 +44,7 @@ public class ViewJobActivity extends BaseActivity {
     private boolean hasMorePages = true;
 
     @Inject
-    GetJobUseCase getJobUseCase;
+    GetJobsUseCase getJobsUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,36 +122,45 @@ public class ViewJobActivity extends BaseActivity {
         isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
 
-        CompletableFuture<ApiResp<Pagination<JobDTO>>> future =
-                getJobUseCase.execute(pageIndex, pageSize, sortBy, isDescending, filter);
+        Disposable getJobsDisposable =
+                getJobsUseCase.execute(pageIndex, pageSize, sortBy, isDescending, filter)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(resp -> {
+                            if (resp.getStatus()>=200 && resp.getStatus()<300) {
+                                if(resp.getStatus()==204)
+                                {
+                                    showToast("No jobs found");
+                                }else{
+                                    if (viewJobAdapter == null) {
+                                        viewJobAdapter = new ViewJobAdapter(this, resp.getData().getItems());
+                                        recyclerViewJobs.setAdapter(viewJobAdapter);
+                                    } else {
+                                        viewJobAdapter.addJobs(resp.getData().getItems());
+                                    }
+                                    hasMorePages = resp.getData().getHasNextPage();
+                                }
+                            } else {
+                                showToast(resp.getMessage());
+                            }
+                            isLoading = false;
+                            progressBar.setVisibility(View.GONE);
+                        }, throwable -> {
+                            showToast(throwable.getMessage());
+                            isLoading = false;
+                            progressBar.setVisibility(View.GONE);
+                        });
 
-        future.thenAccept(apiResp -> {
-            isLoading = false;
-            progressBar.setVisibility(View.GONE);
-            if (apiResp.getStatus() == 200) {
-                List<JobDTO> jobList = apiResp.getData().getItems();
-                hasMorePages = !jobList.isEmpty();
-
-                runOnUiThread(() -> {
-                    if (pageIndex == 1) {
-                        viewJobAdapter = new ViewJobAdapter(ViewJobActivity.this, jobList); // Pass context
-                        recyclerViewJobs.setAdapter(viewJobAdapter);
-                    } else {
-                        viewJobAdapter.addJobs(jobList);
-                    }
-                });
-            } else {
-                runOnUiThread(() -> showToast("Failed to fetch jobs."));
-            }
-        }).exceptionally(ex -> {
-            isLoading = false;
-            progressBar.setVisibility(View.GONE);
-            runOnUiThread(() -> showToast("An error occurred: " + ex.getMessage()));
-            return null;
-        });
+        disposables.add(getJobsDisposable);
     }
 
     private void showToast(String message) {
-        Toast.makeText(ViewJobActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposables.clear();
     }
 }

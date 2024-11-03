@@ -17,6 +17,7 @@ import retrofit2.Call;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface IUserApi {
@@ -30,7 +31,7 @@ public interface IUserApi {
     Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(ApiReq<TopupReqDTO> request);
 
     @GET("user/worker/{workerId}")
-    Observable<ApiResp<UserDTO>> getUserByWorkerId(@Query("workerId") UUID workerId);
+    Observable<ApiResp<UserDTO>> getUserByWorkerId(@Path("workerId") UUID workerId);
 
     @GET("user/homepage")
     Observable<ApiResp<UserHompageDTO>> GetUserHomepageData();

@@ -6,11 +6,13 @@ import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
-import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.AcceptWorkerUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobsUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetNotificationUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetQRCodeByUserIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.RejectWorkerUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.ResetPassUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.SendOtpUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.TopupUsecase;
@@ -40,8 +42,8 @@ public class UseCaseModule {
 
     @Provides
     @Singleton
-    public static GetJobUseCase providesGetJobUseCase(IJobRepository jobRepository) {
-        return new GetJobUseCase(jobRepository);
+    public static GetJobsUseCase providesGetJobUseCase(IJobRepository jobRepository) {
+        return new GetJobsUseCase(jobRepository);
     }
 
     @Provides
@@ -76,5 +78,17 @@ public class UseCaseModule {
     @Singleton
     public static TopupUsecase providesTopupUsecase(IUserRepository userRepository) {
         return new TopupUsecase(userRepository);
+    }
+
+    @Provides
+    @Singleton
+    public static AcceptWorkerUseCase providesAcceptWorkerUseCase(IJobRepository jobRepository) {
+        return new AcceptWorkerUseCase(jobRepository);
+    }
+
+    @Provides
+    @Singleton
+    public static RejectWorkerUseCase providesRejectWorkerUseCase(IJobRepository jobRepository) {
+        return new RejectWorkerUseCase(jobRepository);
     }
 }

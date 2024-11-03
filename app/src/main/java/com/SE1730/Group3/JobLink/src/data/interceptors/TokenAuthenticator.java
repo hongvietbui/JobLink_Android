@@ -1,5 +1,7 @@
 package com.SE1730.Group3.JobLink.src.data.interceptors;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
@@ -11,12 +13,13 @@ import com.SE1730.Group3.JobLink.src.data.models.request.RefreshTokenReqDTO;
 import com.SE1730.Group3.JobLink.src.data.models.response.AccessTokenRespDTO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.User;
+import com.SE1730.Group3.JobLink.src.presentation.activities.LoginActivity;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Authenticator;
 import okhttp3.Request;
@@ -25,14 +28,16 @@ import okhttp3.Route;
 
 public class TokenAuthenticator implements Authenticator {
     private IUserDAO userDAO;
-    private IAuthApi authApi;
+    private Provider<IAuthApi> authApiProvider;
     private SharedPreferences sharedPreferences;
+    private final Context context;
 
     @Inject
-    public TokenAuthenticator(IUserDAO userDAO, IAuthApi authApi, SharedPreferences sharedPreferences) {
+    public TokenAuthenticator(IUserDAO userDAO, Provider<IAuthApi> authApiProvider, SharedPreferences sharedPreferences, Context context) {
         this.userDAO = userDAO;
-        this.authApi = authApi;
+        this.authApiProvider = authApiProvider;
         this.sharedPreferences = sharedPreferences;
+        this.context = context;
     }
 
     @Nullable
@@ -52,7 +57,7 @@ public class TokenAuthenticator implements Authenticator {
 
         ApiReq<RefreshTokenReqDTO> request = new ApiReq<>(RefreshTokenReqDTO.builder().refreshToken(user.getRefreshToken()).build());
 
-        retrofit2.Call<ApiResp<AccessTokenRespDTO>> refreshCall = authApi.refreshAccessToken(request);
+        retrofit2.Call<ApiResp<AccessTokenRespDTO>> refreshCall = authApiProvider.get().refreshAccessToken(request);
         try {
             retrofit2.Response<ApiResp<AccessTokenRespDTO>> accessTokenResp = refreshCall.execute();
             //check if the response is successful
@@ -78,6 +83,16 @@ public class TokenAuthenticator implements Authenticator {
             count++;
         }
         return count;
+    }
+
+    private void handleRefreshTokenExpired() {
+        // Xóa dữ liệu người dùng
+        sharedPreferences.edit().clear().apply();
+
+        // Tạo Intent để đưa người dùng về LoginActivity
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 
 }
