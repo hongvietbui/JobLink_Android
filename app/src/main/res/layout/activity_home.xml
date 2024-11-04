@@ -18,168 +18,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:background="#4A148C"
+            android:background="#3F51B5"
             app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/welcomeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Welcome Back !"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/dashboardText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/welcomeText"
-                android:text="JobLink Dashboard"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/logo"
+                android:scaleType="fitCenter" />
         </RelativeLayout>
 
-        <!-- User Balance Section -->
-        <LinearLayout
-            android:id="@+id/userBalanceSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/headerSection"
-            android:layout_marginTop="16dp">
 
-            <ImageView
-                android:id="@+id/imageAvatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_user" />
-
-            <TextView
-                android:id="@+id/tvUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="John Doe"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Balance: 99,999,370,240 VND"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
-                    android:id="@+id/btnDeposit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:text="Deposit"
-                    android:background="@android:color/holo_green_dark"/>
-
-                <com.SE1730.Group3.JobLink.src.presentation.ui.fontsmaterialuiux.Raleway_Medium_Button
-                    android:id="@+id/btnWithdraw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/holo_red_dark"
-                    android:text="Withdraw"
-                    android:textColor="@color/colorWhite"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Stats Section -->
-        <GridLayout
-            android:id="@+id/statsSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/userBalanceSection"
-            android:layout_marginTop="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Earnings Today"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/tvEarningToday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Earnings This Month"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/tvEarningThisMonth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="390,000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Deposits This Month"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/tvTotalDeposit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3,300"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tasks Created This Month"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/tvTaskCreated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </GridLayout>
-
-        <!-- Task List Section Label -->
-        <TextView
-            android:id="@+id/jobListLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Job list"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/statsSection"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- Fragment Container for Job List -->
         <FrameLayout
             android:id="@+id/jobListFragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            app:layout_constraintTop_toBottomOf="@id/jobListLabel"
+            app:layout_constraintTop_toBottomOf="@id/headerSection"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="8dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>

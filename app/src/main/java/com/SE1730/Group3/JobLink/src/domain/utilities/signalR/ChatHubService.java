@@ -28,6 +28,9 @@ public class ChatHubService extends Service {
     private String userId = "0";
     private IMessageDAO messageDAO;
 
+    public ChatHubService() {
+        instance = this;
+    }
     @Inject
     public ChatHubService(Moshi moshi, IMessageDAO messageDAO) {
         this.moshi = moshi;

@@ -47,6 +47,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(position);
+        if(message == null)
+            return;
+
         if (holder instanceof SentMessageViewHolder) {
             ((SentMessageViewHolder) holder).textMessageSent.setText(message.getText());
         } else if (holder instanceof ReceivedMessageViewHolder) {
@@ -56,13 +59,20 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        if(messages != null)
+            return messages.size();
+        return  0;
     }
 
     // Thêm tin nhắn mới vào danh sách và cập nhật RecyclerView
     public void addMessage(Message message) {
         messages.add(message);
         notifyItemInserted(messages.size() - 1); // Thông báo cập nhật vị trí cuối cùng
+    }
+
+    public void updateMessages(List<Message> newMessages) {
+        this.messages = newMessages;
+        notifyDataSetChanged(); // Notify the adapter that the data has changed
     }
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
