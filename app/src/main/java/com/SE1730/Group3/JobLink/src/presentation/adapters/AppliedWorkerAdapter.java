@@ -1,6 +1,5 @@
 package com.SE1730.Group3.JobLink.src.presentation.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
-import com.SE1730.Group3.JobLink.src.domain.useCases.AcceptWorkerUseCase;
-import com.SE1730.Group3.JobLink.src.domain.useCases.RejectWorkerUseCase;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.ViewAppliedWorkerViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-
-import javax.inject.Inject;
-
-import dagger.hilt.android.AndroidEntryPoint;
-import dagger.hilt.android.lifecycle.HiltViewModel;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdapter.ViewHolder> {
     private List<UserDTO> appliedWorkers;
@@ -62,15 +51,12 @@ public class AppliedWorkerAdapter extends RecyclerView.Adapter<AppliedWorkerAdap
         holder.textViewDob.setText(worker.getDateOfBirth());
         holder.textViewAddress.setText(worker.getAddress());
 
-        // Tải ảnh đại diện sử dụng Picasso
         Picasso.get()
                 .load(worker.getAvatar())
                 .into(holder.imageViewAvatar);
 
-        // Xử lý click item
         holder.itemView.setOnClickListener(v -> listener.onWorkerClick(worker));
 
-        // Gọi ViewModel để xử lý khi chấp nhận hoặc từ chối
         holder.btnApprove.setOnClickListener(v -> {
             try {
                 viewModel.acceptWorker(jobId, worker.getId());
