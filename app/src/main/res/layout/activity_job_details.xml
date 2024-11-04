@@ -347,6 +347,15 @@
                 android:textColor="@android:color/white"
                 android:backgroundTint="@android:color/holo_blue_dark"
                 android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btnChatWithOwner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chat with job owner"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 
