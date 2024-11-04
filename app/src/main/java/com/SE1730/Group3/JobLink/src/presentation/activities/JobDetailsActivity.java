@@ -126,7 +126,7 @@ public class JobDetailsActivity extends BaseActivity {
                                                     btnCompleteJob.setVisibility(Button.VISIBLE);
                                                 }
                                                 //Check if job is waiting for applicants
-                                                if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)){
+                                                else if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS) || jobStatus.equals(JobStatus.PENDING_APPROVAL)){
                                                     btnListApplicant.setVisibility(Button.VISIBLE);
                                                     btnCompleteJob.setVisibility(Button.GONE);
                                                 }
