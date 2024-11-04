@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".src.JobLinkApplication"
@@ -30,6 +33,12 @@
         <service
             android:name=".src.domain.utilities.signalR.TransferHubService"
             android:exported="false" />
+        <service android:name=".src.domain.utilities.signalR.NotificationService"
+            android:exported="false"/>
+
+        <receiver android:name=".src.domain.utilities.signalR.broadcastReceivers.NotificationReceiver"
+            android:exported="false" />
+
 
         <activity
             android:name=".src.presentation.activities.BaseActivity"
@@ -42,7 +51,7 @@
             android:exported="true" />
         <activity
             android:name=".src.presentation.activities.ViewJobsActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".src.presentation.activities.AppliedWorkersActivity"
             android:exported="false" />
@@ -52,9 +61,8 @@
         <activity
             android:name=".src.presentation.activities.WithdrawActivity"
             android:exported="false" />
-        <activity
-            android:name=".src.presentation.activities.JobActivity"
-            android:exported="true"></activity>
+        <activity android:name=".src.presentation.activities.JobActivity"
+            android:exported="false" />
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
@@ -69,7 +77,9 @@
             android:exported="false" />
         <activity
             android:name=".src.presentation.activities.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" >
+
+        </activity>
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity

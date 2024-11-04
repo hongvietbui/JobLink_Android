@@ -1,6 +1,7 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.NotificationService;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.TransferHubService;
 
 import java.io.IOException;
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister, tvForgotPass;
     private ImageView ivEye;
+    private Disposable loginObservable;
+    private Boolean isPwdVisible = false;
     Intent intent;
 
     CompositeDisposable disposables = new CompositeDisposable();
@@ -43,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     TransferHubService transferHubService;
+
+    @Inject
+    NotificationService notificationService;
 
     @Inject
     IUserDAO userDAO;
@@ -79,7 +86,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onIvEyeClick(View view) {
         //hide and show password
-
+        if (isPwdVisible) {
+            edtPassword.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            ivEye.setImageResource(R.drawable.ic_eye); // Update with appropriate icon resource for 'closed eye'
+        } else {
+            edtPassword.setTransformationMethod(null);
+            ivEye.setImageResource(R.drawable.ic_eye_off); // Update with appropriate icon resource for 'open eye'
+        }
+        isPwdVisible = !isPwdVisible;
+        edtPassword.setSelection(edtPassword.getText().length());
     }
 
     private void onTvRegisterClick(View view) {
@@ -95,10 +110,6 @@ public class LoginActivity extends AppCompatActivity {
     private void login() throws IOException {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
-
-//        // Debug username và password
-//        Log.d("LoginDebug", "Username: " + username);
-//        Log.d("LoginDebug", "Password: " + password);
         //make loading spinner visible
         // Call login api
         Disposable loginDisposable = loginUseCase.execute(username, password)
@@ -119,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                                 .subscribe(resp -> {
                                     Log.d("LoginDebug", "User ID: " + resp.getId().toString());
                                     transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                                    notificationService.updateUserIdAndReconnect(resp.getId().toString());
                                 }, error -> {
                                     error.printStackTrace();
                                 }));
@@ -136,7 +148,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         disposables.clear();
     }
 }
