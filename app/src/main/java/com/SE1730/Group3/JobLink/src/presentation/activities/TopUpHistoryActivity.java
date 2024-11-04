@@ -1,6 +1,8 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +25,10 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.TopUpViewModel;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +37,7 @@ import java.util.UUID;
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 @AndroidEntryPoint
 public class TopUpHistoryActivity extends BaseActivity {
     private EditText edtFromDate, edtToDate;
@@ -39,6 +47,7 @@ public class TopUpHistoryActivity extends BaseActivity {
     private RecyclerView topUpRecyclerView;
     private TopUpAdapter adapter;
 
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private final CompositeDisposable disposables = new CompositeDisposable();
     private int pageIndex = 1;
     private final int pageSize = 10;
@@ -54,23 +63,33 @@ public class TopUpHistoryActivity extends BaseActivity {
 
     private void bindingAction() {
         btnFilter.setOnClickListener(this::onBtnFilterClick);
+        fromDate.setOnClickListener(view -> openDatePickerDialog(fromDate));
+        toDate.setOnClickListener(view -> openDatePickerDialog(toDate));
+    }
+
+    private void openDatePickerDialog(EditText dateField) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            calendar.set(year, month, dayOfMonth);
+            dateField.setText(dateFormat.format(calendar.getTime()));
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 
     private void onBtnFilterClick(View view) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
             Date fromDateValue = dateFormat.parse(fromDate.getText().toString());
             Date toDateValue = dateFormat.parse(toDate.getText().toString());
 
             if (fromDateValue != null && toDateValue != null) {
+//                adapter.setData(Collection.emptyList());
                 fetchTopUpHistory(fromDateValue, toDateValue);
             } else {
                 Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
             }
         } catch (ParseException | IOException e) {
-            Toast.makeText(this, "Date format is yyyy-mm-dd", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Date format is yyyy-MM-dd", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, "Filtering top up history", Toast.LENGTH_SHORT).show();
     }
 
     private void fetchTopUpHistory(Date fromDate, Date toDate) throws IOException {
@@ -110,7 +129,10 @@ public class TopUpHistoryActivity extends BaseActivity {
                     adapter.setData(topUpHistory);
                 }
             } else {
-                Toast.makeText(this, "Lỗi: " + (apiResp != null ? apiResp.getMessage() : "Lỗi không xác định"), Toast.LENGTH_SHORT).show();
+                String errorMessage = apiResp != null ? apiResp.getMessage() : "Lỗi không xác định";
+                // Ghi log chi tiết lỗi
+                Log.e("TopUpHistoryActivity", "Lỗi: " + errorMessage);
+                Toast.makeText(this, "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

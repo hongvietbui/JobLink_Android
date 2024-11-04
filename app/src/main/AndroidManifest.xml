@@ -40,6 +40,8 @@
             android:name=".src.presentation.activities.BaseActivity"
             android:exported="false" />
 
+
+
         <activity
             android:name=".src.presentation.activities.JobManagementNavigationActivity"
             android:exported="true" />
@@ -58,7 +60,8 @@
         <activity
             android:name=".src.presentation.activities.WithdrawActivity"
             android:exported="false" />
-        <activity android:name=".src.presentation.activities.JobActivity"
+        <activity
+            android:name=".src.presentation.activities.JobActivity"
             android:exported="false" />
         <activity
             android:name=".src.presentation.activities.HomeActivity"
@@ -81,12 +84,14 @@
         </activity>
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
-        <activity android:name=".src.presentation.activities.LoginActivity" android:exported="true">
+        <activity
+            android:name=".src.presentation.activities.LoginActivity"
+            android:exported="true">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
         <activity android:name=".src.presentation.activities.TopUpHistoryActivity"/>
