@@ -12,5 +12,6 @@ android:padding="8dp">
     android:layout_height="wrap_content"
     android:textColor="@android:color/white"
     android:padding="10dp"
+    android:background="@drawable/bg_message_received"
     android:text="Hi there!" />
 </LinearLayout>
