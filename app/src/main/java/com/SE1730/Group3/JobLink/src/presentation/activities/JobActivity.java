@@ -48,7 +48,7 @@ public class JobActivity extends BaseActivity {
 
     private void BindingAction() {
         btn_Back.setOnClickListener(v -> {
-        Intent intent = new Intent(JobActivity.this, ViewJobActivity.class);
+        Intent intent = new Intent(JobActivity.this, ViewJobsActivity.class);
         startActivity(intent);
     });
     }

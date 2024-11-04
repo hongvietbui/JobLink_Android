@@ -37,15 +37,12 @@
             android:name=".src.presentation.activities.JobManagementNavigationActivity"
             android:exported="true" />
         <activity
-            android:name=".src.presentation.activities.ViewJobActivity"
+            android:name=".src.presentation.activities.ViewJobsActivity"
             android:exported="true" >
         </activity>
         <activity
             android:name=".src.presentation.activities.AppliedWorkersActivity"
             android:exported="false" />
-        <activity
-            android:name=".src.presentation.activities.ResetPasswordActivity"
-            android:exported="true" />
         <activity
             android:name=".src.presentation.activities.ChatActivity"
             android:exported="false" />

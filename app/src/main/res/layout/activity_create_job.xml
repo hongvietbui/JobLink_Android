@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tạo Job và Xác nhận thanh toán"
+                    android:text="Create Job and Confirm Payment"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
-                        android:text="8V2W+HJV, Tân Hưng, Sóc Sơn, Hà..."
+                        android:text="8V2W+HJV, Tan Hung, Soc Son, Ha..."
                         android:textSize="14sp"
                         android:textColor="@color/grey20" />
                 </LinearLayout>
@@ -65,7 +65,8 @@
             android:id="@+id/edtJobName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên công việc" />
+            android:hint="Job Name" />
+
         <!-- Tabs for Days -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:focusable="false"
-                android:hint="Nhập ngày" />
+                android:hint="Enter Date" />
         </LinearLayout>
 
         <!-- Start Time Selection -->
@@ -94,7 +95,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chọn giờ bắt đầu"
+                android:text="Select Start Time"
                 android:textSize="16sp" />
 
             <EditText
@@ -129,19 +130,19 @@
                 android:id="@+id/rbTwoHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 giờ - Thời gian để hoàn thành công việc" />
+                android:text="2 hours - Time to complete the job" />
 
             <RadioButton
                 android:id="@+id/rbThreeHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3 giờ - Thời gian để hoàn thành công việc" />
+                android:text="3 hours - Time to complete the job" />
 
             <RadioButton
                 android:id="@+id/rbFourHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4 giờ - Thời gian để hoàn thành công việc" />
+                android:text="4 hours - Time to complete the job" />
         </RadioGroup>
 
         <!-- Job Price -->
@@ -150,14 +151,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:hint="Giá công việc" />
+            android:hint="Job Price" />
 
         <!-- Total Price with VAT -->
         <TextView
             android:id="@+id/tvTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tổng cộng (bao gồm VAT):"
+            android:text="Total (including VAT):"
             android:textSize="16sp"
             android:layout_marginTop="8dp" />
 
@@ -165,7 +166,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ghi chú cho JobLinker"
+            android:text="Notes for JobLinker"
             android:textSize="16sp"
             android:layout_marginTop="16dp" />
 
@@ -173,7 +174,7 @@
             android:id="@+id/edtJobDescription"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Nhập ghi chú của bạn..."
+            android:hint="Enter your notes..."
             android:background="@drawable/background_linear"
             android:minLines="3" />
 
@@ -181,33 +182,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quy định hủy gói đã thanh toán - hoàn tiền"
+            android:text="Rules for Package Cancellation and Refund"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="JobLink hỗ trợ 1 trong 2 hình thức hoàn tiền bên dưới" />
+            android:text="JobLink supports one of the two refund methods below" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. Hoàn tiền qua bPay: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng."
+            android:text="1. Refund via bPay: JobLink will refund the total amount of unused sessions."
             android:layout_marginStart="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2. Hoàn tiền qua chuyển khoản ngân hàng: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng trừ đi 20% giá trị của gói ban đầu."
+            android:text="2. Bank transfer refund: JobLink will refund the total amount of unused sessions minus 20% of the initial package value."
             android:layout_marginStart="16dp" />
 
-        <!-- Tạo Job Button -->
+        <!-- Create Job Button -->
         <Button
             android:id="@+id/btnCreateJob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tạo Job"
+            android:text="Create Job"
             android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>
