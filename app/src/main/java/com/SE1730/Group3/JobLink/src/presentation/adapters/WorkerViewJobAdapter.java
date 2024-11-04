@@ -15,10 +15,11 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.presentation.activities.JobDetailsActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdapter.JobViewHolder> {
-    private List<JobDTO> jobList;
+    private List<JobDTO> jobList = new ArrayList<>(); // Initialize to avoid null issues
     private Context context;
 
     public WorkerViewJobAdapter(Context context) {
@@ -26,8 +27,9 @@ public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdap
     }
 
     public void setJobs(List<JobDTO> jobs) {
-        this.jobList = jobs;
-        notifyDataSetChanged();
+        this.jobList.clear(); // Clear previous data
+        this.jobList.addAll(jobs); // Add new data
+        notifyDataSetChanged(); // Notify the adapter to refresh
     }
 
     @NonNull
@@ -74,7 +76,6 @@ public class WorkerViewJobAdapter extends RecyclerView.Adapter<WorkerViewJobAdap
             jobDuration.setText("Duration: " + job.getDuration() + " hours");
             jobPrice.setText("Price: $" + job.getPrice());
 
-            // Set click listener to start JobDetailsActivity with jobId
             onViewDetailsClick.setOnClickListener(v -> {
                 Intent intent = new Intent(context, JobDetailsActivity.class);
                 intent.putExtra("jobId", job.getId().toString());

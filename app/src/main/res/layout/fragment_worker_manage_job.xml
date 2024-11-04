@@ -43,7 +43,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_applied_jobs"
         app:layout_constraintHorizontal_bias="0.8" />
+    <EditText
+        android:id="@+id/editTextFilter2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Filter"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/spinnerSortBy2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Apply Filter Button -->
+    <Button
+        android:id="@+id/buttonApplyFilter2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply Filter"
+        android:backgroundTint="#007BFF"
+        android:textColor="#FFFFFF"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextFilter2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <!-- Progress Bar -->
@@ -68,7 +91,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonApplyFilter1"
+        app:layout_constraintTop_toBottomOf="@+id/buttonApplyFilter2"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/view_item_user_job" />
 
