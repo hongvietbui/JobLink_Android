@@ -1,10 +1,12 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class ViewJobsActivity extends BaseActivity {
+public class ViewJobsActivity extends BaseBottomActivity {
     CompositeDisposable disposables = new CompositeDisposable();
 
     private RecyclerView recyclerViewJobs;
@@ -35,7 +37,7 @@ public class ViewJobsActivity extends BaseActivity {
     private EditText editTextFilter;
     private Button buttonApplyFilter;
     private View progressBar;
-
+    private ImageButton Add_btn;
     private int pageIndex = 1;
     private final int pageSize = 10;
     private boolean isLoading = false;
@@ -47,17 +49,26 @@ public class ViewJobsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewjob);
+        // Thay vì setContentView, gọi setContent để chèn layout vào FrameLayout
+        setContent(R.layout.activity_viewjob);
 
         bindingViews();
         setupFilterButton();
         setupRecyclerView();
-
+        BindingAction();
         try {
             fetchJobsFromApi();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        setSelectedNavigationItem(R.id.navigation_activity);
+    }
+
+    private void BindingAction() {
+        Add_btn.setOnClickListener(v -> {
+           Intent intent = new Intent(ViewJobsActivity.this, JobActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void bindingViews() {
@@ -67,6 +78,7 @@ public class ViewJobsActivity extends BaseActivity {
         editTextFilter = findViewById(R.id.editTextFilter);
         buttonApplyFilter = findViewById(R.id.buttonApplyFilter);
         progressBar = findViewById(R.id.progressBar);
+        Add_btn = findViewById(R.id.buttonAdd);
     }
 
     private void setupFilterButton() {

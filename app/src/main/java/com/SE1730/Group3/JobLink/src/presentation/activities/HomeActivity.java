@@ -27,7 +27,7 @@ import java.io.IOException;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseBottomActivity {
     private ImageView imageAvatar;
     private TextView tvUsername;
     private TextView tvBalance;
@@ -75,7 +75,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        setContent(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -89,6 +89,7 @@ public class HomeActivity extends BaseActivity {
             throw new RuntimeException(e);
         }
         bindingAction();
+        setSelectedNavigationItem(R.id.navigation_home);
     }
 
     private void loadUserData() throws IOException {
