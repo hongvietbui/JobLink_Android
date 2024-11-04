@@ -1,12 +1,14 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.NotificationService;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.TransferHubService;
 
 import java.io.IOException;
@@ -34,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister, tvForgotPass;
     private ImageView ivEye;
+    private ProgressBar progressBar;
+    private Disposable loginObservable;
+    private Boolean isPwdVisible = false;
     Intent intent;
 
     CompositeDisposable disposables = new CompositeDisposable();
@@ -43,6 +50,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     TransferHubService transferHubService;
+
+    @Inject
+    NotificationService notificationService;
+
+    @Inject
+    ChatHubService chatHubService;
 
     @Inject
     IUserDAO userDAO;
@@ -62,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         tvForgotPass = findViewById(R.id.tvForgetPassword);
         btnLogin = findViewById(R.id.btnLogin);
         ivEye = findViewById(R.id.ivEye);
+        progressBar = findViewById(R.id.loginProgressBar);
     }
 
     private void setEvents(){
@@ -79,7 +93,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onIvEyeClick(View view) {
         //hide and show password
-
+        if (isPwdVisible) {
+            edtPassword.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            ivEye.setImageResource(R.drawable.ic_eye); // Update with appropriate icon resource for 'closed eye'
+        } else {
+            edtPassword.setTransformationMethod(null);
+            ivEye.setImageResource(R.drawable.ic_eye_off); // Update with appropriate icon resource for 'open eye'
+        }
+        isPwdVisible = !isPwdVisible;
+        edtPassword.setSelection(edtPassword.getText().length());
     }
 
     private void onTvRegisterClick(View view) {
@@ -96,10 +118,10 @@ public class LoginActivity extends AppCompatActivity {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
 
-//        // Debug username và password
-//        Log.d("LoginDebug", "Username: " + username);
-//        Log.d("LoginDebug", "Password: " + password);
         //make loading spinner visible
+        btnLogin.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
+
         // Call login api
         Disposable loginDisposable = loginUseCase.execute(username, password)
                 .subscribeOn(Schedulers.io())
@@ -108,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    // Debug kết quả từ API
 //                    Log.d("LoginDebug", "Login result: " + result);
                     // make loading spinner invisible
+                    progressBar.setVisibility(View.GONE);
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
                         intent = new Intent(this, JobManagementNavigationActivity.class);
@@ -119,15 +142,21 @@ public class LoginActivity extends AppCompatActivity {
                                 .subscribe(resp -> {
                                     Log.d("LoginDebug", "User ID: " + resp.getId().toString());
                                     transferHubService.updateUserIdAndReconnect(resp.getId().toString());
+                                    notificationService.updateUserIdAndReconnect(resp.getId().toString());
+                                    chatHubService.updateUserIdAndReconnect(resp.getId().toString());
                                 }, error -> {
                                     error.printStackTrace();
                                 }));
+                        finish();
                     } else {
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                        btnLogin.setEnabled(true);
                     }
                 }, error -> {
                     // Log lỗi nếu API call gặp vấn đề
                     Log.e("LoginDebug", "Login error", error);
+                    progressBar.setVisibility(View.GONE);
+                    btnLogin.setEnabled(true);
                 });
 
         disposables.add(loginDisposable);
@@ -136,7 +165,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         disposables.clear();
     }
 }

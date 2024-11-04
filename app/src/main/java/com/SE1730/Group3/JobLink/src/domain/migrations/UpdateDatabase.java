@@ -74,4 +74,17 @@ public class UpdateDatabase {
             database.execSQL("ALTER TABLE `Message` ADD COLUMN `isWorker` INTEGER DEFAULT 0 NOT NULL");
         }
     };
+
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //Added new Notification from notification
+            database.execSQL("CREATE TABLE IF NOT EXISTS `Notification` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "`title` TEXT, " +
+                    "`message` TEXT, " +
+                    "`timestamp` TEXT)");
+
+        }
+    };
 }

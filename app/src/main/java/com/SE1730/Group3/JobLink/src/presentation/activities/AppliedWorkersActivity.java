@@ -107,7 +107,14 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
 
     @Override
     public void onWorkerClick(UserDTO worker) {
+        Intent intent = getIntent(); // Lấy intent từ activity
+        String jobId = intent.getStringExtra("jobId");
+
         // Xử lý sự kiện khi worker được click
+        Intent intent1 = new Intent(this, ChatActivity.class);
+        intent1.putExtra("jobId", jobId);
+        intent1.putExtra("receiverId", worker.getId().toString());
+        startActivity(intent1);
     }
 
     @Override

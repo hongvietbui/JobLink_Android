@@ -23,7 +23,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class ListUserApplyViewModel extends ViewModel {
     private final ListUserApplyUseCase listUserApplyJobUseCase;
     private final CompositeDisposable disposables = new CompositeDisposable();
-
     public static MutableLiveData<ApiResp<List<UserDTO>>> usersAppliedResult = new MutableLiveData<>();
 
     @Inject

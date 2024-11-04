@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
+import com.SE1730.Group3.JobLink.src.data.apis.IChatApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IJobApi;
 import com.SE1730.Group3.JobLink.src.data.apis.ITransactionApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
@@ -86,5 +87,11 @@ public class NetworkModule {
     @Singleton
     public ITransactionApi provideTransactionApi(Retrofit retrofit) {
         return retrofit.create(ITransactionApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public IChatApi provideChatApi(Retrofit retrofit) {
+        return retrofit.create(IChatApi.class);
     }
 }

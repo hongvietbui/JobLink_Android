@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class JobOwnerDetailsResp {
     private UUID jobId;
-    private  String jobName;
+    private String jobName;
     private String description;
     private String avatar;
     private Integer lat = 0;
