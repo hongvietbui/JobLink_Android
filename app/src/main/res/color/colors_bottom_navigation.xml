@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu cho mục được chọn -->
+    <item android:color="@color/secondaryTextColor" android:state_checked="true" />
+    <!-- Màu cho các mục không được chọn -->
+    <item android:color="@color/iconTintColor" android:state_checked="false" />
+</selector>

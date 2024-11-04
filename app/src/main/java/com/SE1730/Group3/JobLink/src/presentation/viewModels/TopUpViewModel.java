@@ -11,17 +11,22 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@HiltViewModel
 public class TopUpViewModel extends ViewModel {
     private final TopUpUseCase topUpUseCase;
     private final CompositeDisposable disposables = new CompositeDisposable();
     public MutableLiveData<ApiResp<List<TopUpDTO>>> topUpResult = new MutableLiveData<>();
 
 
+    @Inject
     public TopUpViewModel(TopUpUseCase topUpUseCase) {
         this.topUpUseCase = topUpUseCase;
     }

@@ -20,5 +20,5 @@ public class JobDTO {
     private JobStatus status;
     private Double duration ;
     private Double price;
-    private String Avatar;
+    private String avatar;
 }
