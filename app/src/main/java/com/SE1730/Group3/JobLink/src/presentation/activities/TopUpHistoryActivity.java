@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -81,6 +82,7 @@ public class TopUpHistoryActivity extends BaseActivity {
             Date toDateValue = dateFormat.parse(toDate.getText().toString());
 
             if (fromDateValue != null && toDateValue != null) {
+//                adapter.setData(Collection.emptyList());
                 fetchTopUpHistory(fromDateValue, toDateValue);
             } else {
                 Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();

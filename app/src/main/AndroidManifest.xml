@@ -40,6 +40,8 @@
             android:name=".src.presentation.activities.BaseActivity"
             android:exported="false" />
 
+
+
         <activity
             android:name=".src.presentation.activities.JobManagementNavigationActivity"
             android:exported="true" />
