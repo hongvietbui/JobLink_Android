@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import org.threeten.bp.format.DateTimeFormatter;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
+import com.SE1730.Group3.JobLink.src.domain.enums.PaymentStatus;
+import com.SE1730.Group3.JobLink.src.domain.enums.PaymentType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,18 +49,31 @@ public class TopUpAdapter extends RecyclerView.Adapter<TopUpAdapter.TopUpViewHol
     public void onBindViewHolder(@NonNull TopUpViewHolder holder, int position) {
         TopUpDTO topUp = topUpList.get(position);
 
+        // Định dạng DateTime
         if (topUp.getTransactionDate() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String formattedDate = topUp.getTransactionDate().format(formatter);
-            holder.dateTimeTextView.setText(formattedDate);
+            holder.dateTimeTextView.setText("Date&Time: " + formattedDate);
         } else {
-            holder.dateTimeTextView.setText("Ngày không xác định");
+            holder.dateTimeTextView.setText("Unavailable date");
         }
 
-        holder.amountTextView.setText(topUp.getAmount().toString());
-        holder.statusTextView.setText(topUp.getStatus());
-        holder.paymentTypeTextView.setText(topUp.getPaymentType());
+        // Hiển thị Amount
+        holder.amountTextView.setText("Amount: " + topUp.getAmount().toString());
+
+        // Chuyển đổi và hiển thị Payment Status
+        int statusValue = Integer.parseInt(topUp.getStatus()); // Giả sử status là số dưới dạng chuỗi
+        PaymentStatus status = PaymentStatus.fromInt(statusValue);
+        String statusDisplayName = (status != null) ? status.getDisplayName() : "Unknown";
+        holder.statusTextView.setText("Status: " + statusDisplayName);
+
+        // Chuyển đổi và hiển thị Payment Type
+        int typeValue = Integer.parseInt(topUp.getPaymentType()); // Giả sử paymentType là số dưới dạng chuỗi
+        PaymentType type = PaymentType.fromInt(typeValue);
+        String typeDisplayName = (type != null) ? type.getDisplayName() : "Unknown";
+        holder.paymentTypeTextView.setText("Type: " + typeDisplayName);
     }
+
 
     @Override
     public int getItemCount() {
