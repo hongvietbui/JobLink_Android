@@ -8,15 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
+//import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
+import com.SE1730.Group3.JobLink.src.domain.entities.Notification;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    private List<NotificationDTO> notifications;
+    private List<Notification> notifications;
 
-    public NotificationAdapter(List<NotificationDTO> notifications) {
+    public NotificationAdapter(List<Notification> notifications) {
         this.notifications = notifications;
     }
 
@@ -29,7 +30,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        NotificationDTO notification = notifications.get(position);
+        Notification notification = notifications.get(position);
         holder.messageTextView.setText(notification.getMessage());
         holder.timestampTextView.setText(notification.getTimestamp());
     }

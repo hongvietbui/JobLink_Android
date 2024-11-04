@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.presentation.DI;
 
 import android.content.SharedPreferences;
 
+import com.SE1730.Group3.JobLink.src.domain.dao.INotificationDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
@@ -66,8 +67,8 @@ public class UseCaseModule {
 
     @Provides
     @Singleton
-    public static GetNotificationUseCase providesGetNotificationUseCase(IUserRepository userRepository) {
-        return new GetNotificationUseCase(userRepository);
+    public static GetNotificationUseCase providesGetNotificationUseCase(INotificationDAO notificationDao) {
+        return new GetNotificationUseCase(notificationDao);
     }
 
     public static GetQRCodeByUserIdUseCase provideGetQrCodeUseCase(IUserDAO userDao, ITransactionRepository transactionRepository) {
