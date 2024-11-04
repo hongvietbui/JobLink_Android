@@ -62,6 +62,9 @@
             android:name=".src.presentation.activities.JobActivity"
             android:exported="false" />
         <activity
+            android:name=".src.presentation.activities.TopUpHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
         </activity>
@@ -87,7 +90,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
-        <activity android:name=".src.presentation.activities.TopUpHistoryActivity"/>
         <activity android:name=".src.presentation.activities.NotificationActivity"/>
 
         <meta-data
