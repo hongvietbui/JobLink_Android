@@ -6,7 +6,6 @@ public enum UserStatus {
     SUSPENDED("Suspended"),
     LOCKED("Locked");
 
-
     public final String value;
 
     UserStatus(String value) {
@@ -20,5 +19,8 @@ public enum UserStatus {
             }
         }
         return null;
+    }
+    public String getDisplayName() {
+        return value;
     }
 }

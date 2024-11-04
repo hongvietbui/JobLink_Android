@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends BaseActivity {
-    private Button btnRegister, btnJobDetails, btnLogin, btnTransfer, btnCreateJob, getBtnLocation;
+    private Button btnRegister, btnJobDetails, btnLogin, btnTransfer, btnTopup, btnCreateJob, getBtnLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity {
         btnJobDetails = findViewById(R.id.btnJobDetails);
         btnLogin = findViewById(R.id.btnLogin);
         btnTransfer = findViewById(R.id.btnTransfer);
+        btnTopup = findViewById(R.id.btnTopup);
         btnCreateJob = findViewById(R.id.btnCreateJob);
         getBtnLocation = findViewById(R.id.btnCreateLocation);
     }
@@ -38,8 +39,15 @@ public class MainActivity extends BaseActivity {
         btnJobDetails.setOnClickListener(v -> openJobDetailsActivity());
         btnLogin.setOnClickListener(v -> openLoginActivity());
         btnTransfer.setOnClickListener(v -> openTransferActivity());
+        btnTopup.setOnClickListener(v -> openTopUpActivity());
         btnCreateJob.setOnClickListener(v -> openCreateJobActivity());
         getBtnLocation.setOnClickListener(v -> openCreateLocationActivity());
+    }
+
+    private void openTopUpActivity() {
+        Intent intent = new Intent(this, TopUpHistoryActivity.class);
+        startActivity(intent);
+        
     }
 
     private void openRegisterActivity(){

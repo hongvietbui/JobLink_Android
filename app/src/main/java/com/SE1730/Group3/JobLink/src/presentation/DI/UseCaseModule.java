@@ -2,6 +2,7 @@ package com.SE1730.Group3.JobLink.src.presentation.DI;
 
 import android.content.SharedPreferences;
 
+import com.SE1730.Group3.JobLink.src.domain.dao.INotificationDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
@@ -15,7 +16,7 @@ import com.SE1730.Group3.JobLink.src.domain.useCases.RegisterUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.RejectWorkerUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.ResetPassUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.SendOtpUseCase;
-import com.SE1730.Group3.JobLink.src.domain.useCases.TopupUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.TopUpUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.VerifyOtpUseCase;
 
 import javax.inject.Singleton;
@@ -66,18 +67,12 @@ public class UseCaseModule {
 
     @Provides
     @Singleton
-    public static GetNotificationUseCase providesGetNotificationUseCase(IUserRepository userRepository) {
-        return new GetNotificationUseCase(userRepository);
+    public static GetNotificationUseCase providesGetNotificationUseCase(INotificationDAO notificationDao) {
+        return new GetNotificationUseCase(notificationDao);
     }
 
     public static GetQRCodeByUserIdUseCase provideGetQrCodeUseCase(IUserDAO userDao, ITransactionRepository transactionRepository) {
         return new GetQRCodeByUserIdUseCase(userDao, transactionRepository);
-    }
-
-    @Provides
-    @Singleton
-    public static TopupUsecase providesTopupUsecase(IUserRepository userRepository) {
-        return new TopupUsecase(userRepository);
     }
 
     @Provides
@@ -91,4 +86,11 @@ public class UseCaseModule {
     public static RejectWorkerUseCase providesRejectWorkerUseCase(IJobRepository jobRepository) {
         return new RejectWorkerUseCase(jobRepository);
     }
+
+    @Provides
+    @Singleton
+    public static TopUpUseCase providesTopUpUseCase(ITransactionRepository transactionRepository) {
+        return new TopUpUseCase(transactionRepository);
+    }
+
 }
