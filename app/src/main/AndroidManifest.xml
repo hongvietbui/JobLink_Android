@@ -29,6 +29,12 @@
         <service
             android:name=".src.domain.utilities.signalR.TransferHubService"
             android:exported="false" />
+        <service android:name=".src.domain.utilities.signalR.NotificationService"
+            android:exported="false"/>
+
+        <receiver android:name=".src.domain.utilities.signalR.broadcastReceivers.NotificationReceiver"
+            android:exported="false" />
+
 
         <activity
             android:name=".src.presentation.activities.BaseActivity"
