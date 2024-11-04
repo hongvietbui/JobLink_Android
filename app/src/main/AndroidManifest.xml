@@ -94,7 +94,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
-        <activity android:name=".src.presentation.activities.TopUpHistoryActivity" />
+        <activity android:name=".src.presentation.activities.TopUpHistoryActivity"/>
+        <activity android:name=".src.presentation.activities.NotificationActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
