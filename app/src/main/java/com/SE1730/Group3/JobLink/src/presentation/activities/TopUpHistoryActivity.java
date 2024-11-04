@@ -110,7 +110,10 @@ public class TopUpHistoryActivity extends BaseActivity {
                     adapter.setData(topUpHistory);
                 }
             } else {
-                Toast.makeText(this, "Lỗi: " + (apiResp != null ? apiResp.getMessage() : "Lỗi không xác định"), Toast.LENGTH_SHORT).show();
+                String errorMessage = apiResp != null ? apiResp.getMessage() : "Lỗi không xác định";
+                // Ghi log chi tiết lỗi
+                Log.e("TopUpHistoryActivity", "Lỗi: " + errorMessage);
+                Toast.makeText(this, "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

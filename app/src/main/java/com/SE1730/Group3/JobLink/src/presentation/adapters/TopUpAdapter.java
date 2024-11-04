@@ -45,10 +45,14 @@ public class TopUpAdapter extends RecyclerView.Adapter<TopUpAdapter.TopUpViewHol
     public void onBindViewHolder(@NonNull TopUpViewHolder holder, int position) {
         TopUpDTO topUp = topUpList.get(position);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedDate = topUp.getTransactionDate().format(formatter);
+        if (topUp.getTransactionDate() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            String formattedDate = topUp.getTransactionDate().format(formatter);
+            holder.dateTimeTextView.setText(formattedDate);
+        } else {
+            holder.dateTimeTextView.setText("Ngày không xác định");
+        }
 
-        holder.dateTimeTextView.setText(formattedDate);
         holder.amountTextView.setText(topUp.getAmount().toString());
         holder.statusTextView.setText(topUp.getStatus());
         holder.paymentTypeTextView.setText(topUp.getPaymentType());
