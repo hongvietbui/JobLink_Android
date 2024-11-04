@@ -27,7 +27,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class ViewJobsActivity extends BaseActivity {
+public class ViewJobsActivity extends BaseBottomActivity {
     CompositeDisposable disposables = new CompositeDisposable();
 
     private RecyclerView recyclerViewJobs;
@@ -49,7 +49,8 @@ public class ViewJobsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewjob);
+        // Thay vì setContentView, gọi setContent để chèn layout vào FrameLayout
+        setContent(R.layout.activity_viewjob);
 
         bindingViews();
         setupFilterButton();
@@ -60,6 +61,7 @@ public class ViewJobsActivity extends BaseActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        setSelectedNavigationItem(R.id.navigation_activity);
     }
 
     private void BindingAction() {

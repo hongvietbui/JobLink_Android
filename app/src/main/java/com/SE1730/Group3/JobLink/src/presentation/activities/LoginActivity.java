@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister, tvForgotPass;
     private ImageView ivEye;
+    private ProgressBar progressBar;
     private Disposable loginObservable;
     private Boolean isPwdVisible = false;
     Intent intent;
@@ -73,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         tvForgotPass = findViewById(R.id.tvForgetPassword);
         btnLogin = findViewById(R.id.btnLogin);
         ivEye = findViewById(R.id.ivEye);
+        progressBar = findViewById(R.id.loginProgressBar);
     }
 
     private void setEvents(){
@@ -114,7 +117,11 @@ public class LoginActivity extends AppCompatActivity {
     private void login() throws IOException {
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
+
         //make loading spinner visible
+        btnLogin.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
+
         // Call login api
         Disposable loginDisposable = loginUseCase.execute(username, password)
                 .subscribeOn(Schedulers.io())
@@ -123,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    // Debug kết quả từ API
 //                    Log.d("LoginDebug", "Login result: " + result);
                     // make loading spinner invisible
+                    progressBar.setVisibility(View.GONE);
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
                         intent = new Intent(this, HomeActivity.class);
@@ -139,12 +147,16 @@ public class LoginActivity extends AppCompatActivity {
                                 }, error -> {
                                     error.printStackTrace();
                                 }));
+                        finish();
                     } else {
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                        btnLogin.setEnabled(true);
                     }
                 }, error -> {
                     // Log lỗi nếu API call gặp vấn đề
                     Log.e("LoginDebug", "Login error", error);
+                    progressBar.setVisibility(View.GONE);
+                    btnLogin.setEnabled(true);
                 });
 
         disposables.add(loginDisposable);
