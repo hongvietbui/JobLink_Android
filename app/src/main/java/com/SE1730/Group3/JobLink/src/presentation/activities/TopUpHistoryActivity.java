@@ -1,9 +1,15 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.NotificationService;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.TopUpAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.TopUpViewModel;
 
@@ -41,16 +48,30 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 @AndroidEntryPoint
-public class TopUpHistoryActivity extends BaseActivity {
+public class TopUpHistoryActivity extends BaseBottomActivity {
     private EditText edtFromDate, edtToDate;
     private Button btnFilter;
     private EditText fromDate, toDate;
     private TopUpViewModel topupViewModel;
     private RecyclerView topUpRecyclerView;
     private TopUpAdapter adapter;
-
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private final CompositeDisposable disposables = new CompositeDisposable();
+    private NotificationService notificationService;
+    private boolean isBound = false;
+    private final ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            NotificationService.LocalBinder binder = (NotificationService.LocalBinder) service;
+            notificationService = binder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };
     private boolean isFilterApplied = false;
     private int pageIndex = 1;
     private final int pageSize = 10;
@@ -70,6 +91,8 @@ public class TopUpHistoryActivity extends BaseActivity {
         toDate.setOnClickListener(view -> openDatePickerDialog(toDate));
     }
 
+
+
     private void openDatePickerDialog(EditText dateField) {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
@@ -86,10 +109,12 @@ public class TopUpHistoryActivity extends BaseActivity {
             Date toDateValue = dateFormat.parse(toDate.getText().toString());
 
             if (fromDateValue != null && toDateValue != null) {
-                // Xóa danh sách hiện tại trước khi áp dụng bộ lọc
                 isFilterApplied = true;
-                adapter.setData(new ArrayList<>()); // Làm trống danh sách bằng cách truyền ArrayList rỗng
+                adapter.setData(new ArrayList<>());
                 fetchTopUpHistory(fromDateValue, toDateValue);
+                if(isBound && notificationService != null){
+                    notificationService.sendCustomNotification("Transaction","you filtered");
+                }
             } else {
                 Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
             }
@@ -109,8 +134,10 @@ public class TopUpHistoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topup_history);
+        setContent(R.layout.activity_topup_history);
         topupViewModel = new ViewModelProvider(this).get(TopUpViewModel.class);
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         bindingView();
         bindingAction();
         setUpRecyclerView();

@@ -29,7 +29,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class NotificationActivity extends AppCompatActivity {
+public class NotificationActivity extends BaseBottomActivity {
     private RecyclerView recyclerViewNotifications;
     private NotificationAdapter notificationAdapter;
     private GetNotificationViewModel getNotificationViewModel;
@@ -41,19 +41,17 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification);
+        setContent(R.layout.activity_notification);
 
-        // Initialize ViewModel
         getNotificationViewModel = new ViewModelProvider(this).get(GetNotificationViewModel.class);
 
-        // Binding view
         bindingView();
 
-        // RecyclerView
         setupRecyclerView();
 
-        // Observer notification
         observeNotifications();
+        setSelectedNavigationItem(R.id.navigation_notification);
+
     }
 
     private void bindingView() {
