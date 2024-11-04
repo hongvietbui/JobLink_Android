@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 public class TopupReqDTO {
+    private UUID userId;
     private Date fromDate;
     private Date toDate;
 }

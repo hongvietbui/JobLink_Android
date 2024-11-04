@@ -1,7 +1,10 @@
 package com.SE1730.Group3.JobLink.src.domain.useCases;
 
-import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
+import androidx.lifecycle.LiveData;
+
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.domain.dao.INotificationDAO;
+import com.SE1730.Group3.JobLink.src.domain.entities.Notification;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 
 import java.io.IOException;
@@ -12,15 +15,15 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.core.Observable;
 
 public class GetNotificationUseCase {
-    private final IUserRepository userRepository;
+    private final INotificationDAO notificationDAO;
 
     @Inject
-    public GetNotificationUseCase(IUserRepository userRepository) {
-        this.userRepository = userRepository;
+    public GetNotificationUseCase(INotificationDAO notificationDAO) {
+        this.notificationDAO = notificationDAO;
     }
 
-
-    public Observable<ApiResp<List<NotificationDTO>>> execute() throws IOException {
-        return userRepository.getNotificationsForCurrentUser();
+    public LiveData<List<Notification>> execute() throws IOException {
+        return notificationDAO.getAllNotifications();
     }
+
 }
