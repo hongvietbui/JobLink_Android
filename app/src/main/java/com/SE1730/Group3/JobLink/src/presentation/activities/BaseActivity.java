@@ -56,7 +56,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void bindingMenu() {
         menuActivityMap.put(R.id.nav_home, HomeActivity.class);
-        menuActivityMap.put(R.id.nav_manage_job, ViewJobsActivity.class);
+        menuActivityMap.put(R.id.nav_manage_job, JobManagementNavigationActivity.class);
         menuActivityMap.put(R.id.nav_manage_transaction, TopUpHistoryActivity.class);
     }
 
