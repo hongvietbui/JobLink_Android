@@ -21,6 +21,7 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobApplierByUserVie
 import java.io.IOException;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 @AndroidEntryPoint
 public class WorkerManageJobFragment extends Fragment {
@@ -67,6 +68,11 @@ public class WorkerManageJobFragment extends Fragment {
         fetchJobsApplied(); // Initial data fetch
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private void fetchJobsApplied() {

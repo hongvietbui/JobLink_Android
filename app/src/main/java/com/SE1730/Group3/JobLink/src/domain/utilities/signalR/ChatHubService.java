@@ -19,6 +19,9 @@ import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
 import com.squareup.moshi.Moshi;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -89,7 +92,10 @@ public class ChatHubService extends Service {
     }
 
     public void sendMessage(Message message) {
-        saveMessageToDatabase(message);
+        Executor insertExecutor = Executors.newSingleThreadExecutor();
+        insertExecutor.execute(() -> {
+            messageDAO.insert(message);
+        });
         try {
             var chatDTOReq = ChatDTOReq.builder()
                     .jobId(message.getJobId().toString())
@@ -105,22 +111,20 @@ public class ChatHubService extends Service {
                         Log.d("ChatHubService", "Message sent successfully");
                     }, error -> {
                         Log.e("ChatHubService", "Error sending message", error);
-                        deleteMessageFromDatabase(message);
+                        Executor deleteExecutor = Executors.newSingleThreadExecutor();
+                        deleteExecutor.execute(() -> {
+                            messageDAO.delete(message);
+                        });
                     });
 
             disposables.add(sendMessageDisposable);
         } catch (Exception e) {
             Log.e("ChatHubService", "Error sending message", e);
-            deleteMessageFromDatabase(message);
+            Executor deleteExecutor = Executors.newSingleThreadExecutor();
+            deleteExecutor.execute(() -> {
+                messageDAO.delete(message);
+            });
         }
-    }
-
-    private void saveMessageToDatabase(Message message) {
-        new Thread(() -> messageDAO.insert(message)).start();
-    }
-
-    private void deleteMessageFromDatabase(Message message) {
-        new Thread(() -> messageDAO.delete(message)).start();
     }
 
     private void displayMessage(Message message) {
