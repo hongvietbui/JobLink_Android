@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.LoginUseCase;
+import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.NotificationService;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.TransferHubService;
 
@@ -50,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     NotificationService notificationService;
+
+    @Inject
+    ChatHubService chatHubService;
 
     @Inject
     IUserDAO userDAO;
@@ -131,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("LoginDebug", "User ID: " + resp.getId().toString());
                                     transferHubService.updateUserIdAndReconnect(resp.getId().toString());
                                     notificationService.updateUserIdAndReconnect(resp.getId().toString());
+                                    chatHubService.updateUserIdAndReconnect(resp.getId().toString());
                                 }, error -> {
                                     error.printStackTrace();
                                 }));

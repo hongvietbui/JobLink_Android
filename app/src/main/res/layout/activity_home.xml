@@ -10,7 +10,7 @@
     <!-- Use ConstraintLayout for more flexibility -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <!-- Header Section -->
         <RelativeLayout
@@ -32,10 +32,10 @@
         <!-- Fragment Container for Job List -->
         <FrameLayout
             android:id="@+id/jobListFragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:layout_constraintTop_toBottomOf="@id/headerSection"
+            android:layout_width="388dp"
+            android:layout_height="595dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/headerSection" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

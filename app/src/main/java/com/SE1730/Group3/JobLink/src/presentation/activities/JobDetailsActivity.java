@@ -118,12 +118,15 @@ public class JobDetailsActivity extends BaseActivity {
                                                 if(jobStatus.equals(JobStatus.IN_PROGRESS)){
                                                     btnListApplicant.setVisibility(Button.GONE);
                                                     btnCompleteJob.setVisibility(Button.VISIBLE);
-                                                }
-
-                                                if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)){
+                                                }else{
                                                     btnListApplicant.setVisibility(Button.VISIBLE);
                                                     btnCompleteJob.setVisibility(Button.GONE);
                                                 }
+
+//                                                if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)){
+//                                                    btnListApplicant.setVisibility(Button.VISIBLE);
+//                                                    btnCompleteJob.setVisibility(Button.GONE);
+//                                                }
                                             } else {
                                                 btnAssign.setVisibility(Button.VISIBLE);
 //                                                btnCancel.setVisibility(Button.VISIBLE);

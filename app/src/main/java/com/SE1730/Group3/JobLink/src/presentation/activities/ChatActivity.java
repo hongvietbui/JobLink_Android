@@ -37,11 +37,11 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
 public class ChatActivity extends BaseActivity {
-
     private List<Message> messageList;
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
@@ -51,12 +51,17 @@ public class ChatActivity extends BaseActivity {
     private UUID receiverId;
     private UUID jobId;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+
 
     @Inject
     IMessageDAO messageDAO;
 
     @Inject
     IUserDAO userDAO;
+
+    @Inject
+    ChatHubService chatHubService;
 
 
 
@@ -70,7 +75,7 @@ public class ChatActivity extends BaseActivity {
         bindingAction();
 
 
-        userDAO.getCurrentUser()
+        var getCurrentUserDisposable = userDAO.getCurrentUser()
                 .subscribeOn(Schedulers.io()) // Run the database query on an I/O thread
                 .observeOn(AndroidSchedulers.mainThread()) // Observe the results on the main thread
                 .subscribe(
@@ -84,6 +89,8 @@ public class ChatActivity extends BaseActivity {
                             throwable.printStackTrace();
                         }
                 );
+
+        disposables.add(getCurrentUserDisposable);
         // Get the senderId, receiverId, and jobId from the Intent
 
         String receiverIdString = getIntent().getStringExtra("receiverId");
@@ -144,7 +151,7 @@ public class ChatActivity extends BaseActivity {
 
     private void sendMessage(String text) {
         Message message = new Message(null, senderId, receiverId, text, jobId, true);
-        ChatHubService.sendMessage(message);
+        chatHubService.sendMessage(message);
     }
 
     private void registerMessageReceiver() {

@@ -28,7 +28,6 @@
 
         <service
             android:name=".src.domain.utilities.signalR.ChatHubService"
-            android:enabled="true"
             android:exported="false" />
         <service
             android:name=".src.domain.utilities.signalR.TransferHubService"
@@ -66,11 +65,11 @@
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".src.presentation.activities.ChangePassActivity"
@@ -84,7 +83,13 @@
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
         <activity
             android:name=".src.presentation.activities.LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
         <activity android:name=".src.presentation.activities.TopUpHistoryActivity" />
 
