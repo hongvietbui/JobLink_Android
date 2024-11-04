@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO_Impl;
+import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
@@ -35,6 +36,8 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
 public class ChatActivity extends BaseActivity {
@@ -52,6 +55,11 @@ public class ChatActivity extends BaseActivity {
     @Inject
     IMessageDAO messageDAO;
 
+    @Inject
+    IUserDAO userDAO;
+
+
+
     private BroadcastReceiver messageReceiver;
 
     @Override
@@ -61,17 +69,26 @@ public class ChatActivity extends BaseActivity {
         bindingView();
         bindingAction();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        String senderIdString = sharedPreferences.getString("userId", null);
 
+        userDAO.getCurrentUser()
+                .subscribeOn(Schedulers.io()) // Run the database query on an I/O thread
+                .observeOn(AndroidSchedulers.mainThread()) // Observe the results on the main thread
+                .subscribe(
+                        u -> {
+                            senderId = u.getId();
+                            // Update UI here if needed
+                        },
+                        throwable -> {
+                            // Handle the error here
+                            Log.e("TAG", "Error retrieving user: " + throwable.getMessage());
+                            throwable.printStackTrace();
+                        }
+                );
         // Get the senderId, receiverId, and jobId from the Intent
 
         String receiverIdString = getIntent().getStringExtra("receiverId");
         String jobIdString = getIntent().getStringExtra("jobId");
 
-        if (senderIdString != null) {
-            senderId = UUID.fromString(senderIdString);
-        }
         if (receiverIdString != null) {
             receiverId = UUID.fromString(receiverIdString);
         }
