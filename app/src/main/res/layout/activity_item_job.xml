@@ -13,88 +13,105 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!-- Job Name -->
-        <TextView
-            android:id="@+id/jobName"
+        <!-- Job Image with Border -->
+        <ImageView
+            android:id="@+id/jobImageJob"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Job Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="#000000"/>
-
-
-
-
-        <!-- Address -->
-        <TextView
-            android:id="@+id/jobAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Job Address"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"
-            android:textColor="#777777"/>
-
-        <!-- Status -->
-        <TextView
-            android:id="@+id/jobStatus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobAddress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"
-            android:textColor="#4CAF50"/>
-
-        <!-- Duration -->
-        <TextView
-            android:id="@+id/DurationJob"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Duration: 4 hours"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/jobStatus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"
-            android:textColor="#FF9800"/>
-
-        <!-- Price -->
-        <TextView
-            android:id="@+id/PriceJob"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Price: $300"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/DurationJob"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="8dp"
-            android:textColor="#F44336"/>
-
-        <!-- Detail Button -->
-        <Button
-            android:id="@+id/detailButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#6200EE"
-            android:text="Detail"
-            android:textColor="#FFFFFF"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/border_background"
+            android:contentDescription="Job Image"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:1.5"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/PriceJob"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:srcCompat="@drawable/ic_job_image_placeholder" />
+
+        <!-- Job Details Container -->
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/jobImageJob"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Job Name -->
+            <TextView
+                android:id="@+id/jobName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job Name"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Address -->
+            <TextView
+                android:id="@+id/jobAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Job Address"
+                android:textColor="#777777"
+                android:textSize="14sp" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/jobDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Description"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <!-- Duration -->
+            <TextView
+                android:id="@+id/durationJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Duration: 4 hours"
+                android:textColor="#FF9800"
+                android:textSize="14sp" />
+
+            <!-- Price -->
+            <TextView
+                android:id="@+id/priceJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Price: $300"
+                android:textColor="#F44336"
+                android:textSize="14sp" />
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/jobStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Status: Approved"
+                android:textSize="14sp"
+                android:textColor="#4CAF50" /> <!-- Green color for approved status -->
+
+            <!-- Detail Button -->
+            <Button
+                android:id="@+id/detailButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#6200EE"
+                android:text="Detail"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

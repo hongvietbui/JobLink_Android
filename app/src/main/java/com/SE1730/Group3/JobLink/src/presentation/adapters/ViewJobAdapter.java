@@ -89,8 +89,8 @@ public class ViewJobAdapter extends RecyclerView.Adapter<ViewJobAdapter.JobViewH
             jobName = itemView.findViewById(R.id.jobName);
             jobAddress = itemView.findViewById(R.id.jobAddress);
             jobStatus = itemView.findViewById(R.id.jobStatus);
-            jobDuration = itemView.findViewById(R.id.DurationJob);
-            jobPrice = itemView.findViewById(R.id.PriceJob);
+            jobDuration = itemView.findViewById(R.id.durationJob);
+            jobPrice = itemView.findViewById(R.id.priceJob);
             detailbtn = itemView.findViewById(R.id.detailButton);
         }
     }

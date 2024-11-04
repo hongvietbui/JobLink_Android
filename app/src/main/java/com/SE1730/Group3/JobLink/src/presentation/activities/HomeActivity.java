@@ -9,17 +9,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
-import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
+import com.SE1730.Group3.JobLink.src.presentation.fragments.ViewJobFragment;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.GetUserHomepageDataViewModel;
 
 import java.io.IOException;
@@ -49,7 +48,6 @@ public class HomeActivity extends BaseActivity {
         tvEarningThisMonth = findViewById(R.id.tvEarningThisMonth);
         tvTotalDeposit = findViewById(R.id.tvTotalDeposit);
         tvTaskCreated = findViewById(R.id.tvTaskCreated);
-        rvJobList = findViewById(R.id.rvJobList);
 
 
     }
@@ -89,6 +87,10 @@ public class HomeActivity extends BaseActivity {
             throw new RuntimeException(e);
         }
         bindingAction();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.jobListFragmentContainer, new ViewJobFragment());
+            transaction.commit();
+
     }
 
     private void loadUserData() throws IOException {

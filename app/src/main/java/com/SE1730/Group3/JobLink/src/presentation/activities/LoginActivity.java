@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     // make loading spinner invisible
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, ViewJobsActivity.class);
+                        intent = new Intent(this, HomeActivity.class);
                         startActivity(intent);
 
                         disposables.add(userDAO.getCurrentUser()

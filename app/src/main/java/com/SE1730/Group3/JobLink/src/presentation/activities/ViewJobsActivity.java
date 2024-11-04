@@ -64,7 +64,7 @@ public class ViewJobsActivity extends BaseActivity {
 
     private void BindingAction() {
         Add_btn.setOnClickListener(v -> {
-           Intent intent = new Intent(ViewJobActivity.this, JobActivity.class);
+           Intent intent = new Intent(ViewJobsActivity.this, JobActivity.class);
             startActivity(intent);
         });
     }
