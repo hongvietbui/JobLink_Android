@@ -38,8 +38,8 @@ public class BaseBottomActivity extends AppCompatActivity {
                 }
                 return true;
             } else if (itemId == R.id.navigation_account) {
-                if (!this.getClass().equals(HomeActivity.class)) {
-                    startActivity(new Intent(this, HomeActivity.class));
+                if (!this.getClass().equals(UserProfileActivity.class)) {
+                    startActivity(new Intent(this, UserProfileActivity.class));
                     finish();
                 }
                 return true;

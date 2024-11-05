@@ -59,19 +59,6 @@ public class TopUpHistoryActivity extends BaseBottomActivity {
     private final CompositeDisposable disposables = new CompositeDisposable();
     private NotificationService notificationService;
     private boolean isBound = false;
-    private final ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            NotificationService.LocalBinder binder = (NotificationService.LocalBinder) service;
-            notificationService = binder.getService();
-            isBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBound = false;
-        }
-    };
     private boolean isFilterApplied = false;
     private int pageIndex = 1;
     private final int pageSize = 10;
@@ -112,9 +99,6 @@ public class TopUpHistoryActivity extends BaseBottomActivity {
                 isFilterApplied = true;
                 adapter.setData(new ArrayList<>());
                 fetchTopUpHistory(fromDateValue, toDateValue);
-                if(isBound && notificationService != null){
-                    notificationService.sendCustomNotification("Transaction","you filtered");
-                }
             } else {
                 Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
             }
@@ -137,7 +121,6 @@ public class TopUpHistoryActivity extends BaseBottomActivity {
         setContent(R.layout.activity_topup_history);
         topupViewModel = new ViewModelProvider(this).get(TopUpViewModel.class);
         Intent serviceIntent = new Intent(this, NotificationService.class);
-        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         bindingView();
         bindingAction();
         setUpRecyclerView();
