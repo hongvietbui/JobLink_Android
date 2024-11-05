@@ -26,8 +26,8 @@ public class BaseBottomActivity extends AppCompatActivity {
                 }
                 return true;
             } else if (itemId == R.id.navigation_activity) {
-                if (!this.getClass().equals(ViewJobsActivity.class)) {  // Sửa lại để dẫn đến ViewJobsActivity
-                    startActivity(new Intent(this, ViewJobsActivity.class));
+                if (!this.getClass().equals(JobManagementNavigationActivity.class)) {
+                    startActivity(new Intent(this, JobManagementNavigationActivity.class));
                     finish();
                 }
                 return true;
