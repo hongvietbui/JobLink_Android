@@ -29,7 +29,7 @@ public class TransferHubService extends Service {
 
     @Inject
     public TransferHubService(Moshi moshi) {
-        this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/transfer?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/transfer?userId=" + userId).build();
         this.moshi = moshi;
     }
 
@@ -40,7 +40,7 @@ public class TransferHubService extends Service {
     }
 
     private void startHubConnection() {
-        this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/transfer?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/transfer?userId=" + userId).build();
 
         if (hubConnection != null && hubConnection.getConnectionState() == HubConnectionState.DISCONNECTED) {
 
