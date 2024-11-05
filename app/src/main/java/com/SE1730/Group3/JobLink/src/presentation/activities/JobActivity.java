@@ -1,6 +1,8 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,22 +37,21 @@ public class JobActivity extends BaseBottomActivity {
     private Button btnCreateJob;
     private TextView tvTotalPrice;
     private ImageButton btn_Back;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContent(R.layout.activity_create_job);
         jobViewModel = new ViewModelProvider(this).get(JobViewModel.class);
+
         bindingViews();
         setEvents();
-        BindingAction();
+        setupBackAction();
         observeCreateJobResult();
     }
 
-    private void BindingAction() {
-        btn_Back.setOnClickListener(v -> {
-        Intent intent = new Intent(JobActivity.this, ViewJobsActivity.class);
-        startActivity(intent);
-    });
+    private void setupBackAction() {
+        btn_Back.setOnClickListener(v -> finish());
     }
 
     private void bindingViews() {
@@ -67,9 +68,12 @@ public class JobActivity extends BaseBottomActivity {
 
     private void setEvents() {
         edtDate.setOnClickListener(v -> openDatePickerDialog());
+        edtTime.setOnClickListener(v -> openTimePickerDialog());
+
         edtJobPrice.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) calculateTotalPrice();
         });
+
         btnCreateJob.setOnClickListener(v -> createJob());
     }
 
@@ -87,19 +91,33 @@ public class JobActivity extends BaseBottomActivity {
         datePickerDialog.show();
     }
 
+    private void openTimePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, selectedHour, selectedMinute) -> {
+            String time = String.format("%02d:%02d", selectedHour, selectedMinute);
+            edtTime.setText(time);
+        }, hour, minute, true);
+
+        timePickerDialog.show();
+    }
+
     private void calculateTotalPrice() {
         try {
             double jobPrice = Double.parseDouble(edtJobPrice.getText().toString().trim());
             double totalPrice = jobPrice * 1.1; // 10% VAT
             DecimalFormat df = new DecimalFormat("#,###.##");
-            tvTotalPrice.setText("Tổng cộng (bao gồm VAT): " + df.format(totalPrice) + " VND");
+            tvTotalPrice.setText("Total (including VAT): " + df.format(totalPrice) + " VND");
         } catch (NumberFormatException e) {
-            tvTotalPrice.setText("Giá trị không hợp lệ");
+            tvTotalPrice.setText("Invalid value");
         }
     }
 
     private void createJob() {
         if (!checkFormValidation()) {
+            Snackbar.make(findViewById(android.R.id.content), "Please fill in all required information", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -108,21 +126,21 @@ public class JobActivity extends BaseBottomActivity {
         String date = edtDate.getText().toString().trim();
         String time = edtTime.getText().toString().trim();
 
-        // Đảm bảo định dạng "dd/MM/yyyy" và "HH:mm" có đủ cả giờ và phút
+        // Ensure "dd/MM/yyyy" and "HH:mm" format with hours and minutes
         if (!time.contains(":")) {
-            time += ":00"; // Thêm phút mặc định nếu không có
+            time += ":00"; // Add default minutes if not provided
         }
 
         try {
             LocalDateTime startDate = LocalDateTime.parse(date + "T" + time, DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm"));
             int duration = getDurationFromRadioGroup();
-
             double jobPrice = Double.parseDouble(edtJobPrice.getText().toString().trim());
-            Log.d("CreateJobRequest", "Name: " + name + ", Description: " + description + ", Duration: " + duration + ", Price: " + jobPrice + ", StartTime: " + startDate.toString()+ ", EndTime: " + startDate.plusHours(duration).toString());
+
+            Log.d("CreateJobRequest", "Name: " + name + ", Description: " + description + ", Duration: " + duration + ", Price: " + jobPrice + ", StartTime: " + startDate + ", EndTime: " + startDate.plusHours(duration));
 
             jobViewModel.createJob(name, description, duration, jobPrice, "", startDate.toString(), startDate.plusHours(duration).toString());
         } catch (Exception e) {
-            Snackbar.make(findViewById(android.R.id.content), "Định dạng ngày/giờ không hợp lệ", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "Invalid date/time format", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -137,13 +155,22 @@ public class JobActivity extends BaseBottomActivity {
         }
     }
 
-
     private void observeCreateJobResult() {
         jobViewModel.getCreateJobResult().observe(this, result -> {
             if (result != null) {
-                Snackbar.make(findViewById(android.R.id.content), result.getMessage(), Snackbar.LENGTH_SHORT).show();
-                if (result.getStatus() == 200) { // Giả sử 200 là thành công
+                Integer statusCode = result.getStatus();
+                String message = result.getMessage();
+
+                if (statusCode != null && statusCode == 201) { // Job creation success
+                    Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+                    Intent intent = new Intent(JobActivity.this, ViewJobsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     finish();
+                } else if (statusCode != null && statusCode == 402) { // Handle payment required event
+                    showPaymentRequiredDialog(message);
+                } else {
+                    Snackbar.make(findViewById(android.R.id.content), message != null ? message : "Unknown error", Snackbar.LENGTH_SHORT).show();
                 }
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Failed to create job", Snackbar.LENGTH_SHORT).show();
@@ -153,5 +180,18 @@ public class JobActivity extends BaseBottomActivity {
 
     private Boolean checkFormValidation() {
         return !Validator.areFieldsNullOrEmpty(edtJobName, edtJobDescription, edtJobPrice, edtDate, edtTime);
+    }
+
+    private void showPaymentRequiredDialog(String message) {
+        new AlertDialog.Builder(this)
+                .setTitle("Payment Required")
+                .setMessage(message)
+                .setPositiveButton("Recharge", (dialog, which) -> {
+                    // Open recharge screen or page
+                    Intent intent = new Intent(JobActivity.this, TransferActivity.class);
+                    startActivity(intent);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }

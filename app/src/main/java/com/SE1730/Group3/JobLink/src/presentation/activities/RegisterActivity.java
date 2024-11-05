@@ -1,8 +1,11 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.app.DatePickerDialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel registerViewModel;
     private EditText edtUsername, edtEmail, edtPhoneNumber, edtFirstName, edtLastName, edtAddress;
-
+    private boolean isBound = false;
     private TextInputLayout tilPassword, tilRepassword;
 //    private ImageView ivIsPasswordShow, ivIsRepasswordShow;
 
@@ -142,7 +145,6 @@ public class RegisterActivity extends AppCompatActivity {
         if(Validator.isNullOrEmpty(edtDateOfBirth)){
             edtDateOfBirth.setText("10/10/2003");
         }
-
         return result;
     }
 }

@@ -360,6 +360,10 @@ public class JobDetailsActivity extends BaseActivity {
                         progressBar.setVisibility(View.GONE);
                         if (apiResp.getStatus() == 200) {
                             Toast.makeText(this, "Job assigned successfully", Toast.LENGTH_SHORT).show();
+                            btnCompleteJob.setVisibility(Button.GONE);
+                            btnListApplicant.setVisibility(Button.GONE);
+                            btnAssign.setVisibility(Button.GONE);
+                            btnChatWithOwner.setVisibility(Button.VISIBLE);
                         } else {
                             Toast.makeText(this, "You've assigned this job already", Toast.LENGTH_SHORT).show();
                         }

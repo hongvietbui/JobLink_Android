@@ -34,6 +34,7 @@ public class HomeActivity extends BaseBottomActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContent(R.layout.activity_home);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -44,6 +45,7 @@ public class HomeActivity extends BaseBottomActivity {
         transaction.commit();
 
         setSelectedNavigationItem(R.id.navigation_home);
+
     }
 
 
