@@ -42,7 +42,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseBottomActivity {
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
     private LiveData<List<Message>> messageList;
@@ -71,7 +71,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContent(R.layout.activity_chat);
         bindingView();
         bindingAction();
 

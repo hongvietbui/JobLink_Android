@@ -24,7 +24,7 @@ import java.io.IOException;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class UserStatActivity extends BaseActivity {
+public class UserStatActivity extends BaseBottomActivity {
 
     private ImageView imageAvatar;
     private TextView tvUsername;
@@ -72,7 +72,7 @@ public class UserStatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_user_stat);
+        setContent(R.layout.activity_user_stat);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

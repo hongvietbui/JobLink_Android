@@ -20,7 +20,7 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.ChangePassViewModel
 import java.io.IOException;
 import java.util.UUID;
 
-public class ChangePassActivity extends BaseActivity {
+public class ChangePassActivity extends BaseBottomActivity {
 
     private EditText edtCurPass, edtNewPass, edtConfirmPass;
     private Button btnChangePass;
@@ -91,7 +91,7 @@ public class ChangePassActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_change_pass);
+        setContent(R.layout.activity_change_pass);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
