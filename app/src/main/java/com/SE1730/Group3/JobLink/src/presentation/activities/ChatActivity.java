@@ -4,17 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,17 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
-import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO_Impl;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -42,7 +35,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseBottomActivity {
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
     private LiveData<List<Message>> messageList;
@@ -71,7 +64,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContent(R.layout.activity_chat);
         bindingView();
         bindingAction();
 

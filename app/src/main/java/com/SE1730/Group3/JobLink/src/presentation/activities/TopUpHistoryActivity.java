@@ -1,7 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,28 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
-import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.TopUpAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.TopUpViewModel;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 @AndroidEntryPoint
-public class TopUpHistoryActivity extends BaseActivity {
+public class TopUpHistoryActivity extends BaseBottomActivity {
     private EditText edtFromDate, edtToDate;
     private Button btnFilter;
     private EditText fromDate, toDate;
@@ -103,7 +97,7 @@ public class TopUpHistoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topup_history);
+        setContent(R.layout.activity_topup_history);
         topupViewModel = new ViewModelProvider(this).get(TopUpViewModel.class);
         bindingView();
         bindingAction();
