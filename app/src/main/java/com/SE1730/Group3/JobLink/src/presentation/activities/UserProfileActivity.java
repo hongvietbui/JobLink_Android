@@ -23,9 +23,15 @@ public class UserProfileActivity extends BaseBottomActivity{
     }
 
     private void onBtnManageTransactionClick(View view) {
+        intent = new Intent(this, TopUpHistoryActivity.class);
+        startActivity(intent);
     }
 
     private void onBtnLogoutClick(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void onBtnManageJobClick(View view) {
