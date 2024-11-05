@@ -26,8 +26,8 @@ public class BaseBottomActivity extends AppCompatActivity {
                 }
                 return true;
             } else if (itemId == R.id.navigation_activity) {
-                if (!this.getClass().equals(ViewJobsActivity.class)) {  // Sửa lại để dẫn đến ViewJobsActivity
-                    startActivity(new Intent(this, ViewJobsActivity.class));
+                if (!this.getClass().equals(JobManagementNavigationActivity.class)) {
+                    startActivity(new Intent(this, JobManagementNavigationActivity.class));
                     finish();
                 }
                 return true;
@@ -38,14 +38,14 @@ public class BaseBottomActivity extends AppCompatActivity {
                 }
                 return true;
             } else if (itemId == R.id.navigation_account) {
-                if (!this.getClass().equals(HomeActivity.class)) {
-                    startActivity(new Intent(this, HomeActivity.class));
+                if (!this.getClass().equals(UserProfileActivity.class)) {
+                    startActivity(new Intent(this, UserProfileActivity.class));
                     finish();
                 }
                 return true;
             } else if (itemId == R.id.navigation_notification) {
-                if (!this.getClass().equals(HomeActivity.class)) {
-                    startActivity(new Intent(this, HomeActivity.class));
+                if (!this.getClass().equals(NotificationActivity.class)) {
+                    startActivity(new Intent(this, NotificationActivity.class));
                     finish();
                 }
                 return true;

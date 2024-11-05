@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- FrameLayout để chứa nội dung của các Activity con -->
     <FrameLayout
         android:id="@+id/frame_content"
         android:layout_width="match_parent"

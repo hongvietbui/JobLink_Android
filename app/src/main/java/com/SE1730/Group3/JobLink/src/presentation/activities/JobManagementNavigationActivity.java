@@ -4,26 +4,25 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.SE1730.Group3.JobLink.R; // Ensure you import your resource correctly
+import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.OwnerManageJobFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.WorkerManageJobFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class JobManagementNavigationActivity extends AppCompatActivity {
+public class JobManagementNavigationActivity extends BaseBottomActivity {
 
     private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_management_navigation);
+        setContent(R.layout.activity_job_management_navigation);
 
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new ViewPagerAdapter(this));

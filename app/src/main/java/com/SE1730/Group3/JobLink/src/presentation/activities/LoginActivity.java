@@ -1,7 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
