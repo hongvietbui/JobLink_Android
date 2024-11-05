@@ -23,9 +23,12 @@
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
         tools:targetApi="31">
+        <activity
+            android:name=".src.presentation.activities.UserStatActivity"
+            android:exported="false" />
+
         <service
             android:name=".src.domain.utilities.signalR.ChatHubService"
-            android:enabled="true"
             android:exported="false" />
         <service
             android:name=".src.domain.utilities.signalR.TransferHubService"
@@ -45,11 +48,12 @@
             android:exported="true" />
         <activity
             android:name=".src.presentation.activities.JobManagementNavigationActivity"
-            android:exported="true" />
+            android:exported="true" >
+
+        </activity>
         <activity
             android:name=".src.presentation.activities.ViewJobsActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".src.presentation.activities.AppliedWorkersActivity"
             android:exported="false" />
@@ -68,27 +72,28 @@
         <activity
             android:name=".src.presentation.activities.HomeActivity"
             android:exported="true">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".src.presentation.activities.ChangePassActivity"
             android:exported="false" />
         <activity
             android:name=".src.presentation.activities.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            android:exported="true" >
+
         </activity>
         <activity android:name=".src.presentation.activities.RegisterActivity" />
         <activity android:name=".src.presentation.activities.JobDetailsActivity" />
-        <activity
-            android:name=".src.presentation.activities.LoginActivity"
-            android:exported="true">
+        <activity android:name=".src.presentation.activities.LoginActivity" android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
         <activity android:name=".src.presentation.activities.TransferActivity" />
         <activity android:name=".src.presentation.activities.NotificationActivity"/>

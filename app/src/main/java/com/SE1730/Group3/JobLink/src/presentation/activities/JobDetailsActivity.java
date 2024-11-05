@@ -62,10 +62,14 @@ public class JobDetailsActivity extends BaseActivity {
     private Button btnMap, btnImage, btnDetails;
     private ImageView ivJobOwner;
     private TextView tvName, tvemail, tvLocation, tvphone;
+
     private Button btnAssign;
     private Button btnListApplicant;
     private Button btnCompleteJob;
+    private Button btnChatWithOwner;
+
     private UUID jobId;
+    private UUID receiverId;
 
     private ProgressBar progressBar;
 
@@ -112,23 +116,32 @@ public class JobDetailsActivity extends BaseActivity {
                                     .subscribe(resp -> {
                                         if (resp.getData() != null) {
                                             JobStatus jobStatus = resp.getData().getStatus();
-
+                                            //Check if user role is jobOwner or not
                                             if (role.equals("JobOwner")) {
+                                                btnChatWithOwner.setVisibility(Button.GONE);
                                                 btnAssign.setVisibility(Button.GONE);
+                                                //Check if job is in progress
                                                 if(jobStatus.equals(JobStatus.IN_PROGRESS)){
                                                     btnListApplicant.setVisibility(Button.GONE);
                                                     btnCompleteJob.setVisibility(Button.VISIBLE);
                                                 }
-
-                                                if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)){
+                                                //Check if job is waiting for applicants
+                                                else if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS) || jobStatus.equals(JobStatus.PENDING_APPROVAL)){
                                                     btnListApplicant.setVisibility(Button.VISIBLE);
                                                     btnCompleteJob.setVisibility(Button.GONE);
                                                 }
-                                            } else {
-                                                btnAssign.setVisibility(Button.VISIBLE);
-//                                                btnCancel.setVisibility(Button.VISIBLE);
-                                                btnListApplicant.setVisibility(Button.GONE);
+                                            //Check if user role is worker or not
+                                            } else if(role.equals("Worker")){
                                                 btnCompleteJob.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btnAssign.setVisibility(Button.GONE);
+                                                btnChatWithOwner.setVisibility(Button.VISIBLE);
+                                            //If worker not assigned
+                                            } else {
+                                                btnCompleteJob.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btnAssign.setVisibility(Button.VISIBLE);
+                                                btnChatWithOwner.setVisibility(Button.GONE);
                                             }
 
                                             shimmerFrameLayout.stopShimmer();
@@ -182,6 +195,17 @@ public class JobDetailsActivity extends BaseActivity {
                 tvName.setText("Job ID not provided");
                 return; // Exit early if jobIdString is null
             }
+
+            var getJobByIdDisposable = getJobByIdUseCase.execute(jobId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(resp -> {
+                        receiverId = resp.getData().getOwnerId();
+                    }, throwable -> {
+                        // Error handling for getJobByIdUseCase
+                        Log.e("JobDetailsActivity", "Error fetching job details", throwable);
+                    });
+            compositeDisposable.add(getJobByIdDisposable);
 
             Disposable jobDetailDisposable = jobDetailUsecase.execute(jobId)
                     .subscribeOn(Schedulers.io())
@@ -255,9 +279,11 @@ public class JobDetailsActivity extends BaseActivity {
         tvName = findViewById(R.id.tvName);
         tvphone = findViewById(R.id.tvphonenum);
         tvemail = findViewById(R.id.tvemail);
+
         btnAssign = findViewById(R.id.btnAssign);
         btnListApplicant = findViewById(R.id.btnListApplicant);
         btnCompleteJob = findViewById(R.id.btnCompleteJob);
+        btnChatWithOwner = findViewById(R.id.btnChatWithOwner);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -295,6 +321,8 @@ public class JobDetailsActivity extends BaseActivity {
         btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
 
         btnAssign.setOnClickListener(v -> assignJob(jobId));
+
+        btnChatWithOwner.setOnClickListener(v -> startChatActivity());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -351,8 +379,10 @@ public class JobDetailsActivity extends BaseActivity {
         }
     }
 
-    private void cancelJob(){
-        Intent intent = new Intent(this, ViewJobsActivity.class);
+    private void startChatActivity() {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("jobId", jobId.toString());
+        intent.putExtra("receiverId", receiverId);
         startActivity(intent);
     }
 }
