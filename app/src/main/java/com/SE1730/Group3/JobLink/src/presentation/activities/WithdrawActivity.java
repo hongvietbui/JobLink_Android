@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,7 +17,7 @@ import com.SE1730.Group3.JobLink.R;
 import java.util.Arrays;
 import java.util.List;
 
-public class WithdrawActivity extends BaseActivity {
+public class WithdrawActivity extends BaseBottomActivity {
 
     private final List<String> bankList = Arrays.asList(
             "MB - NH TMCP QUAN DOI",
@@ -92,7 +91,7 @@ public class WithdrawActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_withdraw);
+        setContent(R.layout.activity_withdraw);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
