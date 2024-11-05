@@ -44,8 +44,8 @@ public class BaseBottomActivity extends AppCompatActivity {
                 }
                 return true;
             } else if (itemId == R.id.navigation_notification) {
-                if (!this.getClass().equals(HomeActivity.class)) {
-                    startActivity(new Intent(this, HomeActivity.class));
+                if (!this.getClass().equals(NotificationActivity.class)) {
+                    startActivity(new Intent(this, NotificationActivity.class));
                     finish();
                 }
                 return true;
