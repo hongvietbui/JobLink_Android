@@ -52,7 +52,6 @@ public class DatabaseModule {
     public IUserDAO provideUserDAO(JobLinkDatabase database) {
         return database.userDAO();
     }
-
     @Provides
     public IMessageDAO provideMessageDAO(JobLinkDatabase database){return database.messageDAO();}
 

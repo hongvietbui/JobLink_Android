@@ -37,6 +37,7 @@ public class JobCreatedByUserViewModel extends ViewModel {
                 .subscribe(resp -> {
                     jobsCreatedResult.postValue(resp);
                 }, error -> {
+
                     jobsCreatedResult.postValue(new ApiResp<>(error.getMessage(), null));
                 });
         disposables.add(disposable);

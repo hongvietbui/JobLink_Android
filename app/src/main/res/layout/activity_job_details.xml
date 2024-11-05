@@ -332,7 +332,8 @@
 
             <Button
                 android:id="@+id/btnListApplicant"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="View List Applicant"
                 android:textColor="@android:color/white"
@@ -341,11 +342,22 @@
 
             <Button
                 android:id="@+id/btnCompleteJob"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Set done status"
                 android:textColor="@android:color/white"
                 android:backgroundTint="@android:color/holo_blue_dark"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btnChatWithOwner"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Chat with job owner"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_orange_dark"
                 android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>

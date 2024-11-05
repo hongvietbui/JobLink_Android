@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO_Impl;
+import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
@@ -28,23 +32,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-public class ChatActivity extends BaseActivity {
+import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-    private List<Message> messageList;
+@AndroidEntryPoint
+public class ChatActivity extends BaseActivity {
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
+    private LiveData<List<Message>> messageList;
     private EditText editTextMessage;
     private ImageView buttonSend, buttonBack;
     private UUID senderId;
     private UUID receiverId;
     private UUID jobId;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+
 
     @Inject
     IMessageDAO messageDAO;
+
+    @Inject
+    IUserDAO userDAO;
+
+    @Inject
+    ChatHubService chatHubService;
+
+
 
     private BroadcastReceiver messageReceiver;
 
@@ -55,14 +75,32 @@ public class ChatActivity extends BaseActivity {
         bindingView();
         bindingAction();
 
+        var getCurrentUserDisposable = userDAO.getCurrentUser()
+                .subscribeOn(Schedulers.io()) // Run the database query on an I/O thread
+                .observeOn(AndroidSchedulers.mainThread()) // Observe the results on the main thread
+                .subscribe(
+                        u -> {
+                            senderId = u.getId();
+
+                            if (senderId != null && receiverId != null) {
+                                messageList = messageDAO.getAllMessageBetweenTwoUser(senderId, receiverId);
+                                setupObservers(); // Thiết lập observer sau khi messageList được khởi tạo
+                            } else {
+                                Log.e("ChatActivity", "senderId hoặc receiverId chưa được khởi tạo");
+                            }
+                        },
+                        throwable -> {
+                            // Handle the error here
+                            Log.e("TAG", "Error retrieving user: " + throwable.getMessage());
+                            throwable.printStackTrace();
+                        }
+                );
+
+        disposables.add(getCurrentUserDisposable);
         // Get the senderId, receiverId, and jobId from the Intent
-        String senderIdString = getIntent().getStringExtra("senderId");
         String receiverIdString = getIntent().getStringExtra("receiverId");
         String jobIdString = getIntent().getStringExtra("jobId");
 
-        if (senderIdString != null) {
-            senderId = UUID.fromString(senderIdString);
-        }
         if (receiverIdString != null) {
             receiverId = UUID.fromString(receiverIdString);
         }
@@ -70,21 +108,11 @@ public class ChatActivity extends BaseActivity {
             jobId = UUID.fromString(jobIdString);
         }
 
-        // Start ChatHubService
-        Intent serviceIntent = new Intent(this, ChatHubService.class);
-        startService(serviceIntent); // This ensures the service is running
-
-        // Set up the message adapter
-        messageAdapter = new MessageAdapter(messageList, senderId);
-        recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewMessages.setAdapter(messageAdapter);
-
         // Register BroadcastReceiver to listen for new messages
         registerMessageReceiver();
     }
 
     private void bindingView() {
-        messageList = messageDAO.getAllMessageBetweenTwoUser(senderId, receiverId);
         recyclerViewMessages = findViewById(R.id.recyclerViewChat);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.imageViewSend);
@@ -94,7 +122,30 @@ public class ChatActivity extends BaseActivity {
     private void bindingAction() {
         buttonSend.setOnClickListener(this::OnBtnSendClick);
         buttonBack.setOnClickListener(this::OnBtnBackClick);
+        editTextMessage.setOnClickListener(this::OnEdtTextMessageClick);
 
+    }
+
+    private void setupObservers() {
+        if (messageList != null) {
+            messageList.observe(this, messages -> {
+                if (messages != null) {
+                    messageAdapter = new MessageAdapter(messages, senderId);
+                    recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
+                    recyclerViewMessages.setAdapter(messageAdapter);
+
+                    loadMessages();
+                } else {
+                    Log.e("ChatActivity", "No messages retrieved");
+                }
+            });
+        } else {
+            Log.e("ChatActivity", "messageList is null");
+        }
+    }
+
+    private void OnEdtTextMessageClick(View view) {
+        checkKeyboard();
     }
 
     private void OnBtnSendClick(View view) {
@@ -111,15 +162,15 @@ public class ChatActivity extends BaseActivity {
 
 
     private void sendMessage(String text) {
-        Message message = new Message(null, senderId, receiverId, text, jobId, true); // Create Message with IDs from Intent
-        ChatHubService.sendMessage(message);
+        Message message = new Message(null, senderId, receiverId, text, jobId, true);
+        chatHubService.sendMessage(message);
     }
 
     private void registerMessageReceiver() {
         messageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // Get new message from Intent and add to Adapter
+                // Get new message from Intent   and add to Adapter
                 if ("NewMessageReceived".equals(intent.getAction())) {
                     Message newMessage = (Message) intent.getSerializableExtra("message");
                     if (newMessage != null) {
@@ -132,6 +183,41 @@ public class ChatActivity extends BaseActivity {
 
         IntentFilter filter = new IntentFilter("NewMessageReceived");
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, filter);
+    }
+
+    private void loadMessages() {
+        // Use Executor to perform database access on a background thread
+        messageList.observe(this, messageList -> {
+            runOnUiThread(() -> {
+                messageAdapter.updateMessages(messageList); // Update the adapter with the loaded messages
+                recyclerViewMessages.scrollToPosition(messageAdapter.getItemCount() - 1); // Scroll to bottom
+            });
+        });
+    }
+
+    private void checkKeyboard(){
+        final View chatActivity = findViewById(R.id.chatActivity);
+
+        var that = this;
+        chatActivity.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+
+                chatActivity.getWindowVisibleDisplayFrame(rect);
+
+                int heightDiff = chatActivity.getRootView().getHeight() - rect.height();
+
+                if(heightDiff > 0.25 * chatActivity.getRootView().getHeight()){
+                    messageList.observe(that, messages -> {
+                        if(!messages.isEmpty()){
+                            recyclerViewMessages.scrollToPosition(messages.size()-1);
+                            chatActivity.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override

@@ -58,6 +58,7 @@ public class BaseActivity extends AppCompatActivity {
         menuActivityMap.put(R.id.nav_home, HomeActivity.class);
         menuActivityMap.put(R.id.nav_manage_job, JobManagementNavigationActivity.class);
         menuActivityMap.put(R.id.nav_manage_transaction, TopUpHistoryActivity.class);
+        menuActivityMap.put(R.id.nav_user_stat, UserStatActivity.class);
     }
 
     @Override
