@@ -37,17 +37,15 @@ public class NotificationActivity extends BaseBottomActivity {
         super.onCreate(savedInstanceState);
         setContent(R.layout.activity_notification);
 
-        // Initialize ViewModel
         getNotificationViewModel = new ViewModelProvider(this).get(GetNotificationViewModel.class);
 
-        // Binding view
         bindingView();
 
-        // RecyclerView
         setupRecyclerView();
 
-        // Observer notification
         observeNotifications();
+        setSelectedNavigationItem(R.id.navigation_notification);
+
     }
 
     private void bindingView() {
