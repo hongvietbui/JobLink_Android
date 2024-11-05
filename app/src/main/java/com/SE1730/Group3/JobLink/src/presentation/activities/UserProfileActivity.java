@@ -11,7 +11,7 @@ public class UserProfileActivity extends BaseBottomActivity{
     private Button btnManageJob, btnLogout, btnManageTransaction;
     Intent intent;
     private void bindingView(){
-        btnManageTransaction = findViewById(R.id.btnManageTransaction);
+        btnManageTransaction = findViewById(R.id.btnManageUser);
         btnLogout = findViewById(R.id.btnLogout);
         btnManageJob = findViewById(R.id.btnManageJob);
     }
@@ -23,7 +23,7 @@ public class UserProfileActivity extends BaseBottomActivity{
     }
 
     private void onBtnManageTransactionClick(View view) {
-        intent = new Intent(this, TopUpHistoryActivity.class);
+        intent = new Intent(this,UserStatActivity.class);
         startActivity(intent);
     }
 
@@ -42,8 +42,9 @@ public class UserProfileActivity extends BaseBottomActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContent(R.layout.activity_user_profile);
         bindingView();
         bindingAction();
+        setSelectedNavigationItem(R.id.navigation_account);
     }
 }

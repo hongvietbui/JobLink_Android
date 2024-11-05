@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.databinding.ActivityJobDetailsBinding;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.enums.JobStatus;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
@@ -130,7 +129,6 @@ public class JobDetailsActivity extends BaseActivity {
                                                     btnListApplicant.setVisibility(Button.VISIBLE);
                                                     btnCompleteJob.setVisibility(Button.GONE);
                                                 }
-                                            //Check if user role is worker or not
                                             } else if(role.equals("Worker")){
                                                 btnCompleteJob.setVisibility(Button.GONE);
                                                 btnListApplicant.setVisibility(Button.GONE);

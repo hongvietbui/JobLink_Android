@@ -30,7 +30,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class AppliedWorkersActivity extends BaseActivity implements AppliedWorkerAdapter.OnWorkerClickListener {
+public class AppliedWorkersActivity extends BaseBottomActivity implements AppliedWorkerAdapter.OnWorkerClickListener {
     @Inject
     ViewAppliedWorkerUseCase viewAppliedWorkerUseCase;
 
@@ -49,7 +49,7 @@ public class AppliedWorkersActivity extends BaseActivity implements AppliedWorke
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_applied_workers);
+        setContent(R.layout.activity_applied_workers);
 
         // Khởi tạo ViewModel bằng ViewModelProvider
         viewAppliedWorkerViewModel = new ViewModelProvider(this).get(ViewAppliedWorkerViewModel.class);

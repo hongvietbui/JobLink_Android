@@ -29,7 +29,7 @@ import java.util.Calendar;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class JobActivity extends BaseActivity {
+public class JobActivity extends BaseBottomActivity {
 
     private JobViewModel jobViewModel;
     private EditText edtJobName, edtJobDescription, edtJobPrice, edtDate, edtTime;
@@ -41,7 +41,7 @@ public class JobActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_job);
+        setContent(R.layout.activity_create_job);
         jobViewModel = new ViewModelProvider(this).get(JobViewModel.class);
 
         bindingViews();
