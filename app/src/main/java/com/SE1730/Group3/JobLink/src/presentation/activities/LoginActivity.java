@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, HomeActivity.class);
+                        intent = new Intent(this, UserProfileActivity.class);
                         startActivity(intent);
 
                         disposables.add(userDAO.getCurrentUser()
