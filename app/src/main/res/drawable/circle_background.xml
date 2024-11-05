@@ -1,0 +1,8 @@
+<!-- res/drawable/circle_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu nền của hình tròn -->
+    <solid android:color="#FF5722" /> <!-- Thay #FF5722 bằng màu bạn muốn -->
+
+    <!-- Thiết lập bo tròn cho các góc để tạo thành hình tròn -->
+    <corners android:radius="10000dp" /> <!-- Sử dụng một giá trị lớn để tạo hình tròn hoàn chỉnh -->
+</shape>
