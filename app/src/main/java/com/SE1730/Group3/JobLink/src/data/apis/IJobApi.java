@@ -74,5 +74,5 @@ public interface IJobApi {
     Observable<ApiResp<String>> completeJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
 
     @POST("job")
-    Observable<ApiResp<String>> createJob(@Body ApiReq<CreateJobRequest> request);
+    Observable<ApiResp<JobDTO>> createJob(@Body ApiReq<CreateJobRequest> request);
 }
