@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, JobManagementNavigationActivity.class);
+                        intent = new Intent(this, JobActivity.class);
                         startActivity(intent);
 
                         disposables.add(userDAO.getCurrentUser()
