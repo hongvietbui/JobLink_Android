@@ -1,7 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -133,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     if (result) {
                         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(this, HomeActivity.class);
+                        intent = new Intent(this, UserProfileActivity.class);
                         startActivity(intent);
 
                         disposables.add(userDAO.getCurrentUser()

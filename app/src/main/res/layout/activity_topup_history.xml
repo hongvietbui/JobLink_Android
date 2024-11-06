@@ -25,7 +25,7 @@
         android:id="@+id/edtFromDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="92dp"
 
@@ -40,7 +40,7 @@
         android:id="@+id/edtToDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="16dp"
         android:hint="TO DATE  "
         android:inputType="datetime"
@@ -54,23 +54,43 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginTop="28dp"
+        android:textSize="18dp"
         android:text="SORT"
+        android:textColor="@color/blue5"
+        android:backgroundTint="@color/colorDarkBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtFromDate" />
+        app:layout_constraintTop_toBottomOf="@id/edtFromDate"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerTopUpHistory"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:padding="16dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnFilter"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_topup_list" />
+
+    <TextView
+        android:id="@+id/tvNoTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No transactions found"
+        android:textColor="#FA2323"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/btnFilter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

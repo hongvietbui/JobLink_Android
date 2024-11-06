@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.domain.useCases;
 
+import com.SE1730.Group3.JobLink.src.data.models.all.JobDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
@@ -17,7 +18,7 @@ public class JobUseCase {
         this.jobRepository = jobRepository;
     }
 
-    public Observable<ApiResp<String>> createJob(String name, String description, int duration, double price, String avatar, String startTime, String endTime) {
+    public Observable<ApiResp<JobDTO>> createJob(String name, String description, int duration, double price, String avatar, String startTime, String endTime) {
 
         // Tạo yêu cầu CreateJobRequest
         CreateJobRequest request = CreateJobRequest.builder()
@@ -30,7 +31,8 @@ public class JobUseCase {
                 .endTime(endTime)
                 .build();
 
-        // Gọi phương thức createJob từ jobRepository
+        // Gọi phương thức createJob từ jobRepository với kiểu trả về ApiResp<JobDTO>
         return jobRepository.createJob(request);
     }
 }
+

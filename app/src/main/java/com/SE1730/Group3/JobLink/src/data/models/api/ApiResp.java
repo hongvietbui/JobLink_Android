@@ -13,4 +13,9 @@ public class ApiResp<T> {
         this.message = message;
         this.data = data;
     }
+    public ApiResp(Integer status, String message, T data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
 }

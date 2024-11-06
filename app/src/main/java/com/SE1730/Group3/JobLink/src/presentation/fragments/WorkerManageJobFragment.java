@@ -40,19 +40,16 @@ public class WorkerManageJobFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_worker_manage_job, container, false);
 
-        // Initialize ViewModel and RecyclerView
         jobApplierByUserViewModel = new ViewModelProvider(this).get(JobApplierByUserViewModel.class);
         jobAdapter = new WorkerViewJobAdapter(getContext());
         recyclerView = view.findViewById(R.id.recycler_view_Worker_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(jobAdapter);
 
-        // Initialize Spinner and Button
         spinnerSortBy = view.findViewById(R.id.spinnerSortBy2);
         spinnerSortOrder = view.findViewById(R.id.spinnerSortOrder2);
-        applyFilterButton = view.findViewById(R.id.buttonApplyFilter1);
+        applyFilterButton = view.findViewById(R.id.buttonApplyFilter2);
 
-        // Set up button click listener
         applyFilterButton.setOnClickListener(v -> fetchJobsApplied());
 
         // Observe ViewModel LiveData
@@ -65,7 +62,7 @@ public class WorkerManageJobFragment extends Fragment {
             }
         });
 
-        fetchJobsApplied(); // Initial data fetch
+        fetchJobsApplied();
 
         return view;
     }

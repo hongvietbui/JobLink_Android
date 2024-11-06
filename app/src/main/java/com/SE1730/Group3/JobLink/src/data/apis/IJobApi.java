@@ -6,8 +6,8 @@ import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.api.Pagination;
-import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.data.models.request.CreateJobRequest;
+import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +15,6 @@ import java.util.UUID;
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -41,7 +40,7 @@ public interface IJobApi {
     Observable<ApiResp<List<JobWorkerDTO>>> getAppliedWorkersByJobId(
             @Query("jobId") UUID jobId
     );
-    @GET("job/user")
+    @GET("Job/user")
     Observable<ApiResp<Pagination<JobDTO>>> GetJobsCreatedByUser(
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
@@ -49,7 +48,7 @@ public interface IJobApi {
             @Query("isDescending") boolean isDescending
     );
 
-    @GET("job/applied")
+    @GET("Job/applied")
     Observable<ApiResp<Pagination<JobDTO>>> GetJobsAppliedByUser(
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
@@ -75,5 +74,5 @@ public interface IJobApi {
     Observable<ApiResp<String>> completeJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
 
     @POST("job")
-    Observable<ApiResp<String>> createJob(@Body ApiReq<CreateJobRequest> request);
+    Observable<ApiResp<JobDTO>> createJob(@Body ApiReq<CreateJobRequest> request);
 }
