@@ -25,7 +25,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getSenderId().toString().equals(currentUserId.toString())) {
+        var message = messages.get(position);
+        if (message!=null && message.getSenderId() != null && currentUserId != null &&
+                message.getSenderId().toString().equals(currentUserId.toString())) {
             return 1; // sent
         } else {
             return 2; // received
@@ -66,13 +68,22 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // Thêm tin nhắn mới vào danh sách và cập nhật RecyclerView
     public void addMessage(Message message) {
-        messages.add(message);
-        notifyItemInserted(messages.size() - 1); // Thông báo cập nhật vị trí cuối cùng
+        if (message != null) {
+            messages.add(message);
+            notifyItemInserted(messages.size() - 1);
+        }
     }
 
     public void updateMessages(List<Message> newMessages) {
-        this.messages = newMessages;
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
+        if (newMessages != null && !newMessages.isEmpty()) {
+//            this.messages.clear();
+            this.messages.addAll(newMessages);
+            notifyDataSetChanged();
+        }
+    }
+
+    public boolean isEmpty() {
+        return messages.isEmpty();
     }
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {

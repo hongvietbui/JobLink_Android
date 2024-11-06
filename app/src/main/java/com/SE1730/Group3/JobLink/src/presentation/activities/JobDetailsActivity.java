@@ -70,6 +70,7 @@ public class JobDetailsActivity extends BaseActivity {
 
     private UUID jobId;
     private UUID receiverId;
+    private UUID senderId;
 
     private ProgressBar progressBar;
 
@@ -387,7 +388,7 @@ public class JobDetailsActivity extends BaseActivity {
     private void startChatActivity() {
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("jobId", jobId.toString());
-        intent.putExtra("receiverId", receiverId);
+        intent.putExtra("receiverId", receiverId.toString());
         startActivity(intent);
     }
 }

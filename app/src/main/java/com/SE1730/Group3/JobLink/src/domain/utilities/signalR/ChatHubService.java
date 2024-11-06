@@ -46,7 +46,7 @@ public class ChatHubService extends Service {
         this.moshi = moshi;
         this.messageDAO = messageDAO;
         this.chatApi = chatApi;
-        this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/chat?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/chat?userId=" + userId).build();
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ChatHubService extends Service {
         this.userId = userId;
         if(hubConnection != null){
             hubConnection.stop();
-            this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/chat?userId=" + userId).build();
+            this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/chat?userId=" + userId).build();
             startHubConnection();
         }
     }
