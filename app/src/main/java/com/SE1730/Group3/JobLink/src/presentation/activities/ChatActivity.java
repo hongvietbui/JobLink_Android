@@ -4,17 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,17 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
-import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO_Impl;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
-import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
+import com.squareup.moshi.Moshi;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -42,7 +36,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseBottomActivity {
     private MessageAdapter messageAdapter;
     private RecyclerView recyclerViewMessages;
     private LiveData<List<Message>> messageList;
@@ -64,6 +58,8 @@ public class ChatActivity extends BaseActivity {
     @Inject
     ChatHubService chatHubService;
 
+    @Inject
+    Moshi moshi;
 
 
     private BroadcastReceiver messageReceiver;
@@ -71,7 +67,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContent(R.layout.activity_chat);
         bindingView();
         bindingAction();
 
@@ -172,10 +168,18 @@ public class ChatActivity extends BaseActivity {
             public void onReceive(Context context, Intent intent) {
                 // Get new message from Intent   and add to Adapter
                 if ("NewMessageReceived".equals(intent.getAction())) {
-                    Message newMessage = (Message) intent.getSerializableExtra("message");
-                    if (newMessage != null) {
-                        messageAdapter.addMessage(newMessage);
-                        recyclerViewMessages.scrollToPosition(messageAdapter.getItemCount() - 1); // Scroll to bottom
+                    var jsonAdapter = moshi.adapter(Message.class);
+                    try{
+                        Message receivedMessage = jsonAdapter.fromJson(intent.getStringExtra("message"));
+                        if (receivedMessage.getReceiverId() != null && receivedMessage.getSenderId().equals(receiverId)) {
+                            messageAdapter.addMessage(receivedMessage);
+                            recyclerViewMessages.scrollToPosition(messageAdapter.getItemCount() - 1); // Scroll to bottom
+                        }else{
+                            Log.d("ChatActivity", "Message received is not for this chat: " + receivedMessage.getMessage());
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("ChatActivity", "Error parsing message: " + e.getMessage());
                     }
                 }
             }

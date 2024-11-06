@@ -74,7 +74,7 @@ public class NotificationService extends Service {
                     .doOnError(error -> Log.e("ChatHubService", "Error starting connection", error))
                     .subscribe();
 
-            disposables.add(disposables);
+            disposables.add(notificationDisposable);
 
             hubConnection.on("ReceiveNotification", (title, message, timestamp) -> {
                 Notification notification = Notification.builder()

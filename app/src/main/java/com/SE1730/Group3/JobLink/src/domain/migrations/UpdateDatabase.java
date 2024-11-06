@@ -14,7 +14,7 @@ public class UpdateDatabase {
                     "`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "`senderId` BLOB, " +
                     "`receiverId` BLOB, " +
-                    "`text` TEXT)");
+                    "`message` TEXT)");
         }
     };
 

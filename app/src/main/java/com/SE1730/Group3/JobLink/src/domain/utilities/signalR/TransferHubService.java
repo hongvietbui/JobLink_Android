@@ -44,10 +44,12 @@ public class TransferHubService extends Service {
 
         if (hubConnection != null && hubConnection.getConnectionState() == HubConnectionState.DISCONNECTED) {
 
-            hubConnection.start()
+            var transferHubDisposable = hubConnection.start()
                     .doOnComplete(() -> Log.d("TransferHubService", "Connection started with userId: " + userId))
                     .doOnError(error -> Log.e("TransferHubService", "Error starting connection", error))
                     .subscribe();
+
+            disposables.add(transferHubDisposable);
 
             hubConnection.on("ReceiveTransfer", (data) -> {
 

@@ -205,6 +205,7 @@ public class JobDetailsActivity extends BaseActivity {
                         // Error handling for getJobByIdUseCase
                         Log.e("JobDetailsActivity", "Error fetching job details", throwable);
                     });
+
             compositeDisposable.add(getJobByIdDisposable);
 
             Disposable jobDetailDisposable = jobDetailUsecase.execute(jobId)

@@ -25,7 +25,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getSenderId().equals(currentUserId)) {
+        if (messages.get(position).getSenderId().toString().equals(currentUserId.toString())) {
             return 1; // sent
         } else {
             return 2; // received
@@ -51,9 +51,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return;
 
         if (holder instanceof SentMessageViewHolder) {
-            ((SentMessageViewHolder) holder).textMessageSent.setText(message.getText());
+            ((SentMessageViewHolder) holder).textMessageSent.setText(message.getMessage());
         } else if (holder instanceof ReceivedMessageViewHolder) {
-            ((ReceivedMessageViewHolder) holder).textMessageReceived.setText(message.getText());
+            ((ReceivedMessageViewHolder) holder).textMessageReceived.setText(message.getMessage());
         }
     }
 
