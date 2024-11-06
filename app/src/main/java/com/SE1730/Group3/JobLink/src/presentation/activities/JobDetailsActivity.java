@@ -21,14 +21,18 @@ import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.enums.JobStatus;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobByIdUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobWorkerDetailsUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetOwnerIdByUserIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserRoleOfJobUserCase;
-import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetWorkerIdByUserIdUseCase;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.MapFragment;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +40,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -46,13 +51,19 @@ public class JobDetailsActivity extends BaseActivity {
     GetUserRoleOfJobUserCase getUserRoleOfJobUserCase;
 
     @Inject
-    JobDetailUsecase jobDetailUsecase;
+    GetJobWorkerDetailsUsecase jobDetailUsecase;
 
     @Inject
     AssignJobUseCase assignJobUseCase;
 
     @Inject
     GetJobByIdUseCase getJobByIdUseCase;
+
+    @Inject
+    GetOwnerIdByUserIdUseCase getOwnerIdByUserIdUseCase;
+
+    @Inject
+    GetWorkerIdByUserIdUseCase getWorkerIdByUserIdUseCase;
 
     CompositeDisposable compositeDisposable;
 
@@ -69,7 +80,6 @@ public class JobDetailsActivity extends BaseActivity {
 
     private UUID jobId;
     private UUID receiverId;
-    private UUID senderId;
 
     private ProgressBar progressBar;
 
@@ -196,14 +206,49 @@ public class JobDetailsActivity extends BaseActivity {
             }
 
             var getJobByIdDisposable = getJobByIdUseCase.execute(jobId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(resp -> {
-                        receiverId = resp.getData().getOwnerId();
-                    }, throwable -> {
-                        // Error handling for getJobByIdUseCase
-                        Log.e("JobDetailsActivity", "Error fetching job details", throwable);
-                    });
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resp -> {
+                    receiverId = resp.getData().getOwnerId();
+//                    var ownerObservable = getOwnerIdByUserIdUseCase.execute(resp.getData().getOwnerId())
+//                            .subscribeOn(Schedulers.io())
+//                            .map(apiResp -> {
+//                                if (apiResp.getStatus() == 200 && !apiResp.getData().equals(receiverId.toString())) {
+//                                    return UUID.fromString(apiResp.getData());
+//                                }
+//                                return null;
+//                            });
+//
+//                    // Tác vụ lấy workerId cho senderId
+//                    var workerObservable = getWorkerIdByUserIdUseCase.execute(resp.getData().getOwnerId())
+//                            .subscribeOn(Schedulers.io())
+//                            .map(apiResp -> {
+//                                if (apiResp.getStatus() == 200 && !apiResp.getData().equals(receiverId.toString())) {
+//                                    return UUID.fromString(apiResp.getData());
+//                                }
+//                                return null;
+//                            });
+//
+//                    var combinedDisposable = Observable.zip(ownerObservable, workerObservable, (ownerId, workerId) -> {
+//                                return ownerId != null ? ownerId : workerId;
+//                            })
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(
+//                                    resultReceiverId -> {
+//                                        if (resultReceiverId != null) {
+//                                            receiverId = resultReceiverId;
+//                                        } else {
+//                                            Log.e("ChatActivity", "Không thể lấy receiverId hợp lệ");
+//                                        }
+//                                    },
+//                                    throwable -> Log.e("ChatActivity", "Error retrieving receiverId: " + throwable.getMessage(), throwable)
+//                            );
+//
+//                    compositeDisposable.add(combinedDisposable);
+                }, throwable -> {
+                    // Error handling for getJobByIdUseCase
+                    Log.e("JobDetailsActivity", "Error fetching job details", throwable);
+                });
 
             compositeDisposable.add(getJobByIdDisposable);
 
@@ -387,6 +432,7 @@ public class JobDetailsActivity extends BaseActivity {
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("jobId", jobId.toString());
         intent.putExtra("receiverId", receiverId.toString());
+        intent.putExtra("isWorker", true);
         startActivity(intent);
     }
 }

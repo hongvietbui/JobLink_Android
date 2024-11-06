@@ -32,4 +32,6 @@ public interface IUserRepository {
     Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
     Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException;
     Observable<ApiResp<UserHompageDTO>> getUserHomepageData() throws IOException;
+    Observable<ApiResp<String>> getWorkerIdByUserId(UUID userId) throws IOException;
+    Observable<ApiResp<String>> getOwnerIdByUserId(UUID userId) throws IOException;
 }

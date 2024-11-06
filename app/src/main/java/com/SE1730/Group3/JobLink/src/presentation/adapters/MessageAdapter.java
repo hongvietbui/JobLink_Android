@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
@@ -71,15 +72,22 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (message != null) {
             messages.add(message);
             notifyItemInserted(messages.size() - 1);
+            notifyDataSetChanged();
         }
     }
 
     public void updateMessages(List<Message> newMessages) {
         if (newMessages != null && !newMessages.isEmpty()) {
-//            this.messages.clear();
+            this.messages.clear();
             this.messages.addAll(newMessages);
             notifyDataSetChanged();
         }
+//        if (newMessages != null && !newMessages.isEmpty()) {
+//            this.messages = newMessages;
+//            notifyDataSetChanged();
+//        }
+
+
     }
 
     public boolean isEmpty() {

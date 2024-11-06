@@ -21,18 +21,25 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
 import com.SE1730.Group3.JobLink.src.domain.dao.IUserDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobWorkerDetailsUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetOwnerIdByUserIdUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetWorkerIdByUserIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.utilities.signalR.ChatHubService;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.squareup.moshi.Moshi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -43,9 +50,12 @@ public class ChatActivity extends BaseBottomActivity {
     private LiveData<List<Message>> messageList;
     private EditText editTextMessage;
     private ImageView buttonSend, buttonBack;
+
+    private UUID userId;
     private UUID senderId;
     private UUID receiverId;
     private UUID jobId;
+    private boolean isWorker;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -62,6 +72,11 @@ public class ChatActivity extends BaseBottomActivity {
     @Inject
     Moshi moshi;
 
+    @Inject
+    GetOwnerIdByUserIdUseCase getOwnerIdByUserIdUseCase;
+
+    @Inject
+    GetWorkerIdByUserIdUseCase getWorkerIdByUserIdUseCase;
 
     private BroadcastReceiver messageReceiver;
 
@@ -69,8 +84,11 @@ public class ChatActivity extends BaseBottomActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContent(R.layout.activity_chat);
-
-        initializeData();
+        try{
+            initializeData();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         bindingView();
         bindingAction();
         // Register BroadcastReceiver to listen for new messages
@@ -93,7 +111,7 @@ public class ChatActivity extends BaseBottomActivity {
 
     }
 
-    private void initializeData(){
+    private void initializeData() throws IOException {
         receiverId = getIntent().getStringExtra("receiverId") != null
                 ? UUID.fromString(getIntent().getStringExtra("receiverId"))
                 : null;
@@ -102,27 +120,63 @@ public class ChatActivity extends BaseBottomActivity {
                 ? UUID.fromString(getIntent().getStringExtra("jobId"))
                 : null;
 
-        var userDisposable = userDAO.getCurrentUser()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        user -> {
-                            senderId = user.getId();
-                            if (senderId != null && receiverId != null) {
-                                // Khởi tạo MessageAdapter khi cả senderId và receiverId đã sẵn sàng
-                                messageAdapter = new MessageAdapter(new ArrayList<>(), senderId);
-                                recyclerViewMessages.setAdapter(messageAdapter);
+        isWorker = getIntent().getBooleanExtra("isWorker", false);
 
-                                messageList = messageDAO.getAllMessageBetweenTwoUser(senderId, receiverId);
-                                setupObservers();
-                            } else {
-                                Log.e("ChatActivity", "senderId hoặc receiverId chưa được khởi tạo");
-                            }
-                        },
-                        throwable -> Log.e("ChatActivity", "Error retrieving user: " + throwable.getMessage(), throwable)
-                );
+        var userDisposable = userDAO.getCurrentUser()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                user -> {
+                    userId = user.getId();
+
+                    // Kết hợp hai tác vụ bất đồng bộ
+                    var ownerObservable = getOwnerIdByUserIdUseCase.execute(userId)
+                            .subscribeOn(Schedulers.io())
+                            .map(apiResp -> {
+                                if (apiResp.getStatus() == 200 && !apiResp.getData().equals(receiverId.toString()) && !apiResp.getData().isEmpty()) {
+                                    return apiResp.getData();
+                                }
+                                return ""; // Không phải là senderId hợp lệ
+                            });
+
+                    var workerObservable = getWorkerIdByUserIdUseCase.execute(userId)
+                            .subscribeOn(Schedulers.io())
+                            .map(apiResp -> {
+                                if (apiResp.getStatus() == 200 && !apiResp.getData().equals(receiverId.toString()) && !apiResp.getData().isEmpty()) {
+                                    return apiResp.getData();
+                                }
+                                return ""; // Không phải là senderId hợp lệ
+                            });
+
+                    // Kết hợp kết quả của hai tác vụ
+                    var combinedDisposable = Observable.zip(ownerObservable, workerObservable, (ownerId, workerId) -> {
+                        // Chọn senderId nào không null
+                        return ownerId != "" ? ownerId : workerId;
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                            resultSenderId -> {
+                                if (resultSenderId != null) {
+                                    senderId = UUID.fromString(resultSenderId);
+                                    messageAdapter = new MessageAdapter(new ArrayList<>(), senderId);
+                                    recyclerViewMessages.setAdapter(messageAdapter);
+
+                                    messageList = messageDAO.getAllMessageBetweenTwoUser(userId, receiverId);
+                                    //setupObservers();
+                                } else {
+                                    Log.e("ChatActivity", "Không thể lấy senderId hợp lệ");
+                                }
+                            },
+                            throwable -> Log.e("ChatActivity", "Error retrieving senderId: " + throwable.getMessage(), throwable)
+                        );
+
+                    disposables.add(combinedDisposable);
+                },
+                throwable -> Log.e("ChatActivity", "Error retrieving user: " + throwable.getMessage(), throwable)
+            );
 
         disposables.add(userDisposable);
+
     }
 
     private void setupObservers() {
@@ -149,11 +203,17 @@ public class ChatActivity extends BaseBottomActivity {
         if (!messageText.isEmpty()) {
             sendMessage(messageText);
             editTextMessage.setText("");
+
+            Message message = new Message(null, senderId, receiverId, messageText, jobId, isWorker);
+            messageAdapter.addMessage(message);
+            recyclerViewMessages.scrollToPosition(messageAdapter.getItemCount() - 1);
         }
     }
 
     private void sendMessage(String text) {
-        Message message = new Message(null, senderId, receiverId, text, jobId, true);
+        Message message = new Message(null, senderId, receiverId, text, jobId, isWorker);
+
+//        messageAdapter.addMessage(message);
         chatHubService.sendMessage(message);
     }
 

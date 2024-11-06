@@ -24,4 +24,10 @@ public interface IUserApi {
 
     @GET("user/homepage")
     Observable<ApiResp<UserHompageDTO>> GetUserHomepageData();
+
+    @GET("user/worker/id/{userId}")
+    Observable<ApiResp<String>> getWorkerIdByUserId(@Path("userId") String userId);
+
+    @GET("user/owner/id/{userId}")
+    Observable<ApiResp<String>> getOwnerIdByUserId(@Path("userId") String userId);
 }

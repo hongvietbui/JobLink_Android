@@ -179,5 +179,13 @@ public class UserRepositoryImpl implements IUserRepository {
         return userApi.GetUserHomepageData();
     }
 
+    @Override
+    public Observable<ApiResp<String>> getWorkerIdByUserId(UUID userId) throws IOException {
+        return userApi.getWorkerIdByUserId(userId.toString());
+    }
 
+    @Override
+    public Observable<ApiResp<String>> getOwnerIdByUserId(UUID userId) throws IOException {
+        return userApi.getOwnerIdByUserId(userId.toString());
+    }
 }

@@ -13,12 +13,14 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.all.JobWorkerDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserByWorkerIdUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetWorkerIdByUserIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.ViewAppliedWorkerUseCase;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.AppliedWorkerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.viewModels.ViewAppliedWorkerViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,10 +41,14 @@ public class AppliedWorkersActivity extends BaseBottomActivity implements Applie
     private RecyclerView recyclerView;
     private AppliedWorkerAdapter adapter;
     private List<JobWorkerDTO> jobWorkerDTOList;
-    private List<UserDTO> appliedWorkers = new ArrayList<>(); // Khởi tạo danh sách
+    private List<UserDTO> appliedWorkers = new ArrayList<>();
+    private HashMap<UUID, UUID> workerIdHashMap = new HashMap<>();
 
     @Inject
     GetUserByWorkerIdUseCase getUserByWorkerIdUseCase;
+
+    @Inject
+    GetWorkerIdByUserIdUseCase getWorkerIdByUserIdUseCase;
 
     private ViewAppliedWorkerViewModel viewAppliedWorkerViewModel; // Xóa annotation @Inject
 
@@ -80,6 +86,7 @@ public class AppliedWorkersActivity extends BaseBottomActivity implements Applie
                                     .subscribeOn(Schedulers.io())
                                     .subscribe(getUserByWorkerResp -> {
                                         if (resp.getData() != null) {
+                                            workerIdHashMap.put(getUserByWorkerResp.getData().getId(), jobWorkerDTO.getWorkerId());
                                             appliedWorkers.add(getUserByWorkerResp.getData());
                                             runOnUiThread(() -> adapter.notifyDataSetChanged()); // Cập nhật adapter trên UI thread
                                         }
@@ -106,14 +113,15 @@ public class AppliedWorkersActivity extends BaseBottomActivity implements Applie
     }
 
     @Override
-    public void onWorkerClick(UserDTO worker) {
+    public void onWorkerClick(UserDTO user) {
         Intent intent = getIntent(); // Lấy intent từ activity
         String jobId = intent.getStringExtra("jobId");
 
         // Xử lý sự kiện khi worker được click
         Intent intent1 = new Intent(this, ChatActivity.class);
         intent1.putExtra("jobId", jobId);
-        intent1.putExtra("receiverId", worker.getId().toString());
+        intent1.putExtra("receiverId", workerIdHashMap.get(user.getId()).toString());
+        intent1.putExtra("isWorker", false);
         startActivity(intent1);
     }
 

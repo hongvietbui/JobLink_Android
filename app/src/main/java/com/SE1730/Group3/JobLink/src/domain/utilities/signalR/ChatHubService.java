@@ -100,6 +100,7 @@ public class ChatHubService extends Service {
         insertExecutor.execute(() -> {
             messageDAO.insert(message);
         });
+
         try {
             var chatDTOReq = ChatDTOReq.builder()
                     .jobId(message.getJobId().toString())
