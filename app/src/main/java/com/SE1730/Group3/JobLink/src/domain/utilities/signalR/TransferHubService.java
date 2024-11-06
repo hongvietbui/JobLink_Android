@@ -29,7 +29,7 @@ public class TransferHubService extends Service {
 
     @Inject
     public TransferHubService(Moshi moshi) {
-        this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/transfer?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/transfer?userId=" + userId).build();
         this.moshi = moshi;
     }
 
@@ -40,14 +40,16 @@ public class TransferHubService extends Service {
     }
 
     private void startHubConnection() {
-        this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/transfer?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/transfer?userId=" + userId).build();
 
         if (hubConnection != null && hubConnection.getConnectionState() == HubConnectionState.DISCONNECTED) {
 
-            hubConnection.start()
+            var transferHubDisposable = hubConnection.start()
                     .doOnComplete(() -> Log.d("TransferHubService", "Connection started with userId: " + userId))
                     .doOnError(error -> Log.e("TransferHubService", "Error starting connection", error))
                     .subscribe();
+
+            disposables.add(transferHubDisposable);
 
             hubConnection.on("ReceiveTransfer", (data) -> {
 

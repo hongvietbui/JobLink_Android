@@ -69,6 +69,7 @@ public class JobDetailsActivity extends BaseActivity {
 
     private UUID jobId;
     private UUID receiverId;
+    private UUID senderId;
 
     private ProgressBar progressBar;
 
@@ -125,7 +126,7 @@ public class JobDetailsActivity extends BaseActivity {
                                                     btnCompleteJob.setVisibility(Button.VISIBLE);
                                                 }
                                                 //Check if job is waiting for applicants
-                                                else if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS) || jobStatus.equals(JobStatus.PENDING_APPROVAL)){
+                                                else if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS) || jobStatus.equals(JobStatus.PENDING_APPROVAL) || jobStatus.equals(JobStatus.APPROVED)){
                                                     btnListApplicant.setVisibility(Button.VISIBLE);
                                                     btnCompleteJob.setVisibility(Button.GONE);
                                                 }
@@ -203,6 +204,7 @@ public class JobDetailsActivity extends BaseActivity {
                         // Error handling for getJobByIdUseCase
                         Log.e("JobDetailsActivity", "Error fetching job details", throwable);
                     });
+
             compositeDisposable.add(getJobByIdDisposable);
 
             Disposable jobDetailDisposable = jobDetailUsecase.execute(jobId)
@@ -384,7 +386,7 @@ public class JobDetailsActivity extends BaseActivity {
     private void startChatActivity() {
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("jobId", jobId.toString());
-        intent.putExtra("receiverId", receiverId);
+        intent.putExtra("receiverId", receiverId.toString());
         startActivity(intent);
     }
 }

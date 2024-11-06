@@ -58,7 +58,7 @@ public class NetworkModule {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl("http://160.30.21.14:8080/api/")
+                .baseUrl("http://oceanbooking.online:8080/api/")
                 .client(okHttpClient)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

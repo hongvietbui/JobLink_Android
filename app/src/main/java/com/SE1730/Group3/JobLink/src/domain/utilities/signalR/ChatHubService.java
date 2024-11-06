@@ -46,7 +46,7 @@ public class ChatHubService extends Service {
         this.moshi = moshi;
         this.messageDAO = messageDAO;
         this.chatApi = chatApi;
-        this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/chat?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/chat?userId=" + userId).build();
     }
 
     @Override
@@ -72,22 +72,26 @@ public class ChatHubService extends Service {
 
     private void startHubConnection() {
         if (hubConnection != null && hubConnection.getConnectionState() == HubConnectionState.DISCONNECTED) {
-            hubConnection.start()
+            var chatHubDisposable = hubConnection.start()
                     .doOnComplete(() -> Log.d("ChatHubService", "Connection started with userId: " + userId))
                     .doOnError(error -> Log.e("ChatHubService", "Error starting connection", error))
                     .subscribe();
 
-            hubConnection.on("ReceiveMessage", (data) -> {
+            disposables.add(chatHubDisposable);
+
+            hubConnection.on("ReceiveMessage", (senderId, message) -> {
+                Log.d("ChatHubService", "Message received: " + message);
                 var jsonAdapter = moshi.adapter(Message.class);
                 try {
-                    Message receivedMessage = jsonAdapter.fromJson(data);
-                    if (receivedMessage != null) {
-                        displayMessage(receivedMessage);
+                    var receivedMessage = jsonAdapter.fromJson(message);
+                    messageDAO.insert(receivedMessage);
+                    if (receivedMessage.getReceiverId() != null && receivedMessage.getReceiverId()!=null) {
+                        displayMessage(message);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }, String.class);
+            }, String.class, String.class);
         }
     }
 
@@ -99,7 +103,7 @@ public class ChatHubService extends Service {
         try {
             var chatDTOReq = ChatDTOReq.builder()
                     .jobId(message.getJobId().toString())
-                    .message(message.getText())
+                    .message(message.getMessage())
                     .senderId(message.getSenderId().toString())
                     .receiverId(message.getReceiverId().toString())
                     .isWorker(message.getIsWorker())
@@ -127,9 +131,9 @@ public class ChatHubService extends Service {
         }
     }
 
-    private void displayMessage(Message message) {
+    private void displayMessage(String messageJson) {
         Intent intent = new Intent("NewMessageReceived");
-        intent.putExtra("message", message.getText());
+        intent.putExtra("message", messageJson);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -137,7 +141,7 @@ public class ChatHubService extends Service {
         this.userId = userId;
         if(hubConnection != null){
             hubConnection.stop();
-            this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/notification?userId=" + userId).build();
+            this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/chat?userId=" + userId).build();
             startHubConnection();
         }
     }

@@ -43,7 +43,7 @@ public class NotificationService extends Service {
 
     @Inject
     public NotificationService(Moshi moshi, INotificationDAO notificationDAO, Context context) {
-        this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/notification?userId=" + userId).build();
+        this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/notification?userId=" + userId).build();
         this.moshi = moshi;
         this.notificationDAO = notificationDAO;
         this.context = context;
@@ -74,7 +74,7 @@ public class NotificationService extends Service {
                     .doOnError(error -> Log.e("ChatHubService", "Error starting connection", error))
                     .subscribe();
 
-            disposables.add(disposables);
+            disposables.add(notificationDisposable);
 
             hubConnection.on("ReceiveNotification", (title, message, timestamp) -> {
                 Notification notification = Notification.builder()
@@ -111,7 +111,7 @@ public class NotificationService extends Service {
         this.userId = userId;
         if(hubConnection != null){
             hubConnection.stop();
-            this.hubConnection = HubConnectionBuilder.create("http://160.30.21.14:8080/hub/notification?userId=" + userId).build();
+            this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/notification?userId=" + userId).build();
             startHubConnection();
         }
     }
