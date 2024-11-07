@@ -1,5 +1,7 @@
 package com.SE1730.Group3.JobLink.src.presentation.viewModels;
 
+import android.content.Intent;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

@@ -70,8 +70,8 @@ public interface IJobApi {
     @PATCH("job/reject/{jobId}/{workerId}")
     Observable<ApiResp<String>> rejectAppliedWorker(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
 
-    @PATCH("job/complete/{jobId}/{workerId}")
-    Observable<ApiResp<String>> completeJob(@Path("jobId") UUID jobId, @Path("workerId") UUID workerId);
+    @PATCH("job/complete/{jobId}")
+    Observable<ApiResp<String>> completeJob(@Path("jobId") UUID jobId);
 
     @POST("job")
     Observable<ApiResp<JobDTO>> createJob(@Body ApiReq<CreateJobRequest> request);

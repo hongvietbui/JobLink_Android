@@ -8,6 +8,7 @@ import com.SE1730.Group3.JobLink.src.domain.repositories.IJobRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.ITransactionRepository;
 import com.SE1730.Group3.JobLink.src.domain.repositories.IUserRepository;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AcceptWorkerUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.CompleteJobUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobsUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetNotificationUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetQRCodeByUserIdUseCase;
@@ -93,4 +94,9 @@ public class UseCaseModule {
         return new TopUpUseCase(transactionRepository);
     }
 
+    @Provides
+    @Singleton
+    public static CompleteJobUseCase providesCompleteJobUseCase(IJobRepository jobRepository) {
+        return new CompleteJobUseCase(jobRepository);
+    }
 }

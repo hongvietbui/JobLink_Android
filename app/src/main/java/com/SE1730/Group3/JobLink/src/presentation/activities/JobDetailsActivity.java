@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.SE1730.Group3.JobLink.R;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.enums.JobStatus;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.CompleteJobUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobByIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobWorkerDetailsUsecase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetOwnerIdByUserIdUseCase;
@@ -65,6 +67,9 @@ public class JobDetailsActivity extends BaseActivity {
     @Inject
     GetWorkerIdByUserIdUseCase getWorkerIdByUserIdUseCase;
 
+    @Inject
+    CompleteJobUseCase completeJobUseCase;
+
     CompositeDisposable compositeDisposable;
 
     private ViewPager2 viewPager;
@@ -77,6 +82,7 @@ public class JobDetailsActivity extends BaseActivity {
     private Button btnListApplicant;
     private Button btnCompleteJob;
     private Button btnChatWithOwner;
+    private Button btnNotiCompleteJob;
 
     private UUID jobId;
     private UUID receiverId;
@@ -153,6 +159,14 @@ public class JobDetailsActivity extends BaseActivity {
                                                 btnChatWithOwner.setVisibility(Button.GONE);
                                             }
 
+                                            if(jobStatus.equals(JobStatus.COMPLETED)){
+                                                btnCompleteJob.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btnAssign.setVisibility(Button.GONE);
+                                                btnChatWithOwner.setVisibility(Button.GONE);
+                                                btnNotiCompleteJob.setVisibility(Button.VISIBLE);
+                                            }
+
                                             shimmerFrameLayout.stopShimmer();
                                             shimmerFrameLayout.setVisibility(View.GONE);
 
@@ -210,41 +224,6 @@ public class JobDetailsActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resp -> {
                     receiverId = resp.getData().getOwnerId();
-//                    var ownerObservable = getOwnerIdByUserIdUseCase.execute(resp.getData().getOwnerId())
-//                            .subscribeOn(Schedulers.io())
-//                            .map(apiResp -> {
-//                                if (apiResp.getStatus() == 200 && !apiResp.getData().equals(receiverId.toString())) {
-//                                    return UUID.fromString(apiResp.getData());
-//                                }
-//                                return null;
-//                            });
-//
-//                    // Tác vụ lấy workerId cho senderId
-//                    var workerObservable = getWorkerIdByUserIdUseCase.execute(resp.getData().getOwnerId())
-//                            .subscribeOn(Schedulers.io())
-//                            .map(apiResp -> {
-//                                if (apiResp.getStatus() == 200 && !apiResp.getData().equals(receiverId.toString())) {
-//                                    return UUID.fromString(apiResp.getData());
-//                                }
-//                                return null;
-//                            });
-//
-//                    var combinedDisposable = Observable.zip(ownerObservable, workerObservable, (ownerId, workerId) -> {
-//                                return ownerId != null ? ownerId : workerId;
-//                            })
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe(
-//                                    resultReceiverId -> {
-//                                        if (resultReceiverId != null) {
-//                                            receiverId = resultReceiverId;
-//                                        } else {
-//                                            Log.e("ChatActivity", "Không thể lấy receiverId hợp lệ");
-//                                        }
-//                                    },
-//                                    throwable -> Log.e("ChatActivity", "Error retrieving receiverId: " + throwable.getMessage(), throwable)
-//                            );
-//
-//                    compositeDisposable.add(combinedDisposable);
                 }, throwable -> {
                     // Error handling for getJobByIdUseCase
                     Log.e("JobDetailsActivity", "Error fetching job details", throwable);
@@ -329,6 +308,7 @@ public class JobDetailsActivity extends BaseActivity {
         btnListApplicant = findViewById(R.id.btnListApplicant);
         btnCompleteJob = findViewById(R.id.btnCompleteJob);
         btnChatWithOwner = findViewById(R.id.btnChatWithOwner);
+        btnNotiCompleteJob = findViewById(R.id.btnNotiCompleteJob);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -368,6 +348,8 @@ public class JobDetailsActivity extends BaseActivity {
         btnAssign.setOnClickListener(v -> assignJob(jobId));
 
         btnChatWithOwner.setOnClickListener(v -> startChatActivity());
+
+        btnCompleteJob.setOnClickListener(v -> handleCompleteBtn());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -434,5 +416,52 @@ public class JobDetailsActivity extends BaseActivity {
         intent.putExtra("receiverId", receiverId.toString());
         intent.putExtra("isWorker", true);
         startActivity(intent);
+    }
+
+    private void handleCompleteBtn(){
+        //Display alert to confirm job completion
+        new AlertDialog.Builder(this)
+                .setTitle("Complete Job")
+                .setMessage("Are you sure you want to complete this job?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    //Complete job
+                    completeJob();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void completeJob(){
+        try{
+            btnCompleteJob.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+
+            Disposable completeJobDisposable = completeJobUseCase.execute(jobId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(apiResp -> {
+                    progressBar.setVisibility(View.GONE);
+                    if (apiResp.getStatus() == 200) {
+                        Toast.makeText(this, "Job completed successfully", Toast.LENGTH_SHORT).show();
+                        btnCompleteJob.setVisibility(Button.GONE);
+                        btnListApplicant.setVisibility(Button.GONE);
+                        btnAssign.setVisibility(Button.GONE);
+                        btnChatWithOwner.setVisibility(Button.GONE);
+                        btnNotiCompleteJob.setVisibility(Button.VISIBLE);
+                    } else {
+                        Toast.makeText(this, "Failed to complete job", Toast.LENGTH_SHORT).show();
+                    }
+                }, throwable -> {
+                    progressBar.setVisibility(View.GONE);
+                    // Error handling for completeJobUseCase
+                    Log.e("JobDetailsActivity", "Failed to complete job", throwable);
+                    Toast.makeText(this, "Failed to complete job", Toast.LENGTH_SHORT).show();
+                });
+
+            compositeDisposable.add(completeJobDisposable);
+        }catch (Exception ex){
+            Toast.makeText(this, "Failed to complete job", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }
