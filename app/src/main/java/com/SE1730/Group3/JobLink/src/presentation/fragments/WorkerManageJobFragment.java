@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import com.SE1730.Group3.JobLink.src.presentation.viewModels.JobApplierByUserVie
 import java.io.IOException;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 @AndroidEntryPoint
 public class WorkerManageJobFragment extends Fragment {
@@ -27,6 +30,10 @@ public class WorkerManageJobFragment extends Fragment {
     private WorkerViewJobAdapter jobAdapter;
     private RecyclerView recyclerView;
 
+    private Spinner spinnerSortBy;
+    private Spinner spinnerSortOrder;
+    private Button applyFilterButton;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,12 +41,18 @@ public class WorkerManageJobFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_worker_manage_job, container, false);
 
         jobApplierByUserViewModel = new ViewModelProvider(this).get(JobApplierByUserViewModel.class);
-
         jobAdapter = new WorkerViewJobAdapter(getContext());
         recyclerView = view.findViewById(R.id.recycler_view_Worker_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(jobAdapter);
 
+        spinnerSortBy = view.findViewById(R.id.spinnerSortBy2);
+        spinnerSortOrder = view.findViewById(R.id.spinnerSortOrder2);
+        applyFilterButton = view.findViewById(R.id.buttonApplyFilter2);
+
+        applyFilterButton.setOnClickListener(v -> fetchJobsApplied());
+
+        // Observe ViewModel LiveData
         jobApplierByUserViewModel.jobsAppliedResult.observe(getViewLifecycleOwner(), resp -> {
             if (resp != null && resp.getData() != null) {
                 Log.d(TAG, "Jobs found: " + resp.getData().getItems().size());
@@ -54,9 +67,17 @@ public class WorkerManageJobFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     private void fetchJobsApplied() {
+        String sortBy = spinnerSortBy.getSelectedItem().toString();
+        boolean isDescending = "Descending".equals(spinnerSortOrder.getSelectedItem().toString());
+
         try {
-            jobApplierByUserViewModel.getJobsAppliedByUser(1, 10, "", false);
+            jobApplierByUserViewModel.getJobsAppliedByUser(1, 10, sortBy, isDescending);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

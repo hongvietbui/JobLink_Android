@@ -10,10 +10,10 @@ import java.util.UUID;
 import io.reactivex.rxjava3.core.Observable;
 import jakarta.inject.Inject;
 
-public class JobDetailUsecase {
+public class GetJobWorkerDetailsUsecase {
     private final IJobRepository jobRepository;
     @Inject
-    public JobDetailUsecase(IJobRepository jobRepository) {
+    public GetJobWorkerDetailsUsecase(IJobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
     public  Observable<ApiResp<JobOwnerDetailsResp>> execute(UUID JobId) throws IOException {

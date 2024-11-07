@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiResp;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
-import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobWorkerDetailsUsecase;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -20,12 +20,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
 public class JobDetailViewModel extends ViewModel {
-    private final JobDetailUsecase jobDetailUsecase;
+    private final GetJobWorkerDetailsUsecase jobDetailUsecase;
     private final CompositeDisposable disposables = new CompositeDisposable();
     public static MutableLiveData<ApiResp<JobOwnerDetailsResp>> jobsDetailResult = new MutableLiveData<>();
 
     @Inject
-    public JobDetailViewModel(JobDetailUsecase jobDetailUsecase) {
+    public JobDetailViewModel(GetJobWorkerDetailsUsecase jobDetailUsecase) {
         this.jobDetailUsecase = jobDetailUsecase;
     }
 

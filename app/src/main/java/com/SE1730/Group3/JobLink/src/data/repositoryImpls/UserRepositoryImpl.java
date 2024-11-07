@@ -2,8 +2,6 @@ package com.SE1730.Group3.JobLink.src.data.repositoryImpls;
 
 import com.SE1730.Group3.JobLink.src.data.apis.IAuthApi;
 import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
-import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
-import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
 import com.SE1730.Group3.JobLink.src.data.models.api.ApiReq;
@@ -37,6 +35,7 @@ public class UserRepositoryImpl implements IUserRepository {
     private final IAuthApi authApi;
     private final IUserApi userApi;
     private final IUnitOfWork unitOfWork;
+
 
     @Inject
     public UserRepositoryImpl(IAuthApi authApi, IUserApi userApi, IUnitOfWork unitOfWork) {
@@ -162,21 +161,15 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public Observable<ApiResp<List<NotificationDTO>>> getNotificationsForCurrentUser() throws IOException {
-        return userApi.getUserNotification();
-    }
-
-    @Override
-    public Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException {
-        return userApi.getUserTransaction(new ApiReq<>(request));
-    }
-
-    @Override
     public Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException {
         return authApi.changePassUser(new ApiReq<>(request));
     }
 
-    @Override
+//    @Override
+//    public Observable<ApiResp<List<NotificationDTO>>> getUserNotifications() throws IOException {
+//        return userApi.getUserNotification();
+//    }
+
     public Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException {
         return userApi.getUserByWorkerId(workerId);
     }
@@ -186,5 +179,13 @@ public class UserRepositoryImpl implements IUserRepository {
         return userApi.GetUserHomepageData();
     }
 
+    @Override
+    public Observable<ApiResp<String>> getWorkerIdByUserId(UUID userId) throws IOException {
+        return userApi.getWorkerIdByUserId(userId.toString());
+    }
 
+    @Override
+    public Observable<ApiResp<String>> getOwnerIdByUserId(UUID userId) throws IOException {
+        return userApi.getOwnerIdByUserId(userId.toString());
+    }
 }

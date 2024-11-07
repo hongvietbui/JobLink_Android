@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.SE1730.Group3.JobLink.src.data.apis.IChatApi;
+import com.SE1730.Group3.JobLink.src.data.apis.IUserApi;
 import com.SE1730.Group3.JobLink.src.data.models.all.TransactionDTO;
+import com.SE1730.Group3.JobLink.src.data.models.request.ChatDTOReq;
 import com.SE1730.Group3.JobLink.src.domain.dao.IMessageDAO;
 import com.SE1730.Group3.JobLink.src.domain.entities.Message;
 import com.microsoft.signalr.HubConnection;
@@ -15,25 +19,34 @@ import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
 import com.squareup.moshi.Moshi;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import lombok.NoArgsConstructor;
 
 @AndroidEntryPoint
+@NoArgsConstructor
 public class ChatHubService extends Service {
+    private CompositeDisposable disposables = new CompositeDisposable();
 
-    private static ChatHubService instance;
-    private Moshi moshi;
     private HubConnection hubConnection;
     private String userId = "0";
     private IMessageDAO messageDAO;
+    private Moshi moshi;
+    private IChatApi chatApi;
 
     @Inject
-    public ChatHubService(Moshi moshi, IMessageDAO messageDAO) {
+    public ChatHubService(Moshi moshi, IMessageDAO messageDAO, IChatApi chatApi) {
         this.moshi = moshi;
         this.messageDAO = messageDAO;
-        this.hubConnection = HubConnectionBuilder.create("http://10.0.2.2:8080/hub/chat?userId=" + userId).build();
-        instance = this;
+        this.chatApi = chatApi;
+        this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/chat?userId=" + userId).build();
     }
 
     @Override
@@ -48,7 +61,7 @@ public class ChatHubService extends Service {
         if (hubConnection != null) {
             hubConnection.stop();
         }
-        instance = null;
+        disposables.clear();
     }
 
     @Override
@@ -59,57 +72,85 @@ public class ChatHubService extends Service {
 
     private void startHubConnection() {
         if (hubConnection != null && hubConnection.getConnectionState() == HubConnectionState.DISCONNECTED) {
-            hubConnection.start()
+            var chatHubDisposable = hubConnection.start()
                     .doOnComplete(() -> Log.d("ChatHubService", "Connection started with userId: " + userId))
                     .doOnError(error -> Log.e("ChatHubService", "Error starting connection", error))
                     .subscribe();
 
-            hubConnection.on("ReceiveMessage", (data) -> {
+            disposables.add(chatHubDisposable);
+
+            hubConnection.on("ReceiveMessage", (senderId, message) -> {
+                Log.d("ChatHubService", "Message received: " + message);
                 var jsonAdapter = moshi.adapter(Message.class);
                 try {
-                    Message receivedMessage = jsonAdapter.fromJson(data);
-                    if (receivedMessage != null) {
-                        displayMessage(receivedMessage);
+                    var receivedMessage = jsonAdapter.fromJson(message);
+                    messageDAO.insert(receivedMessage);
+                    if (receivedMessage.getReceiverId() != null && receivedMessage.getReceiverId()!=null) {
+                        displayMessage(message);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }, String.class);
+            }, String.class, String.class);
         }
     }
 
-    public static void sendMessage(Message message) {
-        if (instance != null) {
-            instance.saveMessageToDatabase(message);
-            try {
-                instance.hubConnection.send("SendMessage", message);
-                instance.displayMessage(message);
-            } catch (Exception e) {
-                Log.e("ChatHubService", "Error sending message", e);
-                instance.deleteMessageFromDatabase(message);
-            }
-        } else {
-            Log.e("ChatHubService", "Service not running, cannot send message");
+    public void sendMessage(Message message) {
+        Executor insertExecutor = Executors.newSingleThreadExecutor();
+        insertExecutor.execute(() -> {
+            messageDAO.insert(message);
+        });
+
+        try {
+            var chatDTOReq = ChatDTOReq.builder()
+                    .jobId(message.getJobId().toString())
+                    .message(message.getMessage())
+                    .senderId(message.getSenderId().toString())
+                    .receiverId(message.getReceiverId().toString())
+                    .isWorker(message.getIsWorker())
+                    .build();
+            var sendMessageDisposable = chatApi.SendMessage(chatDTOReq)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(resp -> {
+                        Log.d("ChatHubService", "Message sent successfully");
+                    }, error -> {
+                        Log.e("ChatHubService", "Error sending message", error);
+                        Executor deleteExecutor = Executors.newSingleThreadExecutor();
+                        deleteExecutor.execute(() -> {
+                            messageDAO.delete(message);
+                        });
+                    });
+
+            disposables.add(sendMessageDisposable);
+        } catch (Exception e) {
+            Log.e("ChatHubService", "Error sending message", e);
+            Executor deleteExecutor = Executors.newSingleThreadExecutor();
+            deleteExecutor.execute(() -> {
+                messageDAO.delete(message);
+            });
         }
     }
 
-    private void saveMessageToDatabase(Message message) {
-        new Thread(() -> messageDAO.insert(message)).start();
-    }
-
-    private void deleteMessageFromDatabase(Message message) {
-        new Thread(() -> messageDAO.delete(message)).start();
-    }
-
-    private void displayMessage(Message message) {
+    private void displayMessage(String messageJson) {
         Intent intent = new Intent("NewMessageReceived");
-        intent.putExtra("message", message.getText());
+        intent.putExtra("message", messageJson);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
+    public void updateUserIdAndReconnect(String userId){
+        this.userId = userId;
+        if(hubConnection != null){
+            hubConnection.stop();
+            this.hubConnection = HubConnectionBuilder.create("http://oceanbooking.online:8080/hub/chat?userId=" + userId).build();
+            startHubConnection();
+        }
+    }
+
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 }
 

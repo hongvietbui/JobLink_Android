@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4836ac</color>
+    <color name="colorPrimary">#3F51B5</color>
     <color name="colorAccent">#000</color>
 
     <color name="colorPrimaryDark">#292929</color>
@@ -8,9 +8,12 @@
     <color name="secondaryColor">#000000</color>
     <color name="secondaryLightColor">#2c2c2c</color>
     <color name="secondaryDarkColor">#000000</color>
+    <color name="lightPurpleBackground">#EDE7F6</color> <!-- Ví dụ màu tím nhạt -->
 
-    <color name="secondaryTextColor">#000000</color>
-    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#7A00FD</color>
+    <color name="secondaryTintColor">#7A00FD</color>
+    <color name="primaryTextColor">#8E8D8D</color>
+    <color name="iconTintColor">#8E8D8D</color>
 
 
     <color name="colorWhite">#FFFFFF</color>

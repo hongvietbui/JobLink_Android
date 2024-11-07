@@ -76,7 +76,12 @@ public class JobRepositoryImpl implements IJobRepository {
     }
 
     @Override
-    public Observable<ApiResp<String>> createJob(CreateJobRequest request) {
+    public Observable<ApiResp<String>> completeJob(UUID jobId) throws IOException {
+        return jobApi.completeJob(jobId);
+    }
+
+    @Override
+    public Observable<ApiResp<JobDTO>> createJob(CreateJobRequest request) {
         ApiReq<CreateJobRequest> apiReq = new ApiReq<>(request);
         return jobApi.createJob(apiReq);
     }

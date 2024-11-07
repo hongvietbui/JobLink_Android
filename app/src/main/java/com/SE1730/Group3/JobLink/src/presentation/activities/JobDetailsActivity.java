@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.presentation.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,19 +18,23 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.SE1730.Group3.JobLink.R;
-import com.SE1730.Group3.JobLink.databinding.ActivityJobDetailsBinding;
 import com.SE1730.Group3.JobLink.src.data.models.response.JobOwnerDetailsResp;
 import com.SE1730.Group3.JobLink.src.domain.enums.JobStatus;
 import com.SE1730.Group3.JobLink.src.domain.useCases.AssignJobUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.CompleteJobUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobByIdUseCase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetJobWorkerDetailsUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetOwnerIdByUserIdUseCase;
 import com.SE1730.Group3.JobLink.src.domain.useCases.GetUserRoleOfJobUserCase;
-import com.SE1730.Group3.JobLink.src.domain.useCases.JobDetailUsecase;
+import com.SE1730.Group3.JobLink.src.domain.useCases.GetWorkerIdByUserIdUseCase;
+import com.SE1730.Group3.JobLink.src.presentation.adapters.MessageAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.adapters.ViewPagerAdapter;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobDetailsFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.JobImageFragment;
 import com.SE1730.Group3.JobLink.src.presentation.fragments.MapFragment;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +42,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -47,13 +53,22 @@ public class JobDetailsActivity extends BaseActivity {
     GetUserRoleOfJobUserCase getUserRoleOfJobUserCase;
 
     @Inject
-    JobDetailUsecase jobDetailUsecase;
+    GetJobWorkerDetailsUsecase jobDetailUsecase;
 
     @Inject
     AssignJobUseCase assignJobUseCase;
 
     @Inject
     GetJobByIdUseCase getJobByIdUseCase;
+
+    @Inject
+    GetOwnerIdByUserIdUseCase getOwnerIdByUserIdUseCase;
+
+    @Inject
+    GetWorkerIdByUserIdUseCase getWorkerIdByUserIdUseCase;
+
+    @Inject
+    CompleteJobUseCase completeJobUseCase;
 
     CompositeDisposable compositeDisposable;
 
@@ -62,10 +77,15 @@ public class JobDetailsActivity extends BaseActivity {
     private Button btnMap, btnImage, btnDetails;
     private ImageView ivJobOwner;
     private TextView tvName, tvemail, tvLocation, tvphone;
+
     private Button btnAssign;
     private Button btnListApplicant;
     private Button btnCompleteJob;
+    private Button btnChatWithOwner;
+    private Button btnNotiCompleteJob;
+
     private UUID jobId;
+    private UUID receiverId;
 
     private ProgressBar progressBar;
 
@@ -112,23 +132,39 @@ public class JobDetailsActivity extends BaseActivity {
                                     .subscribe(resp -> {
                                         if (resp.getData() != null) {
                                             JobStatus jobStatus = resp.getData().getStatus();
-
+                                            //Check if user role is jobOwner or not
                                             if (role.equals("JobOwner")) {
+                                                btnChatWithOwner.setVisibility(Button.GONE);
                                                 btnAssign.setVisibility(Button.GONE);
+                                                //Check if job is in progress
                                                 if(jobStatus.equals(JobStatus.IN_PROGRESS)){
                                                     btnListApplicant.setVisibility(Button.GONE);
                                                     btnCompleteJob.setVisibility(Button.VISIBLE);
                                                 }
-
-                                                if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS)){
+                                                //Check if job is waiting for applicants
+                                                else if(jobStatus.equals(JobStatus.WAITING_FOR_APPLICANTS) || jobStatus.equals(JobStatus.PENDING_APPROVAL) || jobStatus.equals(JobStatus.APPROVED)){
                                                     btnListApplicant.setVisibility(Button.VISIBLE);
                                                     btnCompleteJob.setVisibility(Button.GONE);
                                                 }
-                                            } else {
-                                                btnAssign.setVisibility(Button.VISIBLE);
-//                                                btnCancel.setVisibility(Button.VISIBLE);
-                                                btnListApplicant.setVisibility(Button.GONE);
+                                            } else if(role.equals("Worker")){
                                                 btnCompleteJob.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btnAssign.setVisibility(Button.GONE);
+                                                btnChatWithOwner.setVisibility(Button.VISIBLE);
+                                            //If worker not assigned
+                                            } else {
+                                                btnCompleteJob.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btnAssign.setVisibility(Button.VISIBLE);
+                                                btnChatWithOwner.setVisibility(Button.GONE);
+                                            }
+
+                                            if(jobStatus.equals(JobStatus.COMPLETED)){
+                                                btnCompleteJob.setVisibility(Button.GONE);
+                                                btnListApplicant.setVisibility(Button.GONE);
+                                                btnAssign.setVisibility(Button.GONE);
+                                                btnChatWithOwner.setVisibility(Button.GONE);
+                                                btnNotiCompleteJob.setVisibility(Button.VISIBLE);
                                             }
 
                                             shimmerFrameLayout.stopShimmer();
@@ -182,6 +218,18 @@ public class JobDetailsActivity extends BaseActivity {
                 tvName.setText("Job ID not provided");
                 return; // Exit early if jobIdString is null
             }
+
+            var getJobByIdDisposable = getJobByIdUseCase.execute(jobId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resp -> {
+                    receiverId = resp.getData().getOwnerId();
+                }, throwable -> {
+                    // Error handling for getJobByIdUseCase
+                    Log.e("JobDetailsActivity", "Error fetching job details", throwable);
+                });
+
+            compositeDisposable.add(getJobByIdDisposable);
 
             Disposable jobDetailDisposable = jobDetailUsecase.execute(jobId)
                     .subscribeOn(Schedulers.io())
@@ -255,9 +303,12 @@ public class JobDetailsActivity extends BaseActivity {
         tvName = findViewById(R.id.tvName);
         tvphone = findViewById(R.id.tvphonenum);
         tvemail = findViewById(R.id.tvemail);
+
         btnAssign = findViewById(R.id.btnAssign);
         btnListApplicant = findViewById(R.id.btnListApplicant);
         btnCompleteJob = findViewById(R.id.btnCompleteJob);
+        btnChatWithOwner = findViewById(R.id.btnChatWithOwner);
+        btnNotiCompleteJob = findViewById(R.id.btnNotiCompleteJob);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -295,6 +346,10 @@ public class JobDetailsActivity extends BaseActivity {
         btnListApplicant.setOnClickListener(v -> startAppliedWorkersActivity());
 
         btnAssign.setOnClickListener(v -> assignJob(jobId));
+
+        btnChatWithOwner.setOnClickListener(v -> startChatActivity());
+
+        btnCompleteJob.setOnClickListener(v -> handleCompleteBtn());
     }
 
     private void updateButtonStyles(int selectedButton) {
@@ -334,6 +389,10 @@ public class JobDetailsActivity extends BaseActivity {
                         progressBar.setVisibility(View.GONE);
                         if (apiResp.getStatus() == 200) {
                             Toast.makeText(this, "Job assigned successfully", Toast.LENGTH_SHORT).show();
+                            btnCompleteJob.setVisibility(Button.GONE);
+                            btnListApplicant.setVisibility(Button.GONE);
+                            btnAssign.setVisibility(Button.GONE);
+                            btnChatWithOwner.setVisibility(Button.VISIBLE);
                         } else {
                             Toast.makeText(this, "You've assigned this job already", Toast.LENGTH_SHORT).show();
                         }
@@ -351,8 +410,58 @@ public class JobDetailsActivity extends BaseActivity {
         }
     }
 
-    private void cancelJob(){
-        Intent intent = new Intent(this, ViewJobsActivity.class);
+    private void startChatActivity() {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("jobId", jobId.toString());
+        intent.putExtra("receiverId", receiverId.toString());
+        intent.putExtra("isWorker", true);
         startActivity(intent);
+    }
+
+    private void handleCompleteBtn(){
+        //Display alert to confirm job completion
+        new AlertDialog.Builder(this)
+                .setTitle("Complete Job")
+                .setMessage("Are you sure you want to complete this job?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    //Complete job
+                    completeJob();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void completeJob(){
+        try{
+            btnCompleteJob.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+
+            Disposable completeJobDisposable = completeJobUseCase.execute(jobId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(apiResp -> {
+                    progressBar.setVisibility(View.GONE);
+                    if (apiResp.getStatus() == 200) {
+                        Toast.makeText(this, "Job completed successfully", Toast.LENGTH_SHORT).show();
+                        btnCompleteJob.setVisibility(Button.GONE);
+                        btnListApplicant.setVisibility(Button.GONE);
+                        btnAssign.setVisibility(Button.GONE);
+                        btnChatWithOwner.setVisibility(Button.GONE);
+                        btnNotiCompleteJob.setVisibility(Button.VISIBLE);
+                    } else {
+                        Toast.makeText(this, "Failed to complete job", Toast.LENGTH_SHORT).show();
+                    }
+                }, throwable -> {
+                    progressBar.setVisibility(View.GONE);
+                    // Error handling for completeJobUseCase
+                    Log.e("JobDetailsActivity", "Failed to complete job", throwable);
+                    Toast.makeText(this, "Failed to complete job", Toast.LENGTH_SHORT).show();
+                });
+
+            compositeDisposable.add(completeJobDisposable);
+        }catch (Exception ex){
+            Toast.makeText(this, "Failed to complete job", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

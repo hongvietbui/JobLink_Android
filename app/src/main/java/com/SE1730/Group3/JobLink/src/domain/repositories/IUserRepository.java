@@ -1,6 +1,6 @@
 package com.SE1730.Group3.JobLink.src.domain.repositories;
 
-import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
+//import com.SE1730.Group3.JobLink.src.data.models.all.NotificationDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.TopUpDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserDTO;
 import com.SE1730.Group3.JobLink.src.data.models.all.UserHompageDTO;
@@ -28,9 +28,10 @@ public interface IUserRepository {
     Observable<ApiResp<String>> sendOTP (ForgetPassReqDTO request) throws IOException;
     Observable<ApiResp<String>> VerifyOtp (OtpReqDTO request) throws IOException;
     Observable<ApiResp<String>> ResetPassword (ResetPassDTO request) throws IOException;
-    Observable<ApiResp<List<NotificationDTO>>> getNotificationsForCurrentUser() throws IOException;
-    Observable<ApiResp<List<TopUpDTO>>> getUserTransaction(TopupReqDTO request) throws IOException;
+//    Observable<ApiResp<List<NotificationDTO>>> getUserNotifications() throws IOException;
     Observable<ApiResp<String>> changePassUser(ChangePassReqDTO request) throws IOException;
     Observable<ApiResp<UserDTO>> getUserByWorkerId(UUID workerId) throws IOException;
     Observable<ApiResp<UserHompageDTO>> getUserHomepageData() throws IOException;
+    Observable<ApiResp<String>> getWorkerIdByUserId(UUID userId) throws IOException;
+    Observable<ApiResp<String>> getOwnerIdByUserId(UUID userId) throws IOException;
 }

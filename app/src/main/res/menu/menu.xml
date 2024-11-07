@@ -14,6 +14,9 @@
             android:id="@+id/nav_manage_transaction"
             android:title="Manage Transaction" />
         <item
+            android:id="@+id/nav_user_stat"
+            android:title="User Statistic" />
+        <item
             android:id="@+id/nav_logout"
             android:title="Logout" />
 

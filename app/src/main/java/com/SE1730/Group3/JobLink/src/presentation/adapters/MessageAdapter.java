@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SE1730.Group3.JobLink.R;
@@ -25,7 +26,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getSenderId().equals(currentUserId)) {
+        var message = messages.get(position);
+        if (message!=null && message.getSenderId() != null && currentUserId != null &&
+                message.getSenderId().toString().equals(currentUserId.toString())) {
             return 1; // sent
         } else {
             return 2; // received
@@ -47,22 +50,48 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(position);
+        if(message == null)
+            return;
+
         if (holder instanceof SentMessageViewHolder) {
-            ((SentMessageViewHolder) holder).textMessageSent.setText(message.getText());
+            ((SentMessageViewHolder) holder).textMessageSent.setText(message.getMessage());
         } else if (holder instanceof ReceivedMessageViewHolder) {
-            ((ReceivedMessageViewHolder) holder).textMessageReceived.setText(message.getText());
+            ((ReceivedMessageViewHolder) holder).textMessageReceived.setText(message.getMessage());
         }
     }
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        if(messages != null)
+            return messages.size();
+        return  0;
     }
 
     // Thêm tin nhắn mới vào danh sách và cập nhật RecyclerView
     public void addMessage(Message message) {
-        messages.add(message);
-        notifyItemInserted(messages.size() - 1); // Thông báo cập nhật vị trí cuối cùng
+        if (message != null) {
+            messages.add(message);
+            notifyItemInserted(messages.size() - 1);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void updateMessages(List<Message> newMessages) {
+        if (newMessages != null && !newMessages.isEmpty()) {
+            this.messages.clear();
+            this.messages.addAll(newMessages);
+            notifyDataSetChanged();
+        }
+//        if (newMessages != null && !newMessages.isEmpty()) {
+//            this.messages = newMessages;
+//            notifyDataSetChanged();
+//        }
+
+
+    }
+
+    public boolean isEmpty() {
+        return messages.isEmpty();
     }
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {

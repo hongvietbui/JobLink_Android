@@ -14,7 +14,7 @@ public class UpdateDatabase {
                     "`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "`senderId` BLOB, " +
                     "`receiverId` BLOB, " +
-                    "`text` TEXT)");
+                    "`message` TEXT)");
         }
     };
 
@@ -72,6 +72,19 @@ public class UpdateDatabase {
             // Thực hiện câu lệnh SQL để thêm cột mới vào bảng User
             database.execSQL("ALTER TABLE `Message` ADD COLUMN `jobId` BLOB");
             database.execSQL("ALTER TABLE `Message` ADD COLUMN `isWorker` INTEGER DEFAULT 0 NOT NULL");
+        }
+    };
+
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //Added new Notification from notification
+            database.execSQL("CREATE TABLE IF NOT EXISTS `Notification` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "`title` TEXT, " +
+                    "`message` TEXT, " +
+                    "`timestamp` TEXT)");
+
         }
     };
 }

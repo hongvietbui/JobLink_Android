@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,12 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(tableName = "Message")
+@Builder
 public class Message {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
     private UUID senderId;
     private UUID receiverId;
-    private String text;
+    private String message;
     private UUID jobId;
     private Boolean isWorker;
 }

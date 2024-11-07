@@ -1,5 +1,6 @@
 package com.SE1730.Group3.JobLink.src.domain.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
@@ -12,5 +13,5 @@ import java.util.UUID;
 public interface IMessageDAO extends IDAO<Message>{
 
     @Query("SELECT * FROM Message WHERE senderId = :senderId AND receiverId = :receiverId")
-    List<Message> getAllMessageBetweenTwoUser(UUID senderId, UUID receiverId);
+    LiveData<List<Message>> getAllMessageBetweenTwoUser(UUID senderId, UUID receiverId);
 }

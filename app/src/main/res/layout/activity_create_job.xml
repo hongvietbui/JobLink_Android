@@ -2,212 +2,199 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/lightPurpleBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Back Button and Title -->
+        <!-- Header with Back Button and Title -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="12dp">
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_left" />
+                android:src="@drawable/ic_arrow_left"
+                app:tint="@color/colorBlack" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tạo Job và Xác nhận thanh toán"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_location"
-                        app:tint="@color/red15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:text="8V2W+HJV, Tân Hưng, Sóc Sơn, Hà..."
-                        android:textSize="14sp"
-                        android:textColor="@color/grey20" />
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_marginStart="8dp"
+                android:text="Create Job and Confirm Payment"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
 
-        <!-- Job Name -->
-        <EditText
-            android:id="@+id/edtJobName"
+        <!-- Job Name Input -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên công việc" />
-        <!-- Tabs for Days -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="7"
-            android:paddingBottom="8dp">
+            android:hint="Job Name"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="8dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtJobName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Date Picker for Job -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Date"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/dateEditText"
-                android:layout_width="319dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:focusable="false"
-                android:hint="Nhập ngày" />
-        </LinearLayout>
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Start Time Selection -->
-        <LinearLayout
+        <!-- Time Picker for Job -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingBottom="8dp">
+            android:hint="Select Start Time"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chọn giờ bắt đầu"
-                android:textSize="16sp" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/timeEditText"
-                android:layout_width="48dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:gravity="center"
-                android:text="08" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=":" />
-
-            <EditText
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:gravity="center"
-                android:text="00" />
-        </LinearLayout>
+                android:inputType="time"
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Duration Radio Group -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="16dp" />
+
         <RadioGroup
             android:id="@+id/rgDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingVertical="8dp">
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbTwoHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 giờ - Thời gian để hoàn thành công việc" />
+                android:text="2 hours" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbThreeHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3 giờ - Thời gian để hoàn thành công việc" />
+                android:text="3 hours"
+                android:layout_marginStart="16dp" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbFourHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4 giờ - Thời gian để hoàn thành công việc" />
+                android:text="4 hours"
+                android:layout_marginStart="16dp" />
         </RadioGroup>
 
-        <!-- Job Price -->
-        <EditText
-            android:id="@+id/edtJobPrice"
+        <!-- Job Price Input -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="Giá công việc" />
+            android:hint="Job Price"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtJobPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Total Price with VAT -->
         <TextView
             android:id="@+id/tvTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tổng cộng (bao gồm VAT):"
+            android:text="Total (including VAT):"
             android:textSize="16sp"
+            android:textColor="@color/colorBlack"
             android:layout_marginTop="8dp" />
 
-        <!-- Notes for Job -->
+        <!-- Job Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Notes for JobLinker"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtJobDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="3"
+                android:maxLines="5"
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Payment Rules Text -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ghi chú cho JobLinker"
+            android:text="Rules for Package Cancellation and Refund"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:layout_marginTop="16dp" />
 
-        <EditText
-            android:id="@+id/edtJobDescription"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Nhập ghi chú của bạn..."
-            android:background="@drawable/background_linear"
-            android:minLines="3" />
-
-        <!-- Payment Rules and Total Amount -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quy định hủy gói đã thanh toán - hoàn tiền"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="1. Refund via bPay: Full refund for unused sessions."
+            android:layout_marginStart="16dp"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="JobLink hỗ trợ 1 trong 2 hình thức hoàn tiền bên dưới" />
+            android:text="2. Bank transfer refund: Full refund minus 20%."
+            android:layout_marginStart="16dp"
+            android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1. Hoàn tiền qua bPay: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng."
-            android:layout_marginStart="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2. Hoàn tiền qua chuyển khoản ngân hàng: JobLink hoàn lại tổng số tiền của những buổi chưa sử dụng trừ đi 20% giá trị của gói ban đầu."
-            android:layout_marginStart="16dp" />
-
-        <!-- Tạo Job Button -->
-        <Button
+        <!-- Create Job Button -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateJob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tạo Job"
-            android:textSize="16sp" />
+            android:text="Create Job"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/secondaryTextColor"
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
 </ScrollView>
